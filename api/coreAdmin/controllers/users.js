@@ -586,30 +586,40 @@ exports.account_status= (req,res,next)=>{
 }
 
 exports.account_role_add= (req,res,next)=>{
-
-	User.updateOne(
-		{'_id': req.body.userID },
-		{
-			$push:{
-				"roles": req.body.roles ,
-			} //End of set
-		}
-	)
 	
-	.exec()
-	.then( data =>{
-		if(data){
-		return res.status(200).json({
-			"message" : 'Roles-Updated',
-			// "data"    : data
-		});		
-		}else{
-			return res.status(404).json({
-				"message" : 'Roles-Not-Updated',
-			
-			});	
-		}
-	})
+	User.findOne({roles: req.body.roles})
+		.exec()
+		.then(data =>{
+			if(data){
+				return res.status(200).json({
+					message: 'Role is already exists'
+				});
+			}else{
+				User.updateOne(
+					{'_id': req.body.userID },
+					{
+						$push:{
+							"roles": req.body.roles ,
+						} //End of set
+					}
+				)
+	
+				.exec()
+				.then( data =>{
+					if(data){
+					return res.status(200).json({
+						"message" : 'Roles-Updated',
+						// "data"    : data
+					});		
+					}else{
+						return res.status(404).json({
+							"message" : 'Roles-Not-Updated',
+						
+						});	
+					}
+				})
+			}
+        })
 	.catch(err =>{
 		console.log(err);
 		res.status(500).json({

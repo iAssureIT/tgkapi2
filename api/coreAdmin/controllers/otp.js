@@ -17,7 +17,7 @@ exports.user_signup = (req,res,next)=>{
             { _id:req.body.userID},  
             {
                 $set:{
-                    "profile.fullName"     : req.body.fullName,
+                    "profile.name"          : req.body.name,
 					"profile.emailId"       : req.body.emailId,	
                 }
             }
