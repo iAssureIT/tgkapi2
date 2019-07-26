@@ -318,7 +318,7 @@ exports.users_fetch = (req,res,next)=>{
 					_id 		: data._id,
 					createdAt	: data.createdAt,
 					username	: data.username,					
-					mobNumber   : data.profile.mobileNumber,				
+					mobileNumber   : data.profile.mobileNumber,				
 					firstName   : data.profile.firstName,
 					lastName    : data.profile.lastName,
 					fullName    : data.profile.fullName,
