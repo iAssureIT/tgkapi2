@@ -11,7 +11,7 @@ exports.update_photos = (req,res,next)=>{
         {
             $push:{
                 Images    :   {
-                    $each  : req.body.imageTitleArray
+                    $each  : req.body.propertyImages
                 },
             }
         }
