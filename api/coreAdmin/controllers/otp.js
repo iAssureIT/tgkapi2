@@ -11,73 +11,30 @@ function getRandomInt(min, max) {
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-
-
 exports.user_signup = (req,res,next)=>{
-    console.log("Request = ",req);
-    const OTP = getRandomInt(1000,9999);
-
-    const user = new User({
-                    _id: new mongoose.Types.ObjectId(),
-                    createdAt		: new Date,
-                    services		: {
-                        password:{
-                                bcrypt: ""	
-                                    },
-                    },
-                    username	 : req.body.mobile,
-                    emails		 : [
-                            {
-                                address  : req.body.email,
-                                verified : true 
-                            }
-                    ],      
-                    mobileNumber  : req.body.mobile,
-                    countryCode   : req.body.countryCode,                                  
-                    profile		:{
-                                fullName      : req.body.name,
-                                emailId       : req.body.emailId,
-                                // mobNumber	  : req.body.mobile,
-                                mobileNumber  : req.body.mobile,
-                                countryCode   : req.body.countryCode,
-                                city	      : req.body.city,													
-                                status		  : req.body.status,
-                                otp 		  : OTP,                                            
-                    },
-                    roles 		: [(req.body.role)]
-                });	
-
-    user.save()
-        .then(newUser =>{
-            if(newUser){
-                console.log('New USER = ',newUser);
-                // console.log('Plivo Client = ',mobileNumber);
-                const client = new plivo.Client('MAMZU2MWNHNGYWY2I2MZ', 'MWM1MDc4NzVkYzA0ZmE0NzRjMzU2ZTRkNTRjOTcz');
-                const sourceMobile = "+919923393733";
-                var text = "Dear User, "+'\n'+"To verify your account on TGK, Enter this verification code : \n"+OTP; 
-
-                client.messages.create(
-                    src=sourceMobile,
-                    dst=req.body.countryCode+''+req.body.mobile,
-                    text=text
-                ).then((result)=> {
-                    console.log("src = ",src," | DST = ", dst, " | result = ", result);
-                    // return res.status(200).json("OTP "+OTP+" Sent Successfully ");
-                    return res.status(200).json({
-                        "message" : 'NEW-USER-CREATED',
-                        "user_id" : newUser._id,
-                        "otp"     : OTP,
-                    });			
-                })
-                .catch(otpError=>{
-                    return res.status(501).json({
-                        message: "Some Error Occurred in OTP Send Function",
-                        error: otpError
-                    });        
-                });       
+    console.log("Request = ",req.body);
+        User.updateOne(
+            { _id:req.body.userID},  
+            {
+                $set:{
+                    "profile.fullName"     : req.body.fullName,
+					"profile.emailId"       : req.body.emailId,	
+                }
             }
-            
+        )
+        .then(user =>{
+            console.log('user ',user);
+            if(user.nModified == 1){
+                return res.status(200).json({
+                    "message" : 'NUSER-UPDATED',
+                    "user_id" : user._id,
+                
+                });	
+            }else{
+                res.status(401).json("User Not Found");
+            }		
         })
+               
         .catch(err =>{
             console.log(err);
             res.status(500).json({
@@ -146,10 +103,53 @@ exports.users_verify_mobile = (req,res,next)=>{
 					});
 				});			
 			}else{
-				res.status(200).json({
-					message:"MOBILE-NUMBER-NOT-FOUND", 
-					count : user.length,
-				});
+                const OTP = getRandomInt(1000,9999);
+                const user = new User({
+                    _id: new mongoose.Types.ObjectId(),
+                    createdAt		: new Date,                    
+                    mobileNumber  : req.body.mobile,
+                    countryCode   : req.body.countryCode,                                  
+                    profile		:{                            
+                                mobileNumber  : req.body.mobile,
+                                countryCode   : req.body.countryCode,                              
+                                otp 		  : OTP,                                            
+                    },
+                });
+                user.save()
+                .then(newUser =>{
+                    if(newUser){
+                        console.log('New USER = ',newUser);
+                        // console.log('Plivo Client = ',mobileNumber);
+                        const client = new plivo.Client('MAMZU2MWNHNGYWY2I2MZ', 'MWM1MDc4NzVkYzA0ZmE0NzRjMzU2ZTRkNTRjOTcz');
+                        const sourceMobile = "+919923393733";
+                        var text = "Dear User, "+'\n'+"To verify your account on TGK, Enter this verification code : \n"+OTP; 
+        
+                        client.messages.create(
+                            src=sourceMobile,
+                            dst=req.body.countryCode+''+req.body.mobile,
+                            text=text
+                        ).then((result)=> {
+                            console.log("src = ",src," | DST = ", dst, " | result = ", result);
+                            // return res.status(200).json("OTP "+OTP+" Sent Successfully ");
+                            return res.status(200).json({
+                                "message" : 'NEW-USER-CREATED',
+                                "user_id" : newUser._id,
+                                "otp"     : OTP,
+                            });			
+                        })
+                        .catch(otpError=>{
+                            return res.status(501).json({
+                                message: "Some Error Occurred in OTP Send Function",
+                                error: otpError
+                            });        
+                        });       
+                    }
+                    
+                })	
+				// res.status(200).json({
+				// 	message:"MOBILE-NUMBER-NOT-FOUND", 
+				// 	count : user.length,
+				// });
 			}
 		})
 		.catch(err =>{

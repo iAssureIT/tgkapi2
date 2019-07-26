@@ -202,6 +202,7 @@ exports.user_login = (req,res,next)=>{
             if(user){
                 var pwd = user.services.password.bcrypt;
                 if(pwd){
+					console.log('PWD');
                     bcrypt.compare(req.body.password,pwd,(err,result)=>{
                         if(err){
                             console.log('password err ',err);
@@ -321,7 +322,7 @@ exports.users_fetch = (req,res,next)=>{
 					firstName   : data.profile.firstName,
 					lastName    : data.profile.lastName,
 					fullName    : data.profile.fullName,
-						emailId     : data.profile.emailId,
+					emailId     : data.profile.emailId,
 					status	    : data.profile.status,
 					roles 	    : (data.roles).toString(),
 					officeLocation 	: data.officeLocation,
@@ -473,18 +474,9 @@ exports.update_user = (req,res,next)=>{
 				
 					"profile.firstName"     : req.body.firstName,
 					"profile.lastName"      : req.body.lastName,
-					"profile.fullName "     : req.body.firstName+' '+req.body.lastName,
 					"profile.emailId"       : req.body.emailId,
 					"profile.mobileNumber"  : req.body.mobileNumber,
-				// profile		:{
-				// 		firstName     : req.body.firstName,
-				// 		lastName      : req.body.lastName,
-				// 		fullName      : req.body.firstName+' '+req.body.lastName,
-				// 		emailId       : req.body.emailId,
-				// 		mobileNumber  : req.body.mobileNumber,
-				// 		status 		  : req.body.status?req.body.status:user.status
-					
-				// },
+			
                 }
             }
         )

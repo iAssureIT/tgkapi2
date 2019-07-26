@@ -16,7 +16,7 @@ router.post('/verify_mobile', OTPController.users_verify_mobile);
 // router.post('/otpverified', OTPController.login_otp_verifications);
 
 
-router.post('/', OTPController.user_signup); 
+router.patch('/signup', OTPController.user_signup); 
 
 // router.post('/otpverification', OTPController.signup_generate_otp);
 
