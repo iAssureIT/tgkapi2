@@ -471,20 +471,20 @@ exports.update_user = (req,res,next)=>{
             {
                 $set:{
 				
-					// "profile.firstname"     : req.body.firstname,
-					// "profile.lastname"      : req.body.lastname,
-					// "profile.fullName"      : req.body.firstname+' '+req.body.lastname,
-					// "profile.mobNumber"     : req.body.mobNumber,
-					// "profile.status"		: req.body.status,
-				profile		:{
-						firstName     : req.body.firstName,
-						lastName      : req.body.lastName,
-						fullName      : req.body.firstName+' '+req.body.lastName,
-						emailId       : req.body.emailId,
-						mobileNumber  : req.body.mobileNumber,
-						status		  : req.body.status,
+					"profile.firstName"     : req.body.firstName,
+					"profile.lastName"      : req.body.lastName,
+					"profile.fullName "     : req.body.firstName+' '+req.body.lastName,
+					"profile.emailId"       : req.body.emailId,
+					"profile.mobileNumber"  : req.body.mobileNumber,
+				// profile		:{
+				// 		firstName     : req.body.firstName,
+				// 		lastName      : req.body.lastName,
+				// 		fullName      : req.body.firstName+' '+req.body.lastName,
+				// 		emailId       : req.body.emailId,
+				// 		mobileNumber  : req.body.mobileNumber,
+				// 		status 		  : req.body.status?req.body.status:user.status
 					
-			},
+				// },
                 }
             }
         )
