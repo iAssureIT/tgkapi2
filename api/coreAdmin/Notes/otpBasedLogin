@@ -1,0 +1,71 @@
+
+OTP based Login/Signup Process
+
+1.  Verify Mobile Number
+
+Route:  "/api/usersotp/verify_mobile"
+
+request :  {
+    mobile      : "String",
+    countryCode : "String"
+}
+
+response :{
+    "message" : "MOBILE-NUMBER-EXISTS"
+    "user_id" : STRING,
+    "otp"     : Number,
+    "count"   : Number,
+}
+
+
+response :{
+    "message" : "MOBILE-NUMBER-NOT-FOUND"  
+    "otp"     : Number,
+    "count"   : Number,
+}
+
+
+//==================================
+
+
+2. If Mobile Exists - Verify OTP
+OTP is sent to client when Mobile Number Exists. 
+OTP Verification is happening at client side.
+
+
+//==================================
+
+
+3. If Mobile Number NOT Exists - SIGN UP Form
+
+Route:  "/api/usersotp"
+
+request :  {
+    name 		: String,
+    city	    : String,
+    emailId     : String,
+    status	    : String,
+    mobile      : String,
+    countryCode : String,
+    role        : String,
+}
+
+example
+  {
+  "countryCode" : "+91",
+  "mobile"  : "8087679825",
+  "name"	: "omkaraaa",
+  "email"	: "omkar@iassureit.com",
+  "city"	: "Pune city",
+  "status"  : "Active",
+  "role"    : "customer"
+  }
+
+
+
+response : {
+    "message" : "NEW-USER-CREATED"
+    "user_id" : String,
+    "otp"     : Number,
+}
+

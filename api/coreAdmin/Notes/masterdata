@@ -1,0 +1,122 @@
+
+Master Amenities POST
+
+1. Route:  "/api/masteramenities"
+
+request :  {
+ amenity     : "String",
+}
+response :{
+    "message" : "Master-Amenities-Added"
+}
+
+Master Amenities GET
+2. Route:  "/api/masteramenities/list"
+
+Master Amenities GET
+3. Route:  "/api/masteramenities/:amenitiesID"
+
+Master Amenities DELETE
+4. Route:  "/api/masteramenities/:amenitiesID"
+response :{
+    "message" : "Master-Amenities-Deleted"
+   
+}
+
+Master Amenities PUT
+5. Route:  "/api/masteramenities/:amenitiesID"
+request :  {
+ amenity     : "String",
+}
+response :{
+    "message" : "Master-Amenities-Updated"
+   
+}
+
+
+
+Master Sellometer POST
+
+1. Route:  "/api/mastersellometer"
+
+request :  {
+    "class"		    	: "String", 
+    "earnings"			: "String",
+}
+response :{
+    "message" : "Master-Sell-O-Meter-Added"
+}
+
+Master Sellometer GET
+2. Route:  "/api/mastersellometer/list"
+
+Master Sellometer GET
+3. Route:  "/api/mastersellometer/:mastersellometersID"
+
+Master Sellometer DELETE
+4. Route:  "/api/mastersellometer/:mastersellometersID"
+response :{
+    "message" : "Master-Sellometer-Deleted"
+   
+}
+Master Sellometer PUT
+5. Route:  "/api/mastersellometer/:mastersellometersID"
+request :  {
+   "class"		    	: "String", 
+    "earnings"			: "String",
+}
+response :{
+    "message" : "Master-Sell-O-Meter-Updated"
+   
+}
+
+
+
+
+sell O meters POST
+
+1. Route:  "/api/sellometers"
+
+request :  {
+ 
+"city"		     	: String,
+"area"			    : String,
+"subArea"			: String,
+"socity"			: String,
+"propertyClass" 	: String,
+"index" 			: String,
+}
+response :{
+    "message" : "Sell-O-Meter-Added"
+}
+
+sell O meters GET
+2. Route:  "/api/sellometers/list"
+
+sell O meters GET
+3. Route:  "/api/sellometers/:sellometersID"
+
+sell O meters DELETE
+4. Route:  "/api/sellometers/:sellometersID"
+response :{
+    "message" : "Sellometer-Deleted"
+   
+}
+
+sell O meters PUT
+5. Route:  "/api/sellometers/:sellometersID"
+request :  {
+ 
+"city"		    	: String,
+"area"			    : String,
+"subArea"			: String,
+"socity"			: String,
+"propertyClass" 	: String,
+"index" 			: String,
+}
+response :{
+    "message" : "Sell-O-Meter-Updated"
+   
+}
+
+
