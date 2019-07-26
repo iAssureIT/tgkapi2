@@ -26,7 +26,7 @@ exports.user_signupadmin = (req,res,next)=>{
 											},
 							},
 							countryCode 	: req.body.countryCode,
-							mobileNumber  	: req.body.mobile,
+							mobileNumber  	: req.body.mobileNumber,
 							emails			: [
 									{
 										address  : req.body.email,
@@ -38,7 +38,7 @@ exports.user_signupadmin = (req,res,next)=>{
 										lastName      : req.body.lastName,
 										fullName      : req.body.firstName+' '+req.body.lastName,
 										emailId       : req.body.emailId,
-										mobileNumber  : req.body.mobile,
+										mobileNumber  : req.body.mobileNumber,
 										countryCode   : req.body.countryCode,
 										status		  : req.body.status
 							},
@@ -476,7 +476,7 @@ exports.update_user = (req,res,next)=>{
 					"profile.lastName"      : req.body.lastName,
 					"profile.fullName"      : req.body.firstName+' '+req.body.lastName,
 					"profile.emailId"       : req.body.emailId,
-					"profile.mobileNumber"  : req.body.mobile,
+					"profile.mobileNumber"  : req.body.mobileNumber,
 					"roles" 				: (req.body.roles),
 					"officeLocation" 		: req.body.officeLocation,
 

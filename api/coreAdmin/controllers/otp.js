@@ -46,9 +46,9 @@ exports.user_signup = (req,res,next)=>{
 
 
 exports.users_verify_mobile = (req,res,next)=>{
-	console.log("req.body.mobile-Number",req.body.mobile);
+	console.log("req.body.mobile-Number",req.body.mobileNumber);
 	console.log("req.body.countryCode",req.body.countryCode);
-	User.find({'mobileNumber':req.body.mobile, 'countryCode' : req.body.countryCode})
+	User.find({'mobileNumber':req.body.mobileNumber, 'countryCode' : req.body.countryCode})
 		.limit(1)
 		.exec()
 		.then(user =>{
@@ -72,7 +72,7 @@ exports.users_verify_mobile = (req,res,next)=>{
                         var text = "Dear User, "+'\n'+"To verify your account on TGK, Enter this verification code : \n"+OTP; 
                         client.messages.create(
 							src=sourceMobile,
-							dst=req.body.countryCode+''+req.body.mobile,
+							dst=req.body.countryCode+''+req.body.mobileNumber,
 							text=text
 						).then((result)=> {
 							console.log("src = ",src," | DST = ", dst, " | result = ", result);
@@ -107,10 +107,10 @@ exports.users_verify_mobile = (req,res,next)=>{
                 const user = new User({
                     _id: new mongoose.Types.ObjectId(),
                     createdAt		: new Date,                    
-                    mobileNumber  : req.body.mobile,
+                    mobileNumber  : req.body.mobileNumber,
                     countryCode   : req.body.countryCode,                                  
                     profile		:{                            
-                                mobileNumber  : req.body.mobile,
+                                mobileNumber  : req.body.mobileNumber,
                                 countryCode   : req.body.countryCode,                              
                                 otp 		  : OTP,                                            
                     },
@@ -126,7 +126,7 @@ exports.users_verify_mobile = (req,res,next)=>{
         
                         client.messages.create(
                             src=sourceMobile,
-                            dst=req.body.countryCode+''+req.body.mobile,
+                            dst=req.body.countryCode+''+req.body.mobileNumber,
                             text=text
                         ).then((result)=> {
                             console.log("src = ",src," | DST = ", dst, " | result = ", result);
