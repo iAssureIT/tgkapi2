@@ -18,32 +18,32 @@ exports.user_signupadmin = (req,res,next)=>{
 						});
 					}else{
 						const user = new User({
-										_id: new mongoose.Types.ObjectId(),
-										createdAt		: new Date,
-										services		: {
-											password	:{
-														bcrypt:hash
-														},
-										},
-										countryCode 	: req.body.countryCode,
-										mobileNumber  	: req.body.mobile,
-										emails			: [
-												{
-													address  : req.body.email,
-													verified : true 
-												}
-										],
-										profile		:{
-													firstName     : req.body.firstName,
-													lastName      : req.body.lastName,
-													fullName      : req.body.firstName+' '+req.body.lastName,
-													emailId       : req.body.emailId,
-													mobileNumber  : req.body.mobile,
-                                					countryCode   : req.body.countryCode,
-													status		  : req.body.status
-										},
-										roles 		: (req.body.roles),
-										officeLocation : req.body.officeLocation,
+							_id: new mongoose.Types.ObjectId(),
+							createdAt		: new Date,
+							services		: {
+								password	:{
+											bcrypt:hash
+											},
+							},
+							countryCode 	: req.body.countryCode,
+							mobileNumber  	: req.body.mobile,
+							emails			: [
+									{
+										address  : req.body.email,
+										verified : true 
+									}
+							],
+							profile		:{
+										firstName     : req.body.firstName,
+										lastName      : req.body.lastName,
+										fullName      : req.body.firstName+' '+req.body.lastName,
+										emailId       : req.body.emailId,
+										mobileNumber  : req.body.mobile,
+										countryCode   : req.body.countryCode,
+										status		  : req.body.status
+							},
+							roles 		   : (req.body.roles),
+							officeLocation : req.body.officeLocation,
 			            });	
 						user.save()
 							.then(result =>{
@@ -475,9 +475,11 @@ exports.update_user = (req,res,next)=>{
 					"profile.firstName"     : req.body.firstName,
 					"profile.lastName"      : req.body.lastName,
 					"profile.fullName"      : req.body.firstName+' '+req.body.lastName,
-					"profile.fullName"      : req.body.firstName+' '+req.body.lastName,
 					"profile.emailId"       : req.body.emailId,
 					"profile.mobileNumber"  : req.body.mobile,
+					"roles" 				: (req.body.roles),
+					"officeLocation" 		: req.body.officeLocation,
+
 			
                 }
             }
