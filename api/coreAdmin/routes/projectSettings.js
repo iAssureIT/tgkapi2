@@ -7,7 +7,7 @@ router.post('/', projectsettingController.create_projectSettings);
 
 router.get('/get/one/:type', projectsettingController.fetch_projectsettings);
 
-// router.get('/list', projectsettingController.list_projectsettings);
+router.get('/list', projectsettingController.list_projectsettings);
 
 
 
