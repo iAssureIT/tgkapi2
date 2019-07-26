@@ -29,7 +29,7 @@ const userSchema = mongoose.Schema({
 		firstName 		: String,
 		lastName  		: String,
 		fullName  		: String,
-		name 	 		: String,
+		// name 	 		: String,
 		emailId   		: String,
 		mobileNumber 	: String, 
 		countryCode  	: String,
