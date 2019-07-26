@@ -5,8 +5,9 @@ const Masternotifications = require("../models/masternotifications");
 
 exports.create_template = (req, res, next) => {
     var masternotificationData = req.body.templateName;
+    var masternotificationtemptype = req.body.templateType
     console.log('masternotificationData ',req.body.templateName);
-	Masternotifications.findOne({templateName:masternotificationData})
+	Masternotifications.findOne({templateName:masternotificationData, templateType:masternotificationtemptype})
 		.exec()
 		.then(data =>{
 			if(data){
