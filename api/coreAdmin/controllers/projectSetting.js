@@ -51,7 +51,7 @@ exports.create_projectSettings = (req, res, next) => {
 exports.fetch_projectsettings = (req, res, next)=>{
     const type = req.params.type;
     console.log("type = |"+type+"|");
-        ProjectSettings.findOne({})
+        ProjectSettings.findOne({'type': req.params.type})
             .exec()
             .then(data=>{
                 console.log("data ",data);
