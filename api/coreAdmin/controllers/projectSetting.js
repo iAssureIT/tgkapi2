@@ -17,7 +17,7 @@ exports.create_projectSettings = (req, res, next) => {
                 _id             : mongoose.Types.ObjectId(),      
                 key             : req.body.key,
                 secret          : req.body.secret,
-                bucket          : req.body.bucketname,
+                bucket          : req.body.bucket,
                 region          : req.body.region,
                 type            : req.body.type
             });
