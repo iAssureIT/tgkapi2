@@ -1,5 +1,5 @@
-const mongoose	= require("mongoose");
-const ProjectSettings             = require('../models/projectSettings');
+const mongoose	        = require("mongoose");
+const ProjectSettings   = require('../models/projectSettings');
 
 
 exports.create_projectSettings = (req, res, next) => {
@@ -48,32 +48,19 @@ exports.create_projectSettings = (req, res, next) => {
 };
 
 
-
 exports.fetch_projectsettings = (req, res, next)=>{
     const type = req.params.type;
     console.log("type = |"+type+"|");
-    ProjectSettings.findOne({})
-                    .exec()
-                    .then(data=>{
-                        console.log("data ",data);
-                        res.status(200).json(data);
-                    })
-                    .catch(err =>{
-                     		console.log(err);
-                     		res.status(500).json({
-                     			error: err
-                     		});
-                     	});            
-	// ProjectSettings.find({})
-	// 	.exec()
-	// 	.then(data =>{
-    //         console.log("Data=",data);
-	// 		res.status(200).json(data);
-	// 	})
-	// 	.catch(err =>{
-	// 		console.log(err);
-	// 		res.status(500).json({
-	// 			error: err
-	// 		});
-	// 	});
+        ProjectSettings.findOne({})
+            .exec()
+            .then(data=>{
+                console.log("data ",data);
+                res.status(200).json(data);
+            })
+            .catch(err =>{
+                console.log(err);
+                res.status(500).json({
+                    error: err
+                });
+            });            
 }
