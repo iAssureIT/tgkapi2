@@ -26,7 +26,7 @@ exports.user_signupadmin = (req,res,next)=>{
 														},
 										},
 										countryCode 	: req.body.countryCode,
-										mobileNumber  	: req.body.mobileNumber,
+										mobileNumber  	: req.body.mobile,
 										emails			: [
 												{
 													address  : req.body.email,
@@ -38,7 +38,7 @@ exports.user_signupadmin = (req,res,next)=>{
 													lastName      : req.body.lastName,
 													fullName      : req.body.firstName+' '+req.body.lastName,
 													emailId       : req.body.emailId,
-													mobileNumber  : req.body.mobileNumber,
+													mobileNumber  : req.body.mobile,
                                 					countryCode   : req.body.countryCode,
 													status		  : req.body.status
 										},
