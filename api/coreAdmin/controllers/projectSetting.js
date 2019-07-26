@@ -51,7 +51,7 @@ exports.create_projectSettings = (req, res, next) => {
 exports.fetch_projectsettings = (req, res, next)=>{
     const type = req.params.type;
     console.log("type = |"+type+"|");
-        ProjectSettings.findOne({'type': req.params.type})
+        ProjectSettings.findOne({"type": req.params.type})
             .exec()
             .then(data=>{
                 console.log("data ",data);
@@ -64,19 +64,19 @@ exports.fetch_projectsettings = (req, res, next)=>{
                 });
             });            
 }
-exports.list_projectsettings = (req, res, next)=>{
-    const type = req.params.type;
-    console.log("type = |"+type+"|");
-        ProjectSettings.find({})
-            .exec()
-            .then(data=>{
-                console.log("data ",data);
-                res.status(200).json(data);
-            })
-            .catch(err =>{
-                console.log(err);
-                res.status(500).json({
-                    error: err
-                });
-            });            
-}
+// exports.list_projectsettings = (req, res, next)=>{
+//     const type = req.params.type;
+//     console.log("type = |"+type+"|");
+//         ProjectSettings.find({})
+//             .exec()
+//             .then(data=>{
+//                 console.log("data ",data);
+//                 res.status(200).json(data);
+//             })
+//             .catch(err =>{
+//                 console.log(err);
+//                 res.status(500).json({
+//                     error: err
+//                 });
+//             });            
+// }
