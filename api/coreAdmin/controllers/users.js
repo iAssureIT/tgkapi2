@@ -268,7 +268,7 @@ exports.users_list = (req,res,next)=>{
 	
 }
 exports.users_directlist = (req,res,next)=>{
-	User.find({})
+	User.find({roles : {$ne : "admin"} })
 	.select("_id username roles createdAt profile.firstName profile.lastName profile.mobNumber profile.fullname profile.emailId profile.status")
 		
 	   .exec()
