@@ -321,7 +321,7 @@ exports.users_fetch = (req,res,next)=>{
 					_id 		: data._id,
 					createdAt	: data.createdAt,
 					username	: data.username,					
-					mobileNumber   : data.profile.mobileNumber,				
+					mobileNumber  : data.profile.mobileNumber,				
 					firstName   : data.profile.firstName,
 					lastName    : data.profile.lastName,
 					fullName    : data.profile.fullName,
@@ -331,7 +331,7 @@ exports.users_fetch = (req,res,next)=>{
 					officeLocation 	: data.officeLocation,
 				});	
 			})
-			// console.log('userdataarr ',userdataarr);
+			console.log('userdataarr = ',userdataarr);
 			res.status(200).json(userdataarr);
 		})
 		.catch(err =>{
