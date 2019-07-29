@@ -314,6 +314,7 @@ exports.users_fetch = (req,res,next)=>{
 		.select("_id username createdAt profile roles officeLocation")
 		.exec()
 		.then(users =>{			
+			console.log("fetch users = ",users);
 			var userdataarr = []
 			users.map((data, index)=>{
 				userdataarr.push({
