@@ -227,7 +227,8 @@ exports.user_login = (req,res,next)=>{
                                 message             : 'Auth successful',
                                 token               : token,
                                 user_ID             : user._id,
-                                userFirstName       : user.profile.firstname,
+								userFirstName       : user.profile.firstname,
+								roles 				: user.roles,
                                 // userProfileImg      : user.profile.userProfile,
                             }); 
                         }
@@ -252,7 +253,7 @@ exports.user_login = (req,res,next)=>{
 };
 
 exports.users_list = (req,res,next)=>{
-	User.find({})
+	User.find({roles : {$ne : "admin"} })
 		.exec()
 		.then(users =>{
 			console.log('users ',users);
