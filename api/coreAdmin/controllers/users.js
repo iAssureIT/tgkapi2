@@ -309,7 +309,8 @@ exports.users_directlist = (req,res,next)=>{
    
 }
 exports.users_fetch = (req,res,next)=>{
-	User.find({}).sort( { createdAt: -1 } ).skip(req.body.startRange).limit(req.body.limitRange)
+	User.find({roles : {$ne : "admin"} })
+		.sort( { createdAt: -1 } ).skip(req.body.startRange).limit(req.body.limitRange)
 		.select("_id username createdAt profile roles officeLocation")
 		.exec()
 		.then(users =>{			
