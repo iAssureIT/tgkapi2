@@ -273,7 +273,7 @@ exports.users_directlist = (req,res,next)=>{
 		
 	   .exec()
 	   .then(users =>{
-		
+			console.log("List of Users", users);
 		   var userdataarr = [];
 		   users.map((data, index)=>{
 			// console.log('data =======================>>>>>>>>>>>>',data);
