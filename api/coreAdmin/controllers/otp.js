@@ -115,7 +115,8 @@ exports.users_verify_mobile = (req,res,next)=>{
                                 countryCode   : req.body.countryCode,                              
                                 otp 		  : OTP,                                            
                     },
-                    roles : [req.body.role],
+                    roles   : [req.body.roles],
+                    status  : req.body.status,
                 });
                 user.save()
                 .then(newUser =>{
