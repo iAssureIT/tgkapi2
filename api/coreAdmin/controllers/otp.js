@@ -20,8 +20,9 @@ exports.user_signup = (req,res,next)=>{
                     "profile.fullName"      : req.body.fullName,
                     "profile.emailId"       : req.body.emailId,	
                     "profile.city"          : req.body.city,	
+                    "profile.status"        : req.body.status,
                     "roles"                 : req.body.roles,
-                    "status"                : req.body.status,
+                    
 
                 }
             }

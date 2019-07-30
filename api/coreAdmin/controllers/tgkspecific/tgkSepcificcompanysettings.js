@@ -104,7 +104,7 @@ exports.detail_companysettings = (req,res,next)=>{
 
 exports.detail_companysettings_locations = (req,res,next)=>{
     TgkSpecificCompanysettings.find({ "companyId" : req.body.companyId, 
-                                      "companyLocationsInfo._id" : req.body.locationID}.sort( { createdAt: -1 }),
+                                      "companyLocationsInfo._id" : req.body.locationID},
                                       {"companyLocationsInfo.$" : 1})
         .exec()
         .then(data=>{
@@ -292,7 +292,7 @@ exports.update_companysettings = (req,res,next)=>{
                                                 }
                                             }
                                         }
-                                    )
+                                    ).sort( { createdAt: -1 })
                                     .exec()
                                     .then(data=>{
                                         if(data.nModified == 1){

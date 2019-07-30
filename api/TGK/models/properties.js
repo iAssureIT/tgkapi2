@@ -35,7 +35,7 @@ const propertiesSchema = mongoose.Schema({
                                     superArea           : String,
                                     builtupArea         : String,
                                     availableFrom       : Date,
-                                    description         : String,
+                                   
                                 },
     Amenities               :   Array,
     Images                  :   Array,
@@ -47,6 +47,7 @@ const propertiesSchema = mongoose.Schema({
                                     includeCharges      : Array,
                                     maintenanceCharges  : String,
                                     maintenancePer      : String,
+                                    description         : String,
                                 },    
     avalibilityPlanVisit       : {
                                     contactPerson         : String,

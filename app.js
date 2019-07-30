@@ -60,7 +60,7 @@
 	const sellometeorurl 			= require("./api/TGK/routes/sellometers");
 	const masteramenitiesurl 		= require("./api/TGK/routes/masteramenities");
 	const mastersellometerurl 		= require("./api/TGK/routes/mastersellometers");
-	const interestedPropertiesurl 		= require("./api/TGK/routes/interestedProperties");
+	const interestedPropertiesurl 	= require("./api/TGK/routes/interestedProperties");
 
 
 
