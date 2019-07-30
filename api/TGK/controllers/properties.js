@@ -134,7 +134,7 @@ exports.update_PropertyDetails = (req,res,next)=>{
                                                 "superArea"           :  req.body.superArea,
                                                 "builtupArea"         :  req.body.builtupArea,
                                                 "availableFrom"       : req.body.availableFrom,
-                                                "description"         : req.body.description,
+                                               
                                                 
                                             },
             }
@@ -201,7 +201,8 @@ exports.update_financials = (req,res,next)=>{
                     "totalPrice"          : req.body.totalPrice,
                     "includeCharges"      : req.body.includeCharges,
                     "maintenanceCharges"  : req.body.maintenanceCharges,
-                    "maintenancePer"      : req.body.maintenancePer,                    
+                    "maintenancePer"      : req.body.maintenancePer,        
+                    "description"         : req.body.description,            
                 },
             }
         }
