@@ -27,7 +27,7 @@ exports.user_signup = (req,res,next)=>{
             console.log('user ',user);
             if(user.nModified == 1){
                 return res.status(200).json({
-                    "message" : 'NUSER-UPDATED',
+                    "message" : 'USER-UPDATED',
                     "user_id" : user._id,
                 
                 });	
