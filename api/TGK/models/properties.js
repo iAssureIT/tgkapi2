@@ -51,9 +51,8 @@ const propertiesSchema = mongoose.Schema({
     avalibilityPlanVisit       : {
                                     contactPerson         : String,
                                     contactPersonMobile   : String,
-                                    availability          : String,
-                                    startTime             : Date,
-                                    endTime               : Date,
+                                    available             : Array,
+                                   
                                 },
     status              : Array,
     propertyCreatedAt   : Date,

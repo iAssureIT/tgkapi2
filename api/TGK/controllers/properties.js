@@ -272,9 +272,8 @@ exports.update_availabilityPlan = (req,res,next)=>{
                         "avalibilityPlanVisit" : {
                                             "contactPerson"         : req.body.contactPerson,
                                             "contactPersonMobile"   : req.body.contactPersonMobile,
-                                            "availability"          : req.body.availability,
-                                            "startTime"             : req.body.startTime,
-                                            "endTime"               : req.body.endTime,
+                                            "available"             : req.body.available,
+                                    
                                         },
                         "status" : [{
                                     "statusVal" : req.body.status, 

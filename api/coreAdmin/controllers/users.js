@@ -227,7 +227,8 @@ exports.user_login = (req,res,next)=>{
                                 message             : 'Auth successful',
                                 token               : token,
                                 user_ID             : user._id,
-								userFirstName       : user.profile.firstname,
+								userFullName       	: user.profile.fullName,
+								useremailId			: user.profile.emailId,						
 								roles 				: user.roles,
                                 // userProfileImg      : user.profile.userProfile,
                             }); 

@@ -104,8 +104,8 @@ exports.detail_companysettings = (req,res,next)=>{
 
 exports.detail_companysettings_locations = (req,res,next)=>{
     TgkSpecificCompanysettings.find({ "companyId" : req.body.companyId, 
-                                      "companyLocationsInfo._id" : req.body.locationID},
-                                      {"companyLocationsInfo.$" : 1}).sort( { createdAt: -1 } )
+                                      "companyLocationsInfo._id" : req.body.locationID}.sort( { createdAt: -1 }),
+                                      {"companyLocationsInfo.$" : 1})
         .exec()
         .then(data=>{
             console.log("data = ",data);            

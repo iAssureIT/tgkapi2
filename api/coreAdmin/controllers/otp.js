@@ -18,7 +18,8 @@ exports.user_signup = (req,res,next)=>{
             {
                 $set:{
                     "profile.fullName"      : req.body.fullName,
-					"profile.emailId"       : req.body.emailId,	
+                    "profile.emailId"       : req.body.emailId,	
+                    "profile.city"          : req.body.city,	
                 }
             }
         )
@@ -109,11 +110,12 @@ exports.users_verify_mobile = (req,res,next)=>{
                     createdAt		: new Date,                    
                     mobileNumber  : req.body.mobileNumber,
                     countryCode   : req.body.countryCode,                                  
-                    profile		:{                            
+                    profile		: {                            
                                 mobileNumber  : req.body.mobileNumber,
                                 countryCode   : req.body.countryCode,                              
                                 otp 		  : OTP,                                            
                     },
+                    roles : [req.body.role],
                 });
                 user.save()
                 .then(newUser =>{
