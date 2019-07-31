@@ -3,88 +3,75 @@ const mongoose	= require("mongoose");
 const Properties        = require('../models/properties');
 const Users             = require('../../coreAdmin/models/users');
 
-exports.update_photosandvideos = (req,res,next)=>{
-    console.log("input = ",req.body);
-    
-    Properties.updateOne(
-        { "_id" : req.body.property_id },
-        {
-            $push:{
-                gallery :{
-                            Images  :   {
-                                            $each  : req.body.propertyImages
-                                        },
-                            video   :   req.body.video,
-                }
-            },
-            $set:{                            
-                "status" :  [{
-                                "statusVal" : req.body.status, 
-                                "createdBy" : req.body.user_id, 
-                                "createdAt" : new Date(),
-                                "toUser"    : toUser_id,
-                            }],
-
-            }
-        }
-    )
-    .exec()
-    .then(data=>{
-        console.log('data ',data);
-        if(data.nModified == 1){				
-            res.status(200).json("Images and Video Updated");
-        }else{
-            res.status(401).json("Images and Video are Not Found");
-        }
-    })
-    .catch(err =>{
-        console.log(err);
-        res.status(500).json({
-            error: err
-        });
-    });
-}
-
-
 exports.create_Properties = (req,res,next)=>{
-	  Properties.find()
-                .exec()
-		        .then(data =>{
-                        var propertyCode = data.length + 101;
-                        const properties = new Properties({
-                                _id                     : new mongoose.Types.ObjectId(),
-                                owner_id                : req.body.uid,
-                                propertyCode            : propertyCode,
-                                propertyHolder          : req.body.propertyHolder,
-                                transactionType         : req.body.transactionType,
-                                propertyType            : req.body.propertyType,
-                                propertySubType         : req.body.propertySubType,                                
-                                floor                   : req.body.floor,
-                                totalFloor              : req.body.totalFloor,
-                                // status                  : req.body.status,
-                                listing                 : false,                              
-                        });
-                        properties.save()
-                                        .then(data=>{                                            
-                                            res.status(200).json({
-                                            "message"        : 'Property Added',
-                                            "propertyCode"   : data.propertyCode,
-                                            "property_id"    : data._id
-                                            });
-                                        })
-                                        .catch(err =>{
-                                            console.log(err);
-                                            res.status(500).json({
-                                                error: err
-                                            });
-                                        });
-		            })
-                    .catch(err =>{
-                        console.log(err);
-                        res.status(500).json({
-                            error: err
-                        });
-                    });
+    main();
+
+    async function main(){
+        var allocatedToUserId = await getAllocatedToUserID(); 
+
+        Properties.find()
+                  .exec()
+                  .then(data =>{
+                          var propertyCode = data.length + 101;
+                          const properties = new Properties({
+                                  _id                     : new mongoose.Types.ObjectId(),
+                                  owner_id                : req.body.uid,
+                                  propertyCode            : propertyCode,
+                                  propertyHolder          : req.body.propertyHolder,
+                                  transactionType         : req.body.transactionType,
+                                  propertyType            : req.body.propertyType,
+                                  propertySubType         : req.body.propertySubType,                 
+                                  floor                   : req.body.floor,
+                                  totalFloor              : req.body.totalFloor,
+                                  status                  : req.body.status,
+                                  listing                 : false,           
+                                  $push:{                            
+                                      "statusArray" :  {
+                                                      "statusVal"   : req.body.status, 
+                                                      "createdAt"   : new Date(),
+                                                      "allocatedTo" : allocatedToUserId,
+                                                  },                
+                                  }
+                              });
+                          properties.save()
+                                          .then(data=>{                                            
+                                              res.status(200).json({
+                                              "message"        : 'Property Added',
+                                              "propertyCode"   : data.propertyCode,
+                                              "property_id"    : data._id
+                                              });
+                                          })
+                                          .catch(err =>{
+                                              console.log(err);
+                                              res.status(500).json({
+                                                  error: err
+                                              });
+                                          });
+                      })
+                      .catch(err =>{
+                          console.log(err);
+                          res.status(500).json({
+                              error: err
+                          });
+                      });
+    }
+
+    //  function getAllocatedToUserID(){
+    //     return new Promise(function(resolve,reject){
+    //         Users.find({"roles" : "sales agent"},{$sort:{createdAt:1}})
+    //              .exec()
+    //              .then(salesAgents=>{
+
+    //              })
+    //             .catch(err =>{
+    //                 console.log(err);
+    //                 res.status(500).json({
+    //                     error: err
+    //                 });
+    //             });
+    //     });
+    // }
+
 };
 
 exports.update_PropertyLocation = (req,res,next)=>{
@@ -129,8 +116,6 @@ exports.update_PropertyLocation = (req,res,next)=>{
         });
 }
 
-
-
 exports.update_PropertyDetails = (req,res,next)=>{
     // var roleData = req.body.role;
     Properties.updateOne(
@@ -171,8 +156,6 @@ exports.update_PropertyDetails = (req,res,next)=>{
         });
 }
 
-
-
 exports.update_amenities = (req,res,next)=>{
     // var roleData = req.body.role;
     Properties.updateOne(
@@ -200,8 +183,6 @@ exports.update_amenities = (req,res,next)=>{
             });
         });
 }
-
-
 
 exports.update_financials = (req,res,next)=>{
     // var roleData = req.body.role;
@@ -236,41 +217,6 @@ exports.update_financials = (req,res,next)=>{
             });
         });
 }
-
-
-
-
-// exports.update_video = (req,res,next)=>{
-//     // var roleData = req.body.role;
-//     Properties.updateOne(
-//         { "_id" : req.body.property_id },                        
-//         {
-//             $set:{
-//                 video               :   {
-                
-                                     
-//                 },
-//             }
-//         }
-//         )
-//         .exec()
-//         .then(data=>{
-//             console.log('data ',data);
-//             if(data.nModified == 1){				
-//                 res.status(200).json("Video Updated");
-//             }else{
-//                 res.status(401).json("Video Not Found");
-//             }
-//         })
-//         .catch(err =>{
-//             console.log(err);
-//             res.status(500).json({
-//                 error: err
-//             });
-//         });
-// }
-
-
 
 exports.update_availabilityPlan = (req,res,next)=>{
     // var roleData = req.body.role;
@@ -321,6 +267,56 @@ exports.update_availabilityPlan = (req,res,next)=>{
 
 
 }
+
+exports.update_photosandvideos = (req,res,next)=>{
+    console.log("input = ",req.body);
+    
+    Properties.findOne({"_id":req.body.property_id})
+              .exec()
+              .then( targetProperty =>{
+                    Properties.updateOne(
+                        { "_id" : req.body.property_id },
+                        {
+                            $set:{
+                                "gallery.Images" : req.body.propertyImages,
+                                "gallery.video"  : req.body.video,
+                                "status"         : req.body.status, 
+                            },
+                            
+                            $push:{                            
+                                "statusArray" :  {
+                                                "statusVal"   : req.body.status, 
+                                                "createdAt"   : new Date(),
+                                                "allocatedTo" : targetProperty.status[0].allocatedTo,
+                                            },                
+                            }
+                        }
+                    )
+                    .exec()
+                    .then(data=>{
+                        console.log('data ',data);
+                        if(data.nModified == 1){				
+                            res.status(200).json("Images and Video Updated");
+                        }else{
+                            res.status(401).json("Images and Video are Not Found");
+                        }
+                    })
+                    .catch(err =>{
+                        console.log(err);
+                        res.status(500).json({
+                            error: err
+                        });
+                    });
+
+              })
+            .catch(err =>{
+                console.log(err);
+                res.status(500).json({
+                    error: err
+                });
+            });
+
+},
 
 exports.detail_Properties = (req, res, next)=>{
 	var id = req.params.propertyID;
@@ -376,7 +372,6 @@ exports.property_list = (req,res,next)=>{
         });
 }
 
-
 exports.my_property_list = (req,res,next)=>{
     console.log('list of My property ');
     Properties.find({ owner_id : req.params.uid,})
@@ -412,6 +407,7 @@ exports.delete_Properties = (req,res,next)=>{
             });
         });
 }
+
 exports.deleteall_Properties = (req,res,next)=>{
     Properties.deleteMany({})
         .exec()
@@ -425,7 +421,6 @@ exports.deleteall_Properties = (req,res,next)=>{
             });
         });
 }
-
 
 exports.prop_get_by_status = (req,res,next)=>{
     console.log("req.params.status",req.params.status)
@@ -447,38 +442,4 @@ exports.prop_get_by_status = (req,res,next)=>{
             });
         });
 }
-
-
-// exports.update_status = (req,res,next)=>{
-//     // var roleData = req.body.role;
-//     Properties.updateOne(
-//         { "_id" : req.body.property_id },                        
-//         {
-//             $set:{
-//                 "status" : [{
-//                                     "statusVal"             : req.body.statusval, 
-//                                     // "createdBy"         : req.body.user_id, 
-//                                     // "createdAt"         : new Date(),
-//                                     // "allocatedToUser"   : toUser_id,
-//                                 }],
-        
-//             }
-//         }
-//     )
-//         .exec()
-//         .then(data=>{
-//             console.log('data ',data);
-//             if(data.nModified == 1){                
-//                 res.status(200).json("status Updated");
-//             }else{
-//                 res.status(401).json("status not updated");
-//             }
-//         })
-//         .catch(err =>{
-//             console.log(err);
-//             res.status(500).json({
-//                 error: err
-//             });
-//         });
-// }
 

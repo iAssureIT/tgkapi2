@@ -42,7 +42,7 @@ router.put('/put/one/resetpwd/:userID',UserController.update_user_resetpassword)
 
 router.delete('/delete/one/:userID',UserController.delete_user);
 
-// router.delete('/',UserController.deleteall_user);  
+router.delete('/',UserController.deleteall_user);  
 
 
 

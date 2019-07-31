@@ -23,7 +23,7 @@ router.patch('/patch/amenities', PropertiesController.update_amenities);
 
 router.patch('/patch/financials', PropertiesController.update_financials);
 
-router.patch('/patch/images/video', PropertiesController.update_photosandvideos);
+router.patch('/patch/gallery', PropertiesController.update_photosandvideos);
 
 // router.patch('/patch/video', PropertiesController.update_video);
 

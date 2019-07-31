@@ -10,7 +10,8 @@ const propertiesSchema = mongoose.Schema({
     propertySubType         : String,
     floor                   : String,
     totalFloor              : String,
-    status                  : Array,
+    statusArray             : Array,
+    status                  : String,
     listing                 : Boolean,
     propertyLocation        : {
                                     address             : String,
