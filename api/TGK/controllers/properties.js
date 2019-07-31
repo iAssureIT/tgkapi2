@@ -287,7 +287,7 @@ exports.update_photosandvideos = (req,res,next)=>{
                                 "statusArray" :  {
                                                 "statusVal"   : req.body.status, 
                                                 "createdAt"   : new Date(),
-                                                "allocatedTo" : targetProperty.status[0].allocatedTo,
+                                                // "allocatedTo" : targetProperty.status[0].allocatedTo,
                                             },                
                             }
                         }
