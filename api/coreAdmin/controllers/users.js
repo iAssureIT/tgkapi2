@@ -49,7 +49,7 @@ exports.user_signupadmin = (req,res,next)=>{
 							.then(result =>{
 								res.status(201).json({
 									message : "NEW-USER-CREATED",
-									// "user_id" : newUser._id,
+									"user_id" : user._id,
                         			// "otp"     : OTP,
 								})
 							})
@@ -391,6 +391,9 @@ exports.deleteall_user = function (req, res,next) {
         });
     });
 };
+
+
+
 // exports.user_delete = (req,res,next)=>{
 // 	User.findOne({_id:req.params.userID})
 // 		.exec()
@@ -726,6 +729,33 @@ exports.search_user_office = (req,res,next)=>{
 			return res.status(200).json({
 				"message" : 'Search-Successfull',
 					"data": data
+			});		
+		}else{
+			return res.status(404).json({
+				"message" : 'No-Data-Available',		
+			});	
+		}	
+	})
+	.catch(err =>{
+		console.log(err);
+		res.status(500).json({
+			
+			error: err
+		});
+	});
+}
+
+
+exports.users_count = (req,res,next)=>{
+	User.find().count()
+	// .countDocuments()
+	.exec()
+	.then( data =>{
+		console.log('data ',data);
+		if(data){
+			return res.status(200).json({
+				"message" : 'Count',
+				"data": data
 			});		
 		}else{
 			return res.status(404).json({

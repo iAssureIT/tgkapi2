@@ -23,9 +23,9 @@ router.patch('/patch/amenities', PropertiesController.update_amenities);
 
 router.patch('/patch/financials', PropertiesController.update_financials);
 
-router.patch('/patch/images', PropertiesController.update_photos);
+router.patch('/patch/images/video', PropertiesController.update_photosandvideos);
 
-router.patch('/patch/video', PropertiesController.update_video);
+// router.patch('/patch/video', PropertiesController.update_video);
 
 router.patch('/patch/availabilityPlan', PropertiesController.update_availabilityPlan);
 
@@ -33,6 +33,8 @@ router.delete('/:propertyID',PropertiesController.delete_Properties);
 
 router.delete('/',PropertiesController.deleteall_Properties);
 
+router.get('/get/:status',PropertiesController.prop_get_by_status);
 
+// router.patch('/patch/updatestatus',PropertiesController.update_status);
 
 module.exports = router;

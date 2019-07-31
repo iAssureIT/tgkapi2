@@ -3,34 +3,46 @@ const mongoose	= require("mongoose");
 const Properties        = require('../models/properties');
 const Users             = require('../../coreAdmin/models/users');
 
-exports.update_photos = (req,res,next)=>{
+exports.update_photosandvideos = (req,res,next)=>{
     console.log("input = ",req.body);
     
     Properties.updateOne(
         { "_id" : req.body.property_id },
         {
             $push:{
-                Images    :   {
-                    $each  : req.body.propertyImages
-                },
+                gallery :{
+                            Images  :   {
+                                            $each  : req.body.propertyImages
+                                        },
+                            video   :   req.body.video,
+                }
+            },
+            $set:{                            
+                "status" :  [{
+                                "statusVal" : req.body.status, 
+                                "createdBy" : req.body.user_id, 
+                                "createdAt" : new Date(),
+                                "toUser"    : toUser_id,
+                            }],
+
             }
         }
-        )
-        .exec()
-        .then(data=>{
-            console.log('data ',data);
-            if(data.nModified == 1){				
-                res.status(200).json("Images Updated");
-            }else{
-                res.status(401).json("Images Not Found");
-            }
-        })
-        .catch(err =>{
-            console.log(err);
-            res.status(500).json({
-                error: err
-            });
+    )
+    .exec()
+    .then(data=>{
+        console.log('data ',data);
+        if(data.nModified == 1){				
+            res.status(200).json("Images and Video Updated");
+        }else{
+            res.status(401).json("Images and Video are Not Found");
+        }
+    })
+    .catch(err =>{
+        console.log(err);
+        res.status(500).json({
+            error: err
         });
+    });
 }
 
 
@@ -49,6 +61,7 @@ exports.create_Properties = (req,res,next)=>{
                                 propertySubType         : req.body.propertySubType,                                
                                 floor                   : req.body.floor,
                                 totalFloor              : req.body.totalFloor,
+                                // status                  : req.body.status,
                                 listing                 : false,                              
                         });
                         properties.save()
@@ -227,35 +240,35 @@ exports.update_financials = (req,res,next)=>{
 
 
 
-exports.update_video = (req,res,next)=>{
-    // var roleData = req.body.role;
-    Properties.updateOne(
-        { "_id" : req.body.property_id },                        
-        {
-            $set:{
-                video               :   {
-                    "video"        : req.body.video
+// exports.update_video = (req,res,next)=>{
+//     // var roleData = req.body.role;
+//     Properties.updateOne(
+//         { "_id" : req.body.property_id },                        
+//         {
+//             $set:{
+//                 video               :   {
+                
                                      
-                },
-            }
-        }
-        )
-        .exec()
-        .then(data=>{
-            console.log('data ',data);
-            if(data.nModified == 1){				
-                res.status(200).json("Video Updated");
-            }else{
-                res.status(401).json("Video Not Found");
-            }
-        })
-        .catch(err =>{
-            console.log(err);
-            res.status(500).json({
-                error: err
-            });
-        });
-}
+//                 },
+//             }
+//         }
+//         )
+//         .exec()
+//         .then(data=>{
+//             console.log('data ',data);
+//             if(data.nModified == 1){				
+//                 res.status(200).json("Video Updated");
+//             }else{
+//                 res.status(401).json("Video Not Found");
+//             }
+//         })
+//         .catch(err =>{
+//             console.log(err);
+//             res.status(500).json({
+//                 error: err
+//             });
+//         });
+// }
 
 
 
@@ -276,13 +289,7 @@ exports.update_availabilityPlan = (req,res,next)=>{
                                             "available"             : req.body.available,
                                     
                                         },
-                        "status" : [{
-                                    "statusVal" : req.body.status, 
-                                    "createdBy" : req.body.user_id, 
-                                    "createdAt" : new Date(),
-                                    "toUser"    : toUser_id,
-                                }],
-        
+                      
         
                         "propertyCreatedAt" : new Date(),
                     }
@@ -419,4 +426,59 @@ exports.deleteall_Properties = (req,res,next)=>{
         });
 }
 
+
+exports.prop_get_by_status = (req,res,next)=>{
+    console.log("req.params.status",req.params.status)
+    Properties.find({ "status.statusVal" : req.params.status})
+        .exec()
+        .then(data=>{
+            console.log("data",data);
+            if(data){
+                res.status(200).json(data);
+
+            }else{
+                res.status(404).json('Property not found');
+            }
+        })
+        .catch(err =>{
+            console.log(err);
+            res.status(500).json({
+                error: err
+            });
+        });
+}
+
+
+// exports.update_status = (req,res,next)=>{
+//     // var roleData = req.body.role;
+//     Properties.updateOne(
+//         { "_id" : req.body.property_id },                        
+//         {
+//             $set:{
+//                 "status" : [{
+//                                     "statusVal"             : req.body.statusval, 
+//                                     // "createdBy"         : req.body.user_id, 
+//                                     // "createdAt"         : new Date(),
+//                                     // "allocatedToUser"   : toUser_id,
+//                                 }],
+        
+//             }
+//         }
+//     )
+//         .exec()
+//         .then(data=>{
+//             console.log('data ',data);
+//             if(data.nModified == 1){                
+//                 res.status(200).json("status Updated");
+//             }else{
+//                 res.status(401).json("status not updated");
+//             }
+//         })
+//         .catch(err =>{
+//             console.log(err);
+//             res.status(500).json({
+//                 error: err
+//             });
+//         });
+// }
 
