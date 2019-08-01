@@ -1,5 +1,4 @@
 const mongoose	= require("mongoose");
-const async = require("async");
 
 const InterestedProps = require('../models/interestedProperties');
 const Properties = require('../models/properties');

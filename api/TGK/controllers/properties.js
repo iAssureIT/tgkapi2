@@ -421,6 +421,43 @@ exports.deleteall_Properties = (req,res,next)=>{
             });
         });
 }
+        
+//----------------Rushikesh----------------------
+exports.update_approvedlist = (req,res,next)=>{
+    console.log("input = ",req.body);
+    Properties.updateOne(
+        { "_id" : req.body.property_id },
+        {
+            $push:{
+                    "statusArray" : [{
+                                "statusVal"             : req.body.status, 
+                                "createdBy"             : req.body.user_id, 
+                                "createdAt"             : new Date(),
+                                "allocatedToUserId"     : req.body.allocatedToUserId,
+                                "remark"                : req.body.remark,  
+                            }],
+                },
+            $set:{
+                "status" : req.body.status,
+            }   
+        }
+        )
+        .exec()
+        .then(data=>{
+            console.log('data ',data);
+            if(data.nModified == 1){                
+                res.status(200).json("Status Updated");
+            }else{
+                res.status(401).json("Status Not Updated");
+            }
+        })
+        .catch(err =>{
+            console.log(err);
+            res.status(500).json({
+                error: err
+            });
+        });
+}
 
 exports.prop_get_by_status = (req,res,next)=>{
     console.log("req.params.status",req.params.status)
@@ -443,3 +480,25 @@ exports.prop_get_by_status = (req,res,next)=>{
         });
 }
 
+exports.update_displaylist = (req,res,next)=>{
+    console.log("input = ",req.body);
+    Properties.find(
+            {
+                statusArray: { $elemMatch: { allocatedToUserId : req.body.user_id, statusVal : req.body.status}},status:req.body.status
+            }
+        )
+        .exec()
+        .then(data=>{
+            if(data){
+                res.status(200).json(data);
+            }else{
+                res.status(404).json('Properties Details not found');
+            }
+        })
+        .catch(err =>{
+            console.log(err);
+            res.status(500).json({
+                error: err
+            });
+        });
+    }
