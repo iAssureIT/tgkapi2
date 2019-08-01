@@ -8,7 +8,7 @@ exports.create_Properties = (req,res,next)=>{
 
     async function main(){
         var allocatedToUserId = await getAllocatedToUserID(); 
-
+        console.log("allocatedToUserId = ",allocatedToUserId);
         Properties.find()
                   .exec()
                   .then(data =>{
@@ -56,18 +56,57 @@ exports.create_Properties = (req,res,next)=>{
                       });
     }
 
+
      function getAllocatedToUserID(){
         return new Promise(function(resolve,reject){
             Users.find({"roles" : "sales agent"},{$sort:{createdAt:1}})
                  .exec()
                  .then(salesAgents=>{
-
+                    if(salesAgents.length > 0){
+                        //Sales agents found. Then find, to which SA, the last property was assigned
+                        Properties.find({})
+                                  .sort({createdAt:-1})
+                                  .limit(1)
+                                  .exec()
+                                  .then(oneProperty=>{
+                                      if(oneProperty.length > 0){
+                                        resolve(oneProperty.statusArray[0].allocatedToUserId);
+                                      }else{
+                                        resolve(salesAgents[0]);
+                                      }
+                                  })
+                                  .catch(err =>{
+                                    res.status(500).json({
+                                        message : "Properties Not Found",
+                                        error: err
+                                    });
+                                });
+                    }else{
+                        Users.findOne({"roles" : "Technical Admin"})
+                        .exec()
+                        .then(admin=>{
+                            resolve(admin._id);
+                        })
+                       .catch(err =>{
+                        res.status(500).json({
+                            message : "Admin role user Not Found",
+                            error: err
+                           });
+                       });
+                    }
                  })
                 .catch(err =>{
-                    console.log(err);
+                    Users.findOne({"roles" : "Technical Admin"})
+                    .exec()
+                    .then(admin=>{
+                        resolve(admin._id);
+                    })
+                   .catch(err =>{
                     res.status(500).json({
+                        message : "Admin role user Not Found",
                         error: err
-                    });
+                       });
+                   });
                 });
         });
     }
