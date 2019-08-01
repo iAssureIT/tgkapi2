@@ -56,21 +56,21 @@ exports.create_Properties = (req,res,next)=>{
                       });
     }
 
-    //  function getAllocatedToUserID(){
-    //     return new Promise(function(resolve,reject){
-    //         Users.find({"roles" : "sales agent"},{$sort:{createdAt:1}})
-    //              .exec()
-    //              .then(salesAgents=>{
+     function getAllocatedToUserID(){
+        return new Promise(function(resolve,reject){
+            Users.find({"roles" : "sales agent"},{$sort:{createdAt:1}})
+                 .exec()
+                 .then(salesAgents=>{
 
-    //              })
-    //             .catch(err =>{
-    //                 console.log(err);
-    //                 res.status(500).json({
-    //                     error: err
-    //                 });
-    //             });
-    //     });
-    // }
+                 })
+                .catch(err =>{
+                    console.log(err);
+                    res.status(500).json({
+                        error: err
+                    });
+                });
+        });
+    }
 
 };
 

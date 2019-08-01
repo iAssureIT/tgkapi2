@@ -1,7 +1,7 @@
 const express 	= require("express");
 const router 	= express.Router();
 
-const projectsettingController = require('../controllers/projectSetting');
+const projectsettingController = require('../controllers/projectSettings');
 
 router.post('/', projectsettingController.create_projectSettings);
 
