@@ -25,13 +25,12 @@ exports.create_Properties = (req,res,next)=>{
                                   totalFloor              : req.body.totalFloor,
                                   status                  : req.body.status,
                                   listing                 : false,           
-                                  $push:{                            
-                                      "statusArray" :  {
-                                                      "statusVal"   : req.body.status, 
-                                                      "createdAt"   : new Date(),
-                                                      "allocatedTo" : allocatedToUserId,
-                                                  },                
-                                  }
+                                  statusArray :  [{
+                                                  "statusVal"   : req.body.status, 
+                                                  "createdAt"   : new Date(),
+                                                  "allocatedTo" : allocatedToUserId,
+                                              }],                
+                                  
                               });
                           properties.save()
                                           .then(data=>{                                            
@@ -59,11 +58,13 @@ exports.create_Properties = (req,res,next)=>{
 
      function getAllocatedToUserID(){
         return new Promise(function(resolve,reject){
-            Users.find({"roles" : "sales agent"},{$sort:{createdAt:1}})
+            
+            Users.find({"roles" : "Sales Agent"},{$sort:{createdAt:1}})
                  .exec()
                  .then(salesAgents=>{
                     if(salesAgents.length > 0){
                         //Sales agents found. Then find, to which SA, the last property was assigned
+                       console.log("Inside SalesAGent");
                         Properties.find({})
                                   .sort({createdAt:-1})
                                   .limit(1)
