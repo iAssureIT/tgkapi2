@@ -326,7 +326,7 @@ exports.update_photosandvideos = (req,res,next)=>{
                                 "statusArray" :  {
                                                 "statusVal"   : req.body.status, 
                                                 "createdAt"   : new Date(),
-                                                // "allocatedTo" : targetProperty.status[0].allocatedTo,
+                                                "allocatedTo" : targetProperty.status[0].allocatedTo,
                                             },                
                             }
                         }
@@ -472,7 +472,7 @@ exports.update_approvedlist = (req,res,next)=>{
                                 "statusVal"             : req.body.status, 
                                 "createdBy"             : req.body.user_id, 
                                 "createdAt"             : new Date(),
-                                "allocatedToUserId"     : req.body.allocatedToUserId,
+                                "allocatedTo"           : req.body.allocatedToUserId,
                                 "remark"                : req.body.remark,  
                             }],
                 },
@@ -498,32 +498,17 @@ exports.update_approvedlist = (req,res,next)=>{
         });
 }
 
-exports.prop_get_by_status = (req,res,next)=>{
-    console.log("req.params.status",req.params.status)
-    Properties.find({ "status.statusVal" : req.params.status})
-        .exec()
-        .then(data=>{
-            console.log("data",data);
-            if(data){
-                res.status(200).json(data);
 
-            }else{
-                res.status(404).json('Property not found');
-            }
-        })
-        .catch(err =>{
-            console.log(err);
-            res.status(500).json({
-                error: err
-            });
-        });
-}
-
-exports.update_displaylist = (req,res,next)=>{
+exports.property_displaylist = (req,res,next)=>{
     console.log("input = ",req.body);
     Properties.find(
             {
-                statusArray: { $elemMatch: { allocatedToUserId : req.body.user_id, statusVal : req.body.status}},status:req.body.status
+                statusArray: {
+                    $elemMatch: {
+                        allocatedTo : req.body.user_id, statusVal : req.body.status
+                    }
+                },
+                status:req.body.status
             }
         )
         .exec()

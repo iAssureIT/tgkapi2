@@ -34,14 +34,14 @@ router.delete('/:propertyID',PropertiesController.delete_Properties);
 router.delete('/',PropertiesController.deleteall_Properties);
 
 
-router.get('/get/:status',PropertiesController.prop_get_by_status);
+// router.get('/get/:status',PropertiesController.prop_get_by_status);
 
 // router.patch('/patch/updatestatus',PropertiesController.update_status)
 router.get('/:propertyID', PropertiesController.detail_Properties);
 
 router.patch('/patch/sa/approvedlist', PropertiesController.update_approvedlist);
 
-router.post('/post/sa/displaylist', PropertiesController.update_displaylist);
+router.post('/post/sa/displaylist', PropertiesController.property_displaylist);
 
 
 module.exports = router;
