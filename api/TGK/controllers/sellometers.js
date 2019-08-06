@@ -29,6 +29,8 @@ exports.create_sellometers = (req,res,next)=>{
 	
 };
 
+
+
 exports.list_sellometers = (req,res,next)=>{
     Sellometers.find()
        

@@ -19,6 +19,9 @@ router.patch('/patch/propertyLocation', PropertiesController.update_PropertyLoca
 
 router.patch('/patch/propertyDetails', PropertiesController.update_PropertyDetails);
 
+router.patch('/patch/FindPropertyDetails', PropertiesController.find_PropertyDetails);
+
+
 router.patch('/patch/amenities', PropertiesController.update_amenities);
 
 router.patch('/patch/financials', PropertiesController.update_financials);

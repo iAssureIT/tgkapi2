@@ -1,6 +1,7 @@
 const mongoose	= require("mongoose");
 
 const Properties        = require('../models/properties');
+const Sellometers = require('../models/sellometers');
 const Users             = require('../../coreAdmin/models/users');
 
 
@@ -188,7 +189,9 @@ exports.update_PropertyLocation = (req,res,next)=>{
                                             "pincode"             : req.body.pincode,
 
                                         },
+                 index                   : req.body.index,
             }
+
         }
         )
         .exec()
@@ -208,6 +211,33 @@ exports.update_PropertyLocation = (req,res,next)=>{
             });
         });
 }
+
+//////////////////
+
+exports.find_PropertyDetails = (req,res,next)=>{
+    // var roleData = req.body.role;
+    Sellometers.find({index : req.body.index})
+        .exec()
+        .then(data=>{
+            console.log('data ',data);
+            var class = data.propertyClass;
+            Sellometers.find({index : class}) 
+            if(data.nModified == 1){
+        
+                res.status(200).json("Data Found");
+            }else{
+                res.status(401).json(" Not Found");
+            }
+        })
+        .catch(err =>{
+            console.log(err);
+            res.status(500).json({
+                error: err
+            });
+        });
+}
+//////////////////
+
 
 exports.update_PropertyDetails = (req,res,next)=>{
     // var roleData = req.body.role;

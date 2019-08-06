@@ -62,6 +62,7 @@ const propertiesSchema = mongoose.Schema({
                                    
                                 },
     propertyCreatedAt   : Date,
+    index               : String,
 
 });
 
