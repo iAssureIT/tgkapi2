@@ -100,6 +100,7 @@ exports.create_Properties = (req,res,next)=>{
                     }
                  })
                 .catch(err =>{
+                  console.log(err);
                     Users.findOne({"roles" : "Technical Admin"})
                     .exec()
                     .then(admin=>{
