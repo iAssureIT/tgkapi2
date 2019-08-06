@@ -5,119 +5,13 @@ const Sellometers = require('../models/sellometers');
 const Users             = require('../../coreAdmin/models/users');
 
 
-//===================== round robin ================
-// exports.create_Properties = (req,res,next)=>{
-//     main();
-
-//     async function main(){
-//         var allocatedToUserId = await getAllocatedToUserID(); 
-//         console.log("allocatedToUserId = ",allocatedToUserId);
-//         Properties.find()
-//                   .exec()
-//                   .then(data =>{
-//                           var propertyCode = data.length + 101;
-//                           const properties = new Properties({
-//                                   _id                     : new mongoose.Types.ObjectId(),
-//                                   owner_id                : req.body.uid,
-//                                   propertyCode            : propertyCode,
-//                                   propertyHolder          : req.body.propertyHolder,
-//                                   transactionType         : req.body.transactionType,
-//                                   propertyType            : req.body.propertyType,
-//                                   propertySubType         : req.body.propertySubType,                 
-//                                   floor                   : req.body.floor,
-//                                   totalFloor              : req.body.totalFloor,
-//                                   status                  : req.body.status,
-//                                   listing                 : false,           
-//                                   $push:{                            
-//                                         "statusArray"     : {
-//                                                                 "statusVal"   : req.body.status, 
-//                                                                 "createdAt"   : new Date(),
-//                                                                 // "allocatedTo" : allocatedToUserId,
-//                                                             },                
-//                                   }
-//                               });
-//                           properties.save()
-//                                           .then(data=>{                                            
-//                                               res.status(200).json({
-//                                               "message"        : 'Property Added',
-//                                               "propertyCode"   : data.propertyCode,
-//                                               "property_id"    : data._id
-//                                               });
-//                                           })
-//                                           .catch(err =>{
-//                                               console.log(err);
-//                                               res.status(500).json({
-//                                                   error: err
-//                                               });
-//                                           });
-//                       })
-//                       .catch(err =>{
-//                           console.log(err);
-//                           res.status(500).json({
-//                               error: err
-//                           });
-//                       });
-//     }
-
-
-//      function getAllocatedToUserID(){
-//         return new Promise(function(resolve,reject){
-//             Users.find({"roles" : "sales agent"},{$sort:{createdAt:1}})
-//                  .exec()
-//                  .then(salesAgents=>{
-//                     if(salesAgents.length > 0){
-//                         //Sales agents found. Then find, to which SA, the last property was assigned
-//                         Properties.find({})
-//                                   .sort({createdAt:-1})
-//                                   .limit(1)
-//                                   .exec()
-//                                   .then(oneProperty=>{
-//                                       if(oneProperty.length > 0){
-//                                         resolve(oneProperty.statusArray[0].allocatedToUserId);
-//                                       }else{
-//                                         resolve(salesAgents[0]);
-//                                       }
-//                                   })
-//                                   .catch(err =>{
-//                                     res.status(500).json({
-//                                         message : "Properties Not Found",
-//                                         error: err
-//                                     });
-//                                 });
-//                     }else{
-//                         Users.findOne({"roles" : "Technical Admin"})
-//                         .exec()
-//                         .then(admin=>{
-//                             resolve(admin._id);
-//                         })
-//                        .catch(err =>{
-//                         res.status(500).json({
-//                             message : "Admin role user Not Found",
-//                             error: err
-//                            });
-//                        });
-//                     }
-//                  })
-//                 .catch(err =>{
-//                     Users.findOne({"roles" : "Technical Admin"})
-//                     .exec()
-//                     .then(admin=>{
-//                         resolve(admin._id);
-//                     })
-//                    .catch(err =>{
-//                     res.status(500).json({
-//                         message : "Admin role user Not Found",
-//                         error: err
-//                        });
-//                    });
-//                 });
-//         });
-//     }
-
-// };
-
+// ===================== round robin ================
 exports.create_Properties = (req,res,next)=>{
-    
+    main();
+
+    async function main(){
+        var allocatedToUserId = await getAllocatedToUserID(); 
+        console.log("allocatedToUserId = ",allocatedToUserId);
         Properties.find()
                   .exec()
                   .then(data =>{
@@ -141,7 +35,6 @@ exports.create_Properties = (req,res,next)=>{
                                                                 // "allocatedTo" : allocatedToUserId,
                                                             },                
                                   }
-
                               });
                           properties.save()
                                           .then(data=>{                                            
@@ -164,10 +57,117 @@ exports.create_Properties = (req,res,next)=>{
                               error: err
                           });
                       });
+    }
+
+
+     function getAllocatedToUserID(){
+        return new Promise(function(resolve,reject){
+            Users.find({"roles" : "sales agent"},{$sort:{createdAt:1}})
+                 .exec()
+                 .then(salesAgents=>{
+                    if(salesAgents.length > 0){
+                        //Sales agents found. Then find, to which SA, the last property was assigned
+                        Properties.find({})
+                                  .sort({createdAt:-1})
+                                  .limit(1)
+                                  .exec()
+                                  .then(oneProperty=>{
+                                      if(oneProperty.length > 0){
+                                        resolve(oneProperty.statusArray[0].allocatedToUserId);
+                                      }else{
+                                        resolve(salesAgents[0]);
+                                      }
+                                  })
+                                  .catch(err =>{
+                                    res.status(500).json({
+                                        message : "Properties Not Found",
+                                        error: err
+                                    });
+                                });
+                    }else{
+                        Users.findOne({"roles" : "Technical Admin"})
+                        .exec()
+                        .then(admin=>{
+                            resolve(admin._id);
+                        })
+                       .catch(err =>{
+                        res.status(500).json({
+                            message : "Admin role user Not Found",
+                            error: err
+                           });
+                       });
+                    }
+                 })
+                .catch(err =>{
+                    Users.findOne({"roles" : "Technical Admin"})
+                    .exec()
+                    .then(admin=>{
+                        resolve(admin._id);
+                    })
+                   .catch(err =>{
+                    res.status(500).json({
+                        message : "Admin role user Not Found",
+                        error: err
+                       });
+                   });
+                });
+        });
+    }
+
+};
+
+// exports.create_Properties = (req,res,next)=>{
+    
+//         Properties.find()
+//                   .exec()
+//                   .then(data =>{
+//                           var propertyCode = data.length + 101;
+//                           const properties = new Properties({
+//                                   _id                     : new mongoose.Types.ObjectId(),
+//                                   owner_id                : req.body.uid,
+//                                   propertyCode            : propertyCode,
+//                                   propertyHolder          : req.body.propertyHolder,
+//                                   transactionType         : req.body.transactionType,
+//                                   propertyType            : req.body.propertyType,
+//                                   propertySubType         : req.body.propertySubType,                 
+//                                   floor                   : req.body.floor,
+//                                   totalFloor              : req.body.totalFloor,
+//                                   status                  : req.body.status,
+//                                   listing                 : false,           
+//                                   $push:{                            
+//                                         "statusArray"     : {
+//                                                                 "statusVal"   : req.body.status, 
+//                                                                 "createdAt"   : new Date(),
+//                                                                 // "allocatedTo" : allocatedToUserId,
+//                                                             },                
+//                                   }
+
+//                               });
+//                           properties.save()
+//                                           .then(data=>{                                            
+//                                               res.status(200).json({
+//                                               "message"        : 'Property Added',
+//                                               "propertyCode"   : data.propertyCode,
+//                                               "property_id"    : data._id
+//                                               });
+//                                           })
+//                                           .catch(err =>{
+//                                               console.log(err);
+//                                               res.status(500).json({
+//                                                   error: err
+//                                               });
+//                                           });
+//                       })
+//                       .catch(err =>{
+//                           console.log(err);
+//                           res.status(500).json({
+//                               error: err
+//                           });
+//                       });
     
 
 
-};
+// };
 exports.update_PropertyLocation = (req,res,next)=>{
     // var roleData = req.body.role;
     Properties.updateOne(
@@ -214,28 +214,28 @@ exports.update_PropertyLocation = (req,res,next)=>{
 
 //////////////////
 
-exports.find_PropertyDetails = (req,res,next)=>{
-    // var roleData = req.body.role;
-    Sellometers.find({index : req.body.index})
-        .exec()
-        .then(data=>{
-            console.log('data ',data);
-            var class = data.propertyClass;
-            Sellometers.find({index : class}) 
-            if(data.nModified == 1){
+// exports.find_PropertyDetails = (req,res,next)=>{
+//     // var roleData = req.body.role;
+//     Sellometers.find({index : req.body.index})
+//         .exec()
+//         .then(data=>{
+//             console.log('data ',data);
+//             var class = data.propertyClass;
+//             Sellometers.find({index : class}) 
+//             if(data.nModified == 1){
         
-                res.status(200).json("Data Found");
-            }else{
-                res.status(401).json(" Not Found");
-            }
-        })
-        .catch(err =>{
-            console.log(err);
-            res.status(500).json({
-                error: err
-            });
-        });
-}
+//                 res.status(200).json("Data Found");
+//             }else{
+//                 res.status(401).json(" Not Found");
+//             }
+//         })
+//         .catch(err =>{
+//             console.log(err);
+//             res.status(500).json({
+//                 error: err
+//             });
+//         });
+// }
 //////////////////
 
 
@@ -250,11 +250,14 @@ exports.update_PropertyDetails = (req,res,next)=>{
                                                 "bedrooms"            :  req.body.bedrooms,
                                                 "balconies"           :  req.body.balconies,
                                                 "bathrooms"           :  req.body.bathrooms,
+                                                "washrooms"           :  req.body.washrooms,
+                                                "personal"            :  req.body.personal,
+                                                "pantry"              :  req.body.pantry,
                                                 "ageofProperty"       :  req.body.ageofProperty,
                                                 "facing"              :  req.body.facing,                                                            
                                                 "superArea"           :  req.body.superArea,
                                                 "builtupArea"         :  req.body.builtupArea,
-                                                "availableFrom"       : req.body.availableFrom,
+                                              
                                                
                                                 
                                             },
@@ -319,7 +322,11 @@ exports.update_financials = (req,res,next)=>{
                     "includeCharges"      : req.body.includeCharges,
                     "maintenanceCharges"  : req.body.maintenanceCharges,
                     "maintenancePer"      : req.body.maintenancePer,        
-                    "description"         : req.body.description,            
+                    "description"         : req.body.description,     
+                    "availableFrom"       : req.body.availableFrom,
+                    "depositAmount"       : req.body.depositAmount,       
+                    "monthlyRent"         : req.body.monthlyRent,
+                    
                 },
             }
         }

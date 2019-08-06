@@ -36,6 +36,9 @@ const propertiesSchema = mongoose.Schema({
                                     facing              : String,                                 
                                     superArea           : String,
                                     builtupArea         : String,
+                                    washrooms           : String,
+                                    personal            : String,
+                                    pantry              : String,
                                     availableFrom       : Date,
                                    
                                 },
@@ -53,6 +56,9 @@ const propertiesSchema = mongoose.Schema({
                                     maintenanceCharges  : String,
                                     maintenancePer      : String,
                                     description         : String,
+                                    availableFrom       : String,
+                                    depositAmount       : String,
+                                    monthlyRent         : String,
                                 },    
     avalibilityPlanVisit       : {
                                     contactPerson         : String,
