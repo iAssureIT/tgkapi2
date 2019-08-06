@@ -223,29 +223,45 @@ exports.find_PropertyIndexPer = (req,res,next)=>{
         .then(data=>{
               if(data){
                 console.log('data of sellometer',data.propertyClass);
-                  MasterSellometers.findOne({class : data.propertyClass})
-                  .exec()
-                  .then(data1=>{
-                  console.log('data of master sellometer ',data1);
-                   res.status(200).json({
-                      data: data1
-                  });
+                      MasterSellometers.findOne({class : data.propertyClass})
+                      .exec()
+                      .then(data1=>{
+                        console.log('data of master sellometer ',data1);
+                       
+                          if(res.status(200))
+                          {
+                            res.status(200).json({
+                              data: data1
+                             });
+                          }else{
+                             res.status(200).json({
+                              data: {
+                                "earnings" : 30,
+                              }
+                             });
+                          }
+                        // elese default value
 
-                  })
-                  .catch(err =>{
-                  console.log(err);
-                  res.status(500).json({
-                      error: err
-                  });
-                });
-              }
-      
-      
+                    })
+                    .catch(err =>{
+                      console.log(err);
+                      res.status(500).json({
+                       error: err
+                      });
+                    });
+                    }else{
+
+                          console.log("earnings====>");
+                           res.status(200).json({
+                            data: {
+                              "earnings" : 30,
+                            }
+                           });
+                  }
         })
         .catch(err =>{
-            console.log(err);
             res.status(500).json({
-                error: err
+               error: err
             });
         });
 }
