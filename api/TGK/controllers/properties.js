@@ -2,6 +2,7 @@ const mongoose	= require("mongoose");
 
 const Properties        = require('../models/properties');
 const Sellometers = require('../models/sellometers');
+const MasterSellometers = require('../models/mastersellometer');
 const Users             = require('../../coreAdmin/models/users');
 
 
@@ -214,28 +215,41 @@ exports.update_PropertyLocation = (req,res,next)=>{
 
 //////////////////
 
-// exports.find_PropertyDetails = (req,res,next)=>{
-//     // var roleData = req.body.role;
-//     Sellometers.find({index : req.body.index})
-//         .exec()
-//         .then(data=>{
-//             console.log('data ',data);
-//             var class = data.propertyClass;
-//             Sellometers.find({index : class}) 
-//             if(data.nModified == 1){
-        
-//                 res.status(200).json("Data Found");
-//             }else{
-//                 res.status(401).json(" Not Found");
-//             }
-//         })
-//         .catch(err =>{
-//             console.log(err);
-//             res.status(500).json({
-//                 error: err
-//             });
-//         });
-// }
+
+exports.find_PropertyIndexPer = (req,res,next)=>{
+    // var roleData = req.body.role;
+    Sellometers.findOne({index : req.body.index})
+        .exec()
+        .then(data=>{
+              if(data){
+                console.log('data of sellometer',data.propertyClass);
+                  MasterSellometers.findOne({class : data.propertyClass})
+                  .exec()
+                  .then(data1=>{
+                  console.log('data of master sellometer ',data1);
+                   res.status(200).json({
+                      data: data1
+                  });
+
+                  })
+                  .catch(err =>{
+                  console.log(err);
+                  res.status(500).json({
+                      error: err
+                  });
+                });
+              }
+      
+      
+        })
+        .catch(err =>{
+            console.log(err);
+            res.status(500).json({
+                error: err
+            });
+        });
+}
+
 //////////////////
 
 

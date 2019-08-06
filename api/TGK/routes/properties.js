@@ -19,7 +19,7 @@ router.patch('/patch/propertyLocation', PropertiesController.update_PropertyLoca
 
 router.patch('/patch/propertyDetails', PropertiesController.update_PropertyDetails);
 
-// router.patch('/patch/FindPropertyDetails', PropertiesController.find_PropertyDetails);
+
 
 
 router.patch('/patch/amenities', PropertiesController.update_amenities);
@@ -46,5 +46,8 @@ router.patch('/patch/sa/approvedlist', PropertiesController.update_approvedlist)
 
 router.post('/post/sa/displaylist', PropertiesController.property_displaylist);
 
+//////////////
+
+router.post('/post/findindexper', PropertiesController.find_PropertyIndexPer);
 
 module.exports = router;
