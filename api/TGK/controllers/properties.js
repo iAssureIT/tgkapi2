@@ -648,3 +648,50 @@ exports.property_displaylist = (req,res,next)=>{
             });
         });
     }
+
+
+/*----------------Search Result--------------------*/
+
+exports.search_result = (req,res,next)=>{
+    console.log("input = ",req.body);
+    Properties.find(
+            {$and: [
+                      {
+                        transactionType  : req.body.transactionType
+                      },
+                      {
+                        propertyLocation : {
+                            city    : req.body.location,
+                            // area    : req.body.area,
+                            // subArea : req.body.subArea,
+                        }
+                      },
+                      {
+                        propertyType     : req.body.propertyType
+                      },
+                      {
+                        propertySubType  : req.body.propertySubType
+                      },
+                      {
+                        financial        : {
+                            totalPrice : req.body.budget,
+                        }
+                      }, 
+                ]
+            }
+          )
+        .exec()
+        .then(data=>{
+            if(data){
+                res.status(200).json(data);
+            }else{
+                res.status(404).json('Properties Details not found');
+            }
+        })
+        .catch(err =>{
+            console.log(err);
+            res.status(500).json({
+                error: err
+            });
+        });
+    }

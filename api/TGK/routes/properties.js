@@ -50,4 +50,6 @@ router.post('/post/sa/displaylist', PropertiesController.property_displaylist);
 
 router.post('/post/findindexper', PropertiesController.find_PropertyIndexPer);
 
+router.post('/post/searchproperties', PropertiesController.search_result);
+
 module.exports = router;
