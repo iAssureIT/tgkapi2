@@ -654,32 +654,11 @@ exports.property_displaylist = (req,res,next)=>{
 
 exports.search_result = (req,res,next)=>{
     console.log("input = ",req.body);
-    Properties.find(
-            {$and: [
-                      {
-                        transactionType  : req.body.transactionType
-                      },
-                      {
-                        propertyLocation : {
-                            city    : req.body.location,
-                            // area    : req.body.area,
-                            // subArea : req.body.subArea,
-                        }
-                      },
-                      {
-                        propertyType     : req.body.propertyType
-                      },
-                      {
-                        propertySubType  : req.body.propertySubType
-                      },
-                      {
-                        financial        : {
-                            totalPrice : req.body.budget,
-                        }
-                      }, 
-                ]
-            }
-          )
+    Properties.find({
+                        "transactionType":req.body.transactionType,
+                        "propertyType":req.body.propertyType,
+                        "propertyLocation.city": req.body.location,
+                      })
         .exec()
         .then(data=>{
             if(data){
