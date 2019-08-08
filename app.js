@@ -3,7 +3,8 @@
 	const morgan 						= require('morgan');// morgan call next function if problem occure
 	const bodyParser 					= require('body-parser');// this package use to formate json data 
 	const mongoose 						= require ('mongoose');
-	
+	var nodeMailer   					= require('nodemailer');
+
 	const dbname = "qatgk";
 	global.JWT_KEY = "secret";
 
@@ -51,7 +52,52 @@
 	// const TgkSpecificuserssurl 				= require("./api/coreAdmin/routes/tgkspecific/tgkspecificusers");
 	
 	app.use("/api/tgkSpecificcompanysettings",TgkSpecificCompanysettingsurl);
-	// app.use("/api/users",TgkSpecificuserssurl);
+
+	app.post('/send-email', (req, res)=> {
+		console.log('send mail');
+		let transporter = nodeMailer.createTransport({
+			
+			host: 'smtp.gmail.com',
+			port: 587,
+			auth: {
+				user: 'testtprm321@gmail.com',
+				pass: 'tprm1234'
+			}
+		});
+		console.log('after transport');
+		let mailOptions = {
+			
+			from   : '"TGK" <testtprm321@gmail.com>', // sender address
+			to     : req.body.email, // list of receivers
+			subject: req.body.subject, // Subject line
+			text   : req.body.text, // plain text body
+			html   : req.body.mail // html body
+		};
+		console.log('after mailoption');
+		//name email mobilenumber message
+		// console.log("mailOptions",mailOptions);
+		
+		transporter.sendMail(mailOptions, (error, info) => {
+			console.log('in mail');
+			if (error) {
+				
+				console.log("send mail error",error);
+				return "Failed";
+			}
+			if(info){
+				console.log('in info');
+				// return "Success";
+				res.status(200).json({ 
+					
+					message: "Success",
+					// return "Success",
+
+				});
+			}
+	
+			res.render('index');
+		});
+	});
 
 	
 	

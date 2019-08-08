@@ -125,27 +125,6 @@ exports.update_notifications = (req,res,next)=>{
             });
         });
 }
-// Handle update contact info
 
-// exports.update = function (req, res) {
-//     Masternotifications.findById(req.params.notificationID, function (err, masternotifications) {
-//             if (err){
-//                 res.send(err);
-   
-//             masternotifications.templateType = req.body.templateType;
-//             masternotifications.templateName = req.body.templateName;
-//             masternotifications.subject      = req.body.subject;
-//             masternotifications.content      = req.body.content;
-            
-//     // save the contact and check for errors
-//     masternotifications.save(function (err) {
-//                 if (err)
-//                     res.json(err);
-//                 res.json({
-//                     message: 'master notifications Info updated',
-//                     data: masternotifications
-//                 });
-//             });
-//         }
-//         });
-//     };
+
+
