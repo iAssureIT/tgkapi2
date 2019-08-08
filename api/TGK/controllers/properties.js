@@ -341,6 +341,40 @@ exports.update_amenities = (req,res,next)=>{
         });
 }
 
+
+exports.update_firstpage = (req,res,next)=>{
+    // var roleData = req.body.role;
+    Properties.updateOne(
+        { "_id" : req.body.property_id },                        
+        {
+            $set:{
+                "propertyHolder"          : req.body.propertyHolder,
+                "transactionType"         : req.body.transactionType,
+                "propertyType"            : req.body.propertyType,
+                "propertySubType"         : req.body.propertySubType,                 
+                "floor"                   : req.body.floor,
+                "totalFloor"              : req.body.totalFloor,
+            }
+        }
+        )
+        .exec()
+        .then(data=>{
+            console.log('data ',data);
+            if(data.nModified == 1){				
+                res.status(200).json("Property Updated");
+            }else{
+                res.status(401).json("Property Not Found");
+            }
+        })
+        .catch(err =>{
+            console.log(err);
+            res.status(500).json({
+                error: err
+            });
+        });
+}
+
+
 exports.update_financials = (req,res,next)=>{
     // var roleData = req.body.role;
     Properties.updateOne(

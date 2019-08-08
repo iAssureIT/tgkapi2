@@ -14,6 +14,7 @@ router.get('/mypropertylist/:uid',PropertiesController.my_property_list);
 router.get('/:propertyID', PropertiesController.detail_Properties);
 
 // router.patch('/:info/:action', PropertiesController.update_Properties);
+router.patch('/patch/properties', PropertiesController.update_firstpage);
 
 router.patch('/patch/propertyLocation', PropertiesController.update_PropertyLocation);
 
