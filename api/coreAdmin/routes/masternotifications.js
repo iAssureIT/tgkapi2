@@ -25,7 +25,6 @@ router.get('/:notificationmasterID', masterNotificationsController.detail_fetch)
 
 router.put('/:notificationmasterID', masterNotificationsController.update_notifications);
 
-// router.get('/get/sendemailnotification', masterNotificationsController.userEmalId_byId_fornotification);
 
 
 
