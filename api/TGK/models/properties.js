@@ -29,12 +29,12 @@ const propertiesSchema = mongoose.Schema({
                             
     propertyDetails         :   {
                                     furnishedStatus     : String,
-                                    bedrooms            : String,
+                                    bedrooms            : Number,
                                     balconies           : String,
                                     bathrooms           : String,
                                     ageofProperty       : String,
                                     facing              : String,                                 
-                                    superArea           : String,
+                                    superArea           : Number,
                                     builtupArea         : String,
                                     washrooms           : String,
                                     personal            : String,
@@ -51,7 +51,7 @@ const propertiesSchema = mongoose.Schema({
    
     financial               :   {
                                     expectedRate        : String,
-                                    totalPrice          : String,
+                                    totalPrice          : Number,
                                     includeCharges      : Array,
                                     maintenanceCharges  : String,
                                     maintenancePer      : String,

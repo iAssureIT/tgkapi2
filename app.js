@@ -107,7 +107,8 @@
 	const masteramenitiesurl 		= require("./api/TGK/routes/masteramenities");
 	const mastersellometerurl 		= require("./api/TGK/routes/mastersellometers");
 	const interestedPropertiesurl 	= require("./api/TGK/routes/interestedProperties");
-
+    const searchPropertiesurl       = require("./api/TGK/routes/searchProperties");
+	
 
 
 	app.use("/api/properties",propertiesurl);
@@ -115,7 +116,7 @@
 	app.use("/api/masteramenities",masteramenitiesurl);
 	app.use("/api/mastersellometers",mastersellometerurl);
 	app.use("/api/interestedProperties",interestedPropertiesurl);
-
+	app.use("/api/search",searchPropertiesurl);
 
 
 	app.use((req, res, next) => {
