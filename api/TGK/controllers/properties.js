@@ -12,7 +12,6 @@ exports.create_Properties = (req,res,next)=>{
 
     async function main(){
         var allocatedToUserId = await getAllocatedToUserID(); 
-        console.log("allocatedToUserId = ",allocatedToUserId);
         var propertyCode = data.length + 101;
         const properties = new Properties({
                 _id                     : new mongoose.Types.ObjectId(),
@@ -186,7 +185,6 @@ exports.update_PropertyLocation = (req,res,next)=>{
     )
         .exec()
         .then(data=>{
-            console.log('data ',data);
             if(data.nModified == 1){				
                 res.status(200).json("property Location Updated");
             }else{
@@ -210,26 +208,20 @@ exports.find_PropertyIndexPer = (req,res,next)=>{
         .exec()
         .then(data=>{
               if(data){
-                console.log('data of sellometer',data.propertyClass);
                       MasterSellometers.findOne({class : data.propertyClass})
                       .exec()
                       .then(data1=>{
-                        console.log('data of master sellometer ',data1);
-                       
-                          if(res.status(200))
-                          {
+                        if(res.status(200)){
                             res.status(200).json({
                               data: data1
                              });
-                          }else{
+                        }else{
                              res.status(200).json({
                               data: {
                                 "earnings" : 30,
                               }
                              });
-                          }
-                        // elese default value
-
+                        }
                     })
                     .catch(err =>{
                       console.log(err);
@@ -238,8 +230,6 @@ exports.find_PropertyIndexPer = (req,res,next)=>{
                       });
                     });
                     }else{
-
-                          console.log("earnings====>");
                            res.status(200).json({
                             data: {
                               "earnings" : 30,
@@ -284,7 +274,6 @@ exports.update_PropertyDetails = (req,res,next)=>{
         )
         .exec()
         .then(data=>{
-            console.log('data ',data);
             if(data.nModified == 1){
 				
                 res.status(200).json("Property Details Updated");
@@ -312,7 +301,6 @@ exports.update_amenities = (req,res,next)=>{
         )
         .exec()
         .then(data=>{
-            console.log('data ',data);
             if(data.nModified == 1){
 				
                 res.status(200).json("Amenities Updated");
@@ -346,7 +334,6 @@ exports.update_firstpage = (req,res,next)=>{
         )
         .exec()
         .then(data=>{
-            console.log('data ',data);
             if(data.nModified == 1){				
                 res.status(200).json("Property Updated");
             }else{
@@ -354,7 +341,6 @@ exports.update_firstpage = (req,res,next)=>{
             }
         })
         .catch(err =>{
-            console.log(err);
             res.status(500).json({
                 error: err
             });
@@ -385,7 +371,6 @@ exports.update_financials = (req,res,next)=>{
         )
         .exec()
         .then(data=>{
-            console.log('data ',data);
             if(data.nModified == 1){				
                 res.status(200).json("Financial Updated");
             }else{
@@ -406,7 +391,6 @@ exports.update_availabilityPlan = (req,res,next)=>{
          .select("_id")
          .exec()
          .then(toUser_id => {
-             console.log("toUser_id = ",toUser_id);
             Properties.updateOne(
                 { "_id" : req.body.property_id },                        
                 {
@@ -425,7 +409,6 @@ exports.update_availabilityPlan = (req,res,next)=>{
                 )
                 .exec()
                 .then(data=>{
-                    console.log('data ',data);
                     if(data.nModified == 1){                        
                         res.status(200).json("Avalibility Plan Visit Updated");
                     }else{
@@ -451,8 +434,6 @@ exports.update_availabilityPlan = (req,res,next)=>{
 }
 
 exports.update_photosandvideos = (req,res,next)=>{
-    console.log("input = ",req.body);
-    
     Properties.findOne({"_id":req.body.property_id})
               .exec()
               .then( targetProperty =>{
@@ -476,7 +457,6 @@ exports.update_photosandvideos = (req,res,next)=>{
                     )
                     .exec()
                     .then(data=>{
-                        console.log('data ',data);
                         if(data.nModified == 1){				
                             res.status(200).json("Images and Video Updated");
                         }else{
@@ -517,7 +497,6 @@ exports.detail_Properties = (req, res, next)=>{
 }
 
 exports.list_Properties = (req,res,next)=>{
-    console.log('list');
     Properties.find({})
         .exec()
         .then(data=>{
@@ -536,7 +515,6 @@ exports.list_Properties = (req,res,next)=>{
 }
 
 exports.property_list = (req,res,next)=>{
-    console.log('list of property ');
     Properties.find({propertyType:req.params.propertyType , transactionType: req.params.transactionType ,}).skip(req.body.startRange).limit(req.body.limitRange)
         .exec()
         .then(data=>{
@@ -555,7 +533,6 @@ exports.property_list = (req,res,next)=>{
 }
 
 exports.my_property_list = (req,res,next)=>{
-    console.log('list of My property ');
     Properties.find({ owner_id : req.params.uid,})
     // Properties.find({propertyId:req.params.property_id , transactionType: req.params.transactionType ,})
 
@@ -606,7 +583,6 @@ exports.deleteall_Properties = (req,res,next)=>{
         
 //----------------Rushikesh----------------------
 exports.update_approvedlist = (req,res,next)=>{
-    console.log("input = ",req.body);
     Properties.updateOne(
         { "_id" : req.body.property_id },
         {
@@ -626,7 +602,6 @@ exports.update_approvedlist = (req,res,next)=>{
         )
         .exec()
         .then(data=>{
-            console.log('data ',data);
             if(data.nModified == 1){                
                 res.status(200).json("Status Updated");
             }else{
@@ -643,7 +618,6 @@ exports.update_approvedlist = (req,res,next)=>{
 
 
 exports.property_displaylist = (req,res,next)=>{
-    console.log("input = ",req.body);
     Properties.find(
             {
                 statusArray: {
@@ -674,7 +648,6 @@ exports.property_displaylist = (req,res,next)=>{
 /*----------------Search Result--------------------*/
 
 exports.search_result = (req,res,next)=>{
-    console.log("input = ",req.body);
     Properties.find({
                         "transactionType":req.body.transactionType,
                         "propertyType":req.body.propertyType,
