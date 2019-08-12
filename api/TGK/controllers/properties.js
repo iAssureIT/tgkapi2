@@ -13,51 +13,41 @@ exports.create_Properties = (req,res,next)=>{
     async function main(){
         var allocatedToUserId = await getAllocatedToUserID(); 
         console.log("allocatedToUserId = ",allocatedToUserId);
-        Properties.find()
-                  .exec()
-                  .then(data =>{
-                          var propertyCode = data.length + 101;
-                          const properties = new Properties({
-                                  _id                     : new mongoose.Types.ObjectId(),
-                                  owner_id                : req.body.uid,
-                                  propertyCode            : propertyCode,
-                                  propertyHolder          : req.body.propertyHolder,
-                                  transactionType         : req.body.transactionType,
-                                  propertyType            : req.body.propertyType,
-                                  propertySubType         : req.body.propertySubType,                 
-                                  floor                   : req.body.floor,
-                                  totalFloor              : req.body.totalFloor,
-                                  status                  : req.body.status,
-                                  listing                 : false,           
-                                  $push:{                            
-                                        "statusArray"     : {
-                                                                "statusVal"   : req.body.status, 
-                                                                "createdAt"   : new Date(),
-                                                                // "allocatedTo" : allocatedToUserId,
-                                                            },                
-                                  }
-                              });
-                          properties.save()
-                                          .then(data=>{                                            
-                                              res.status(200).json({
-                                              "message"        : 'Property Added',
-                                              "propertyCode"   : data.propertyCode,
-                                              "property_id"    : data._id
-                                              });
-                                          })
-                                          .catch(err =>{
-                                              console.log(err);
-                                              res.status(500).json({
-                                                  error: err
-                                              });
-                                          });
-                      })
-                      .catch(err =>{
-                          console.log(err);
-                          res.status(500).json({
-                              error: err
-                          });
-                      });
+        var propertyCode = data.length + 101;
+        const properties = new Properties({
+                _id                     : new mongoose.Types.ObjectId(),
+                owner_id                : req.body.uid,
+                propertyCode            : propertyCode,
+                propertyHolder          : req.body.propertyHolder,
+                transactionType         : req.body.transactionType,
+                propertyType            : req.body.propertyType,
+                propertySubType         : req.body.propertySubType,                 
+                floor                   : req.body.floor,
+                totalFloor              : req.body.totalFloor,
+                status                  : req.body.status,
+                listing                 : false,           
+                $push : {
+                      "statusArray"     : {
+                                            "statusVal"   : req.body.status, 
+                                            "createdAt"   : new Date(),
+                                          },                
+                }
+            });
+
+        properties.save()
+                  .then(data=>{                                            
+                    res.status(200).json({
+                    "message"        : 'Property Added',
+                    "propertyCode"   : data.propertyCode,
+                    "property_id"    : data._id
+                    });
+                  })
+                  .catch(err =>{
+                    console.log(err);
+                    res.status(500).json({
+                        error: err
+                    });
+                  });
     }
 
 
@@ -179,28 +169,25 @@ exports.update_PropertyLocation = (req,res,next)=>{
                 propertyLocation        : 
                                         {
                                             "address"             : req.body.address,
-                                            "society"             : req.body.society,
-                                            "subArea"             : req.body.subArea,
-                                            "area"                : req.body.area,
+                                            "society"             : req.body.societyName,
+                                            "subArea"             : req.body.subAreaName,
+                                            "area"                : req.body.areaName,
                                             "landmark"            : req.body.landmark,
-                                            "city"                : req.body.city,
-                                            "block"               : req.body.block,
-                                            "district"            : req.body.district,
-                                            "state"               : req.body.state,
-                                            "country"             : req.body.country,
+                                            "city"                : req.body.cityName,
+                                            "block"               : req.body.blockName,
+                                            "district"            : req.body.districtName,
+                                            "state"               : req.body.stateCode,
+                                            "country"             : req.body.countryCode,
                                             "pincode"             : req.body.pincode,
-
                                         },
-                 index                   : req.body.index,
+                 index                  : req.body.index,
             }
-
         }
-        )
+    )
         .exec()
         .then(data=>{
             console.log('data ',data);
-            if(data.nModified == 1){
-				
+            if(data.nModified == 1){				
                 res.status(200).json("property Location Updated");
             }else{
                 res.status(401).json("property Location Not Found");
