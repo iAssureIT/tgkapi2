@@ -135,7 +135,7 @@ exports.searchProperties = (req,res,next)=>{
     }
 
     if(availability === "14" || availability === "30"){
-      selector.push({"financial.availableFrom" : {$gte : currDate, $lte : compareDate } });
+      selector.push({"financial.availableFrom" : {$gt : currDate, $lte : compareDate } });
     }
 
     if(availability === "31"){
