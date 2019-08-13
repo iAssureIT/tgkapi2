@@ -5,6 +5,7 @@ const Properties        = require('../models/properties');
 
 // ===================== round robin ================
 exports.searchProperties = (req,res,next)=>{
+  console.log("request = " , req.body);
 
   var selector = [];
 
@@ -13,74 +14,140 @@ exports.searchProperties = (req,res,next)=>{
     selector.push({"transactionType" : req.body.transactionType }) ;
   }
 // for propertyType ----------------------------------------------------
-  if(req.body.propertyType != ""){
-    selector.push({"propertyType" : req.body.propertyType}) ;
+  var propertyType = req.body.propertyType;
+  if(propertyType !== ""){
+    selector.push({"propertyType" : propertyType});
   }
+
 // for city-------------------------------------------------------
   if(req.body.location != ""){
-    selector.push({"propertyLocation.city" : req.body.location}) ;
-  }
-// for floor----------------------------------------------------------
-  // if(req.body.floor != ""){
-  //     if(req.body.floor.includes("-"))
-  //     {
-  //       var sepFloor = req.body.floor.split("-");
-  //       var minFloor = sepFloor[0];
-  //       var maxFloor = sepFloor[1];
+    var loc = req.body.location.trim();
+    console.log("Location = ",loc);
+    var locArray = [];
 
-  //         if(maxFloor != ""){
-  //           selector.push({"floor" : { $lte : maxFloor}} ) ;
-  //         }
-  //         if(minFloor != ""){
-  //           selector.push({"floor" : { $gte : minFloor}} ) ;
-  //         }
-  //     }elseif(req.body.floor.includes("-1"))
-  //     {
-  //          selector.push({"floor" : { $eq : "-1"}} ) ;
-  //     }
+    if(loc.indexOf(',') > -1){
+      var loc = req.body.location.split(',');
+      locArray.push({"propertyLocation.city" : loc[0].trim()});
+      locArray.push({"propertyLocation.area" : loc[0].trim()});
+      locArray.push({"propertyLocation.subarea" : loc[0].trim()});
+      locArray.push({"propertyLocation.city" : loc[1].trim()});
+      locArray.push({"propertyLocation.area" : loc[1].trim()});
+      locArray.push({"propertyLocation.subarea" : loc[1].trim()});
+    }else{
+      locArray.push({"propertyLocation.city" : loc.trim()});
+      locArray.push({"propertyLocation.area" : loc.trim()});
+      locArray.push({"propertyLocation.subarea" : loc.trim()});      
+    }
 
-  //   if(req.body.floor == ">10" )
-  //   {
-  //     selector.push({"floor" : { $gte : 11}} ) ;
-  //   }
+    selector.push({$or : locArray });
 
-  //   if(req.body.floor == "0" )
-  //   {
-  //     selector.push({"floor" :  { $eq : "0"} })
-  //   }
-  
-  // }
-
-//  for property age----------------------------------
-  if(req.body.propertyAge != ""){
-         selector.push({"propertyDetails.ageofProperty" : req.body.propertyAge } ) ; 
   }
 
-// for area--------------------------------------------
-  // if(req.body.areaMax != ""){
-  //   selector.push({"propertyDetails.superArea" : { $lte : req.body.areaMax}} ) ;
-  // }
-  // if(req.body.areaMin != ""){
-  //   selector.push({"propertyDetails.superArea" : { $gte : req.body.areaMin}} ) ;
-  // }
+// for propertySubType ----------------------------------------------------
+  var propSubType = req.body.propertySubType;
+  if(propSubType.length > 0){
+    var propSTArr = [];
+    for(var i=0; i<propSubType.length; i++){
+      propSTArr.push({"propertySubType" : propSubType[i]});
+    }
+    if(i>=propSubType.length){
+      selector.push({$or : propSTArr});
+    }
+  }
 
-// for furnished status--------------------------------------------------------
-   if(req.body.furnishedStatus != ""){
-     selector.push({"propertyDetails.furnishedStatus" : req.body.furnishedStatus } ) ; 
-   }
 // for budget----------------------------------------------------------------------
   if(req.body.budget != ""){
     selector.push({"financial.totalPrice" : { $lte : req.body.budget }} ) ;
   }
 
-// for BHK--------------------------------------------------------------
-  if(req.body.flatType)
-  {
-     selector.push({"propertyDetails.bedrooms" : req.body.flatType } ) ; 
+
+// for BHK ----------------------------------------------------
+  var flatType = req.body.flatType;
+  if(flatType.length > 0){
+    var flatTypeArr = [];
+
+    for(var i=0; i<flatType.length; i++){
+      flatTypeArr.push({"propertyDetails.bedrooms" : flatType[i]});
+    }
+
+    if(i >= flatType.length){
+      selector.push({$or : flatTypeArr});
+    }
   }
-  // var selector = JSON.stringify(transTypeSelector) + "," + JSON.stringify(propertyTypeSelector) + "," + JSON.stringify(citySelector)  ;
-  console.log("selector = ", selector);
-  console.log("request = " , req.body);
+
+//----- For Furnished Status --------------------------------------------------------
+  if(req.body.furnishedStatus != ""){
+    selector.push({"propertyDetails.furnishedStatus" : req.body.furnishedStatus } ) ; 
+  }
+
+
+//  for property age----------------------------------
+  if(req.body.propertyAge != ""){
+    selector.push({"propertyDetails.ageofProperty" : req.body.propertyAge } ) ; 
+  }
+
+
+//----- For Floor ----------------------------------------------------
+  if(req.body.floor != ""){
+    if(req.body.floor.includes("-")){
+      var sepFloor = req.body.floor.split("-");
+      var minFloor = sepFloor[0];
+      var maxFloor = sepFloor[1];
+      selector.push({"floor" : { $gte : minFloor}}) ;
+      selector.push({"floor" : { $lte : maxFloor}}) ;
+    }
+
+    if(req.body.floor === "-1" || req.body.floor === "0"){
+      selector.push({"floor" : req.body.floor});
+    }
+
+    if(req.body.floor === ">10"){
+      selector.push({"floor" : { $gte : 11}} ) ;
+    }
+
+  }
+
+//----- For Availability ----------------------------------------------------
+  if(req.body.availability != ""){
+    var availability = req.body.availability;
+    var d = new Date();
+    var month = '' + (d.getMonth() + 1);  var month2  = month;
+    var day   = '' + d.getDate();         var day2    = day;
+    var year  = d.getFullYear();          var year2   = year;
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    var currDate =  year+'-'+month+'-'+day;
+    var day2 = parseInt(day) + parseInt(availability);
+
+    if(day2 >= 30){
+      day2 = day2 - 30;
+      month2 = month + 1;
+    }
+    if(month2 > 12){
+      month2 = 1;
+      year2 = year + 1;
+    }
+    if (month2.length < 2) month2 = '0' + month2;
+    if (day2.length < 2) day2 = '0' + day2;
+    var compareDate = year2+'-'+month2+'-'+day2;
+
+    if(availability === "0"){
+      selector.push({"financial.availableFrom" : {$lte : currDate} });
+    }
+
+    if(availability === "14" || availability === "30"){
+      selector.push({"financial.availableFrom" : {$gte : currDate, $lte : compareDate } });
+    }
+
+    if(availability === "31"){
+      selector.push({"financial.availableFrom" : {$gt : compareDate } });
+    }
+
+  }
+
+  console.log("selector = ", JSON.stringify(selector));
 
   Properties.find({ $and : selector })
       .exec()
