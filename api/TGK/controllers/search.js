@@ -5,8 +5,6 @@ const Properties        = require('../models/properties');
 
 // ===================== round robin ================
 exports.searchProperties = (req,res,next)=>{
-  console.log("request = " , req.body);
-
   var selector = [];
 
 // for transactionType---------------------------------
@@ -22,7 +20,6 @@ exports.searchProperties = (req,res,next)=>{
 // for city-------------------------------------------------------
   if(req.body.location != ""){
     var loc = req.body.location.trim();
-    console.log("Location = ",loc);
     var locArray = [];
 
     if(loc.indexOf(',') > -1){
@@ -102,7 +99,7 @@ exports.searchProperties = (req,res,next)=>{
     }
 
     if(req.body.floor === ">10"){
-      selector.push({"floor" : { $gte : 11}} ) ;
+      selector.push({"floor" : { $gte : '11'}} ) ;
     }
 
   }
