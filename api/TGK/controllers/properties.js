@@ -12,7 +12,7 @@ exports.create_Properties = (req,res,next)=>{
 
     async function main(){
         var allocatedToUserId = await getAllocatedToUserID(); 
-        var propertyCode = data.length + 101;
+        var propertyCode = 101; // data.length + 101;
         const properties = new Properties({
                 _id                     : new mongoose.Types.ObjectId(),
                 owner_id                : req.body.uid,
