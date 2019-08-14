@@ -554,9 +554,10 @@ exports.adminEmail_companysettings = (req,res,next)=>{
         .exec()
         .then(data=>{
             var email = data.companyEmail;
+            console.log("email = ",email);
             res.status(200).json({
                 email: email,
-                message: "Company Settings deleted"
+                message: "Company Admin Email Sent to You"
             });
         })
         .catch(err =>{
