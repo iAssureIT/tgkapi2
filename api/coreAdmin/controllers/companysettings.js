@@ -449,7 +449,7 @@ exports.delete_companysettings = (req,res,next)=>{
 }
 
 exports.adminEmail_companysettings = (req,res,next)=>{
-    Companysettings.find({_id:req.params.companysettingsID})
+    Companysettings.find({companyId:req.params.companyId})
         .exec()
         .then(data=>{
             var email = data.companyEmail;
