@@ -21,5 +21,7 @@ router.patch('/information', TgkSpecificCompanysettingsController.update_company
 
 router.delete('/:companysettingsID',TgkSpecificCompanysettingsController.delete_companysettings);
 
+router.get('/email/:companysettingsID', CompanySettingController.adminEmail_companysettings);
+
 
 module.exports = router;
