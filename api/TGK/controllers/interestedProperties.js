@@ -53,6 +53,8 @@ exports.list_myInterestedProps = (req,res,next)=>{
                     .then(data=>{
                         if(data){
                             console.log("1 data = ",data);
+                            res.status(200).json(data);
+
                             // async (data,result1)=>{
                             //     let result = await data.map((interestedProp) => {    
                             //         console.log("Result => ",result);
