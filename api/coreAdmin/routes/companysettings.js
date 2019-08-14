@@ -15,5 +15,7 @@ router.patch('/:info/:action', CompanySettingController.update_companysettings);
 
 router.delete('/:companysettingsID',CompanySettingController.delete_companysettings);
 
+router.get('/email/:companysettingsID', CompanySettingController.adminEmail_companysettings);
+
 
 module.exports = router;

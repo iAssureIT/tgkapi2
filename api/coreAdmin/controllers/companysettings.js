@@ -447,3 +447,21 @@ exports.delete_companysettings = (req,res,next)=>{
             });
         });
 }
+
+exports.adminEmail_companysettings = (req,res,next)=>{
+    Companysettings.find({_id:req.params.companysettingsID})
+        .exec()
+        .then(data=>{
+            var email = data.companyEmail;
+            res.status(200).json({
+                email: email,
+                message: "Company Settings deleted"
+            });
+        })
+        .catch(err =>{
+            console.log(err);
+            res.status(500).json({
+                error: err
+            });
+        });
+}
