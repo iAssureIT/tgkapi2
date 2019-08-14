@@ -550,7 +550,7 @@ exports.update_companysettinginfo = (req,res,next)=>{
 
 
 exports.adminEmail_companysettings = (req,res,next)=>{
-    Companysettings.find({_id:req.params.companysettingsID})
+    TgkSpecificCompanysettings.find({companyId:req.params.companyId})
         .exec()
         .then(data=>{
             var email = data.companyEmail;
