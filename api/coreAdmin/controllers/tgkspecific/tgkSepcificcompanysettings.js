@@ -553,11 +553,10 @@ exports.adminEmail_companysettings = (req,res,next)=>{
     TgkSpecificCompanysettings.find({companyId:req.params.companyId})
         .exec()
         .then(data=>{
-            var email = data[0].companyEmail;
-            console.log("data = ",data);
-            console.log("email = ",email);
+            console.log("data = ",data[0]);
+            console.log("email = ",data[0].companyEmail);
             res.status(200).json({
-                email: email,
+                email: data[0].companyEmail,
                 message: "Company Admin Email Sent to You"
             });
         })
