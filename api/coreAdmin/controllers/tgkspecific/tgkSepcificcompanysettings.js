@@ -554,6 +554,7 @@ exports.adminEmail_companysettings = (req,res,next)=>{
         .exec()
         .then(data=>{
             var email = data.companyEmail;
+            console.log("data = ",data);
             console.log("email = ",email);
             res.status(200).json({
                 email: email,
