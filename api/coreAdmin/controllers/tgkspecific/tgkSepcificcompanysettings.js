@@ -553,7 +553,7 @@ exports.adminEmail_companysettings = (req,res,next)=>{
     TgkSpecificCompanysettings.find({companyId:req.params.companyId})
         .exec()
         .then(data=>{
-            var email = data.companyEmail;
+            var email = data[0].companyEmail;
             console.log("data = ",data);
             console.log("email = ",email);
             res.status(200).json({
