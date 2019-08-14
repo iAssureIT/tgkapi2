@@ -47,44 +47,23 @@ exports.detail_interestedProps = (req, res, next)=>{
 exports.list_myInterestedProps = (req,res,next)=>{
     console.log('list');
     const buyer_id = req.params.user_id;
-    InterestedProps .find({"buyer_id" : buyer_id})
-                    .populate("Properties","_id")
+    InterestedProps .find({"buyer_id" : buyer_id},{property_id:1,_id:0})
                     .exec()
-                    .then(data=>{
+                    .then(property_ids=>{
                         if(data){
-                            console.log("1 data = ",data);
-                            res.status(200).json(data);
+                            Properties
+                                .find({$in : property_ids})
+                                .exec()
+                                .then(properties=>{
+                                    res.status(200).json(properties);
+                                })
+                                .catch(err =>{
+                                    console.log(err);
+                                    res.status(500).json({
+                                        error: err
+                                    });
+                                });
 
-                            // async (data,result1)=>{
-                            //     let result = await data.map((interestedProp) => {    
-                            //         console.log("Result => ",result);
-                            //         var myProp ={
-                            //             buyer_id : interestedProp.buyer_id,
-                            //             property_id : interestedProp.property_id,
-                            //             createdAt : interestedProp.createdAt,
-                            //             propertyData : {}
-                            //         };
-                            //         Properties.findOne({"_id": interestedProp.property_id})
-                            //                     .exec()
-                            //                     .then(propertyData => {
-                            //                         myProp.propertyData = propertyData;
-                            //                         // console.log("interestedProp = ",interestedProp);
-                            //                     })
-                            //                     .catch(err =>{
-                            //                         console.log(err);
-                            //                         res.status(500).json({
-                            //                             message : "Some error in finding Property details",
-                            //                             error: err
-                            //                         });
-                            //                     });
-                            //         return myProp; 
-                            //     });
-
-                            //     if(!result.err){
-                            //         console.log("Result => ",result);
-                            //         res.status(200).json({result});
-                            //     }
-                            // }
                         }else{
                             res.status(200).json({"message" : 'Interested Properties not found'});
                         }
