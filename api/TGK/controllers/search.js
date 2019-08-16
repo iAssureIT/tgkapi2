@@ -24,16 +24,12 @@ exports.searchProperties = (req,res,next)=>{
 
     if(loc.indexOf(',') > -1){
       var loc = req.body.location.split(',');
-      locArray.push({"propertyLocation.city" : loc[0].trim()});
-      locArray.push({"propertyLocation.area" : loc[0].trim()});
-      locArray.push({"propertyLocation.subarea" : loc[0].trim()});
-      locArray.push({"propertyLocation.city" : loc[1].trim()});
-      locArray.push({"propertyLocation.area" : loc[1].trim()});
-      locArray.push({"propertyLocation.subarea" : loc[1].trim()});
+      locArray.push({$and : [{"propertyLocation.area" : loc[0].trim()},{"propertyLocation.city" : loc[1].trim()}] } );
+      locArray.push({$and : [{"propertyLocation.subarea" : loc[0].trim()},{"propertyLocation.city" : loc[1].trim()}] } );
     }else{
-      locArray.push({"propertyLocation.city" : loc.trim()});
-      locArray.push({"propertyLocation.area" : loc.trim()});
       locArray.push({"propertyLocation.subarea" : loc.trim()});      
+      locArray.push({"propertyLocation.area" : loc.trim()});
+      locArray.push({"propertyLocation.city" : loc.trim()});
     }
 
     selector.push({$or : locArray });
@@ -179,6 +175,7 @@ exports.searchProperties = (req,res,next)=>{
   // console.log("selector = ", JSON.stringify(selector));
 
   Properties.find({ $and : selector })
+      .sort("propertyCreatedAt" : -1)
       .exec()
       .then(searchResults=>{
           if(searchResults){
@@ -201,27 +198,3 @@ exports.searchProperties = (req,res,next)=>{
 
 };
 
-/*----------------Search Result--------------------*/
-
-exports.search_result = (req,res,next)=>{
-    // console.log("input = ",req.body);
-    Properties.find({
-                        "transactionType":req.body.transactionType,
-                        "propertyType":req.body.propertyType,
-                        "propertyLocation.city": req.body.location,
-                      })
-        .exec()
-        .then(data=>{
-            if(data){
-                res.status(200).json(data);
-            }else{
-                res.status(404).json('Properties Details not found');
-            }
-        })
-        .catch(err =>{
-            console.log(err);
-            res.status(500).json({
-                error: err
-            });
-        });
-    }
