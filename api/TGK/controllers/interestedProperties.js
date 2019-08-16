@@ -50,11 +50,11 @@ exports.list_myInterestedProps = (req,res,next)=>{
     InterestedProps .find({"buyer_id" : buyer_id},{property_id:1,_id:0})
                     .exec()
                     .then(property_ids=>{
-                        let propertyIds = property_ids.map((a)=>a.property_id)
+                        var propertyIds = property_ids.map((a)=>a.property_id)
                         console.log("property_ids",propertyIds)
                         if(propertyIds){
                             Properties
-                                .find({_id:propertyIds})
+                                .find({_id : {$in:propertyIds}})
                                 .exec()
                                 .then(properties=>{
                                     console.log(properties)
