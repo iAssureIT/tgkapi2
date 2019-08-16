@@ -25,9 +25,9 @@ exports.searchProperties = (req,res,next)=>{
     if(loc.indexOf(',') > -1){
       var loc = req.body.location.split(',');
       locArray.push({$and : [{"propertyLocation.area" : loc[0].trim()},{"propertyLocation.city" : loc[1].trim()}] } );
-      locArray.push({$and : [{"propertyLocation.subarea" : loc[0].trim()},{"propertyLocation.city" : loc[1].trim()}] } );
+      locArray.push({$and : [{"propertyLocation.subArea" : loc[0].trim()},{"propertyLocation.city" : loc[1].trim()}] } );
     }else{
-      locArray.push({"propertyLocation.subarea" : loc.trim()});      
+      locArray.push({"propertyLocation.subArea" : loc.trim()});      
       locArray.push({"propertyLocation.area" : loc.trim()});
       locArray.push({"propertyLocation.city" : loc.trim()});
     }
