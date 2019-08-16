@@ -40,6 +40,38 @@ exports.searchProperties = (req,res,next)=>{
 
   }
 
+// for floor----------------------------------------------------------
+  if(req.body.floor != ""){
+      if(req.body.floor.includes("-"))
+      {
+        var sepFloor = req.body.floor.split("-");
+        var minFloor = sepFloor[0];
+        var maxFloor = sepFloor[1];
+
+        if(maxFloor != ""){
+          selector.push({"floor" : { $lte : maxFloor}} ) ;
+        }
+        if(minFloor != ""){
+          selector.push({"floor" : { $gte : minFloor}} ) ;
+        }
+      }else if(req.body.floor.includes("-1"))
+      {
+           selector.push({"floor" : { $eq : "-1"}} ) ;
+      }
+
+    if(req.body.floor == ">10" )
+    {
+      selector.push({"floor" : { $gte : 11}} ) ;
+    }
+
+    if(req.body.floor == "0" )
+    {
+      selector.push({"floor" :  { $eq : "0"} })
+    }
+  
+  }
+
+
 // for propertySubType ----------------------------------------------------
   var propSubType = req.body.propertySubType;
   if(propSubType.length > 0){

@@ -2,9 +2,9 @@ const mongoose	= require("mongoose");
 
 const InterestedProps = require('../models/interestedProperties');
 const Properties = require('../models/properties');
+const ObjectId = require('mongodb').ObjectID;
 
-
-exports.create_interestedProps = (req,res,next)=>{                        
+exports.create_interestedProps = (req,res,next)=>{ 
     const interestedProps = new InterestedProps({
             _id                     : new mongoose.Types.ObjectId(),
             buyer_id                : req.body.buyer_id,
@@ -50,11 +50,14 @@ exports.list_myInterestedProps = (req,res,next)=>{
     InterestedProps .find({"buyer_id" : buyer_id},{property_id:1,_id:0})
                     .exec()
                     .then(property_ids=>{
-                        if(data){
+                        let propertyIds = property_ids.map((a)=>a.property_id)
+                        console.log("property_ids",propertyIds)
+                        if(propertyIds){
                             Properties
-                                .find({$in : property_ids})
+                                .find({_id:propertyIds})
                                 .exec()
                                 .then(properties=>{
+                                    console.log(properties)
                                     res.status(200).json(properties);
                                 })
                                 .catch(err =>{
