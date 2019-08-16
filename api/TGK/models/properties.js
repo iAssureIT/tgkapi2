@@ -50,15 +50,15 @@ const propertiesSchema = mongoose.Schema({
                                 },
    
     financial               :   {
-                                    expectedRate        : String,
+                                    expectedRate        : Number,
                                     totalPrice          : Number,
                                     includeCharges      : Array,
-                                    maintenanceCharges  : String,
+                                    maintenanceCharges  : Number,
                                     maintenancePer      : String,
                                     description         : String,
                                     availableFrom       : String,
-                                    depositAmount       : String,
-                                    monthlyRent         : String,
+                                    depositAmount       : Number,
+                                    monthlyRent         : Number,
                                 },    
     avalibilityPlanVisit       : {
                                     contactPerson         : String,
