@@ -676,7 +676,6 @@ exports.postList = (req,res,next)=>{
                             if(iprops.length > 0){
                                 for(var i=0; i<iprops.length; i++){
                                     for(let j=0; j<properties.length; j++){
-                                        console.log(j);
                                         // newProperty[j] = {...properties[j]};
                                         if(iprops[i].property_id === String(properties[j]._id) ){
                                             properties[j] = {...properties[j], isInterested:true};

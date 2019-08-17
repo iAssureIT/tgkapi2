@@ -81,7 +81,7 @@ exports.list_myInterestedProps = (req,res,next)=>{
 
 
 exports.delete_interestedProps = (req,res,next)=>{
-    InterestedProps.deleteOne({_id:req.params.interestedPropsId})
+    InterestedProps.deleteOne({buyer_id:req.body.uid,property_id:req.body.property_id})
         .exec()
         .then(data=>{
             res.status(200).json("Interested Property deleted");
@@ -93,6 +93,7 @@ exports.delete_interestedProps = (req,res,next)=>{
             });
         });
 }
+
 exports.deleteall_interestedProps = (req,res,next)=>{
     InterestedProps.deleteMany({})
         .exec()
