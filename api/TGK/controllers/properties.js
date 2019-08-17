@@ -660,8 +660,14 @@ exports.postList = (req,res,next)=>{
         .exec()
         .then(properties=>{
             if(properties){
-                console.log("Properties = ",properties);
-                //If UID is available in input formvalues, find interested properties
+            //     // console.log("Properties = ",properties);
+            //     //If UID is available in input formvalues, find interested properties
+
+            for(var k=0; k<properties.length; k++){                    
+                properties[k] = {...properties[k]._doc, isInterested:false};
+                console.log("properties[k] = ",properties[k]);
+            }
+
                 var newProperty = [];
                 if(req.body.uid){
                     InterestedProps
@@ -672,11 +678,13 @@ exports.postList = (req,res,next)=>{
                                 for(var i=0; i<iprops.length; i++){
                                     for(let j=0; j<properties.length; j++){
                                         if(String(properties[j]._id) === iprops[i].property_id){
-                                            newProperty[j] = {...properties[j]._doc, isInterested:true};
-                                            console.log("matched = ",newProperty[j] );
+                                            newProperty[j] = {...properties[j], isInterested:true};
                                         }else{
-                                            newProperty[j] = {...properties[j]._doc, isInterested:false};
+                                            newProperty[j] = {...properties[j]};
                                         }
+
+                                        // console.log("interest = ",newProperty[j]._id+" | "+newProperty[j].isInterested);
+
                                     }
                                 }
                                 if(i >= iprops.length){
@@ -684,8 +692,6 @@ exports.postList = (req,res,next)=>{
                                     res.status(200).json(newProperty);
                                 }       
                             }else{
-                                properties.map(obj=>({...obj, isInterested: false}));
-
                                 res.status(200).json(properties);
                             }
                         })
@@ -696,7 +702,7 @@ exports.postList = (req,res,next)=>{
                             });
                         });                        
                 }else{
-                    properties.map(obj=>({...obj, isInterested: false}));
+                    // properties.map(obj=>({...obj, isInterested: false}));
                     res.status(200).json(properties);
                 }
             }else{
