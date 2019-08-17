@@ -534,9 +534,8 @@ exports.property_list = (req,res,next)=>{
 }
 
 exports.my_property_list = (req,res,next)=>{
-    Properties.find({ owner_id : req.params.uid,})
-    // Properties.find({propertyId:req.params.property_id , transactionType: req.params.transactionType ,})
-
+    Properties.find({ "owner_id" : req.params.uid,})
+        .sort({"propertyCreatedAt":-1})
         .exec()
         .then(data=>{
             if(data){

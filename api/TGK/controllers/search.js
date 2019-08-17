@@ -38,31 +38,33 @@ exports.searchProperties = (req,res,next)=>{
 
 // for floor----------------------------------------------------------
   if(req.body.floor != ""){
-      if(req.body.floor.includes("-"))
-      {
+      if(req.body.floor.includes("-")){
         var sepFloor = req.body.floor.split("-");
         var minFloor = sepFloor[0];
         var maxFloor = sepFloor[1];
-
-        if(maxFloor != ""){
-          selector.push({"floor" : { $lte : maxFloor}} ) ;
+        var floorSelector = [];
+        for(var i=minFloor; i<=maxFloor; i++){
+          floorSelector.push({"floor" : String(i)})
         }
-        if(minFloor != ""){
-          selector.push({"floor" : { $gte : minFloor}} ) ;
+        if(i >= maxFloor){
+          selector.push({"$or" : floorSelector }) ;
         }
-      }else if(req.body.floor.includes("-1"))
-      {
-           selector.push({"floor" : { $eq : "-1"}} ) ;
+      }else if(req.body.floor.includes("-1")){
+        selector.push({"floor" : "-1"}) ;
       }
 
-    if(req.body.floor == ">10" )
-    {
-      selector.push({"floor" : { $gte : 11}} ) ;
+    if(req.body.floor === ">10" ){
+        var floorSelector = [];
+        for(var i=1; i<=10; i++){
+          floorSelector.push({"floor" : {$ne : String(i)}} );
+        }
+        if(i >= 10){
+          selector.push({"$and" : floorSelector });
+        }
     }
 
-    if(req.body.floor == "0" )
-    {
-      selector.push({"floor" :  { $eq : "0"} })
+    if(req.body.floor === "0" ){
+      selector.push({"floor" : "0"})
     }
   
   }

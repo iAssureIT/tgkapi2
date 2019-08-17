@@ -47,7 +47,8 @@ exports.detail_interestedProps = (req, res, next)=>{
 exports.list_myInterestedProps = (req,res,next)=>{
     console.log('list');
     const buyer_id = req.params.user_id;
-    InterestedProps .find({"buyer_id" : buyer_id},{property_id:1,_id:0})
+    InterestedProps .find({"buyer_id" : buyer_id},{"property_id":1,"_id":0})
+                    .sort({"createdAt":-1})
                     .exec()
                     .then(property_ids=>{
                         var propertyIds = property_ids.map((a)=>a.property_id)
