@@ -174,7 +174,7 @@ exports.searchProperties = (req,res,next)=>{
 
   }
 
-  // console.log("selector = ", JSON.stringify(selector));
+  console.log("selector = ", JSON.stringify(selector));
 
   Properties.find({ $and : selector })
       .sort({"propertyCreatedAt" : -1})

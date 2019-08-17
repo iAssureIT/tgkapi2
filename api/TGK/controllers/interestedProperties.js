@@ -81,7 +81,7 @@ exports.list_myInterestedProps = (req,res,next)=>{
 
 
 exports.delete_interestedProps = (req,res,next)=>{
-    InterestedProps.deleteOne({_id:req.params.aellResidentialID})
+    InterestedProps.deleteOne({_id:req.params.interestedPropsId})
         .exec()
         .then(data=>{
             res.status(200).json("Interested Property deleted");
