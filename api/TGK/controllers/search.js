@@ -81,7 +81,7 @@ exports.searchProperties = (req,res,next)=>{
   }
 
 // for budget----------------------------------------------------------------------
-  if(req.body.budget > 0 || req.body.budget !== ""){
+  if(req.body.budget > 0){
     if(req.body.transactionType === "Sell"){
       selector.push({"financial.totalPrice" : { $lte : req.body.budget }} ) ;
     }else{
