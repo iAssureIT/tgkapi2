@@ -665,7 +665,6 @@ exports.postList = (req,res,next)=>{
 
             for(var k=0; k<properties.length; k++){                    
                 properties[k] = {...properties[k]._doc, isInterested:false};
-                console.log("properties[k] = ",properties[k]);
             }
 
                 var newProperty = [];
@@ -677,19 +676,20 @@ exports.postList = (req,res,next)=>{
                             if(iprops.length > 0){
                                 for(var i=0; i<iprops.length; i++){
                                     for(let j=0; j<properties.length; j++){
-                                        if(String(properties[j]._id) === iprops[i].property_id){
-                                            newProperty[j] = {...properties[j], isInterested:true};
-                                        }else{
-                                            newProperty[j] = {...properties[j]};
+                                        console.log(j);
+                                        // newProperty[j] = {...properties[j]};
+                                        if(iprops[i].property_id === String(properties[j]._id) ){
+                                            properties[j] = {...properties[j], isInterested:true};
+                                            break;
                                         }
 
-                                        // console.log("interest = ",newProperty[j]._id+" | "+newProperty[j].isInterested);
-
                                     }
+
+
                                 }
                                 if(i >= iprops.length){
                                     // console.log("newProperty = ", newProperty);
-                                    res.status(200).json(newProperty);
+                                    res.status(200).json(properties);
                                 }       
                             }else{
                                 res.status(200).json(properties);
