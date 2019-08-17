@@ -84,6 +84,7 @@ exports.delete_interestedProps = (req,res,next)=>{
     InterestedProps.deleteOne({buyer_id:req.body.uid,property_id:req.body.property_id})
         .exec()
         .then(data=>{
+            console.log("data",data);
             res.status(200).json("Interested Property deleted");
         })
         .catch(err =>{
