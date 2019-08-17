@@ -40,8 +40,10 @@ exports.searchProperties = (req,res,next)=>{
   if(req.body.floor != ""){
       if(req.body.floor.includes("-")){
         var sepFloor = req.body.floor.split("-");
-        var minFloor = sepFloor[0];
-        var maxFloor = sepFloor[1];
+        var minFloor = parseInt(sepFloor[0]);
+        var maxFloor = parseInt(sepFloor[1]);
+        console.log("minFloor=>",minFloor);
+        console.log("maxFloor=>",maxFloor);
         var floorSelector = [];
         for(var i=minFloor; i<=maxFloor; i++){
           floorSelector.push({"floor" : String(i)})
