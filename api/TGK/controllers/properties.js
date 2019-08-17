@@ -4,6 +4,7 @@ const Properties        = require('../models/properties');
 const Sellometers = require('../models/sellometers');
 const MasterSellometers = require('../models/mastersellometer');
 const Users             = require('../../coreAdmin/models/users');
+const InterestedProps = require('../models/interestedProperties');
 
 
 // ===================== round robin ================
@@ -645,20 +646,61 @@ exports.property_displaylist = (req,res,next)=>{
     }
 
 
-/*----------------Search Result--------------------*/
 
-exports.search_result = (req,res,next)=>{
-    Properties.find({
-                        "transactionType":req.body.transactionType,
-                        "propertyType":req.body.propertyType,
-                        "propertyLocation.city": req.body.location,
-                      })
+
+exports.postList = (req,res,next)=>{
+
+    Properties
+        .find({
+                propertyType    : req.body.propertyType, 
+                transactionType : req.body.transactionType 
+            })
+        .skip(req.body.startRange)
+        .limit(req.body.limitRange)
         .exec()
-        .then(data=>{
-            if(data){
-                res.status(200).json(data);
+        .then(properties=>{
+            if(properties){
+                console.log("Properties = ",properties);
+                //If UID is available in input formvalues, find interested properties
+                var newProperty = [];
+                if(req.body.uid){
+                    InterestedProps
+                        .find({"buyer_id" : req.body.uid})
+                        .then(iprops => {
+                            console.log("iprops = ",iprops);
+                            if(iprops.length > 0){
+                                for(var i=0; i<iprops.length; i++){
+                                    for(let j=0; j<properties.length; j++){
+                                        if(String(properties[j]._id) === iprops[i].property_id){
+                                            newProperty[j] = {...properties[j]._doc, isInterested:true};
+                                            console.log("matched = ",newProperty[j] );
+                                        }else{
+                                            newProperty[j] = {...properties[j]._doc, isInterested:false};
+                                        }
+                                    }
+                                }
+                                if(i >= iprops.length){
+                                    // console.log("newProperty = ", newProperty);
+                                    res.status(200).json(newProperty);
+                                }       
+                            }else{
+                                properties.map(obj=>({...obj, isInterested: false}));
+
+                                res.status(200).json(properties);
+                            }
+                        })
+                        .catch(err =>{
+                            console.log(err);
+                            res.status(500).json({
+                                error: err
+                            });
+                        });                        
+                }else{
+                    properties.map(obj=>({...obj, isInterested: false}));
+                    res.status(200).json(properties);
+                }
             }else{
-                res.status(404).json('Properties Details not found');
+                res.status(404).json('Property Details not found');
             }
         })
         .catch(err =>{
@@ -667,4 +709,14 @@ exports.search_result = (req,res,next)=>{
                 error: err
             });
         });
-    }
+}
+
+
+
+
+
+
+
+
+
+
