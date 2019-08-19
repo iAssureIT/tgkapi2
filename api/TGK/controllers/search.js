@@ -1,6 +1,7 @@
 const mongoose	= require("mongoose");
 
 const Properties        = require('../models/properties');
+const InterestedProps   = require('../models/interestedProperties');
 
 
 // ===================== round robin ================
@@ -167,8 +168,42 @@ exports.searchProperties = (req,res,next)=>{
       .exec()
       .then(searchResults=>{
           if(searchResults){
-              // console.log("searchResults = ",searchResults);
-              res.status(200).json(searchResults);
+            for(var k=0; k<searchResults.length; k++){                    
+                  searchResults[k] = {...searchResults[k]._doc, isInterested:false};
+              }
+
+            if(req.body.uid){
+                InterestedProps
+                    .find({"buyer_id" : req.body.uid})
+                    .then(iprops => {
+                        console.log("iprops = ",iprops);
+                        if(iprops.length > 0){
+                            for(var i=0; i<iprops.length; i++){
+                                for(let j=0; j<searchResults.length; j++){
+                                    if(iprops[i].property_id === String(searchResults[j]._id) ){
+                                        searchResults[j] = {...searchResults[j], isInterested:true};
+                                        break;
+                                    }
+
+                                }
+
+                            }
+                            if(i >= iprops.length){
+                                res.status(200).json(searchResults);
+                            }       
+                            }else{
+                                res.status(200).json(searchResults);
+                            }
+                        })
+                        .catch(err =>{
+                            console.log(err);
+                            res.status(500).json({
+                                error: err
+                            });
+                        });                        
+                }else{
+                    res.status(200).json(searchResults);
+                }
           }else{
               res.status(404).json('Properties not found');
           }
@@ -180,9 +215,6 @@ exports.searchProperties = (req,res,next)=>{
               error   : err
           });
       });
-
-              // res.status(200).json();
-
 
 };
 

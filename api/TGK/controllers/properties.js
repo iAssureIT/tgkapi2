@@ -659,14 +659,10 @@ exports.postList = (req,res,next)=>{
         .exec()
         .then(properties=>{
             if(properties){
-            //     // console.log("Properties = ",properties);
-            //     //If UID is available in input formvalues, find interested properties
+                for(var k=0; k<properties.length; k++){                    
+                    properties[k] = {...properties[k]._doc, isInterested:false};
+                }
 
-            for(var k=0; k<properties.length; k++){                    
-                properties[k] = {...properties[k]._doc, isInterested:false};
-            }
-
-                var newProperty = [];
                 if(req.body.uid){
                     InterestedProps
                         .find({"buyer_id" : req.body.uid})
@@ -675,7 +671,6 @@ exports.postList = (req,res,next)=>{
                             if(iprops.length > 0){
                                 for(var i=0; i<iprops.length; i++){
                                     for(let j=0; j<properties.length; j++){
-                                        // newProperty[j] = {...properties[j]};
                                         if(iprops[i].property_id === String(properties[j]._id) ){
                                             properties[j] = {...properties[j], isInterested:true};
                                             break;
@@ -683,37 +678,35 @@ exports.postList = (req,res,next)=>{
 
                                     }
 
-
                                 }
                                 if(i >= iprops.length){
-                                    // console.log("newProperty = ", newProperty);
                                     res.status(200).json(properties);
                                 }       
-                            }else{
-                                res.status(200).json(properties);
-                            }
-                        })
-                        .catch(err =>{
-                            console.log(err);
-                            res.status(500).json({
-                                error: err
-                            });
-                        });                        
+                                }else{
+                                    res.status(200).json(properties);
+                                }
+                            })
+                            .catch(err =>{
+                                console.log(err);
+                                res.status(500).json({
+                                    error: err
+                                });
+                            });                        
+                    }else{
+                        // properties.map(obj=>({...obj, isInterested: false}));
+                        res.status(200).json(properties);
+                    }
                 }else{
-                    // properties.map(obj=>({...obj, isInterested: false}));
-                    res.status(200).json(properties);
+                    res.status(404).json('Property Details not found');
                 }
-            }else{
-                res.status(404).json('Property Details not found');
-            }
-        })
-        .catch(err =>{
-            console.log(err);
-            res.status(500).json({
-                error: err
+            })
+            .catch(err =>{
+                console.log(err);
+                res.status(500).json({
+                    error: err
+                });
             });
-        });
-}
+    }
 
 
 

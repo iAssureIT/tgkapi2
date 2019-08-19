@@ -11,7 +11,7 @@ router.get('/:interestedPropsId', InterestedPropsController.detail_interestedPro
 
 router.delete('/',InterestedPropsController.delete_interestedProps);
 
-router.delete('/',InterestedPropsController.deleteall_interestedProps);
+// router.delete('/',InterestedPropsController.deleteall_interestedProps);
 
 
 module.exports = router;

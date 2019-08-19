@@ -96,17 +96,17 @@ exports.delete_interestedProps = (req,res,next)=>{
         });
 }
 
-exports.deleteall_interestedProps = (req,res,next)=>{
-    InterestedProps.deleteMany({})
-        .exec()
-        .then(data=>{
-            res.status(200).json("All Interested Properties deleted");
-        })
-        .catch(err =>{
-            console.log(err);
-            res.status(500).json({
-                error: err
-            });
-        });
-}
+// exports.deleteall_interestedProps = (req,res,next)=>{
+//     InterestedProps.deleteMany({})
+//         .exec()
+//         .then(data=>{
+//             res.status(200).json("All Interested Properties deleted");
+//         })
+//         .catch(err =>{
+//             console.log(err);
+//             res.status(500).json({
+//                 error: err
+//             });
+//         });
+// }
 
