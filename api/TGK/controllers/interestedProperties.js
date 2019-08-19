@@ -4,6 +4,7 @@ const InterestedProps = require('../models/interestedProperties');
 const Properties = require('../models/properties');
 const ObjectId = require('mongodb').ObjectID;
 
+
 exports.create_interestedProps = (req,res,next)=>{ 
     const interestedProps = new InterestedProps({
             _id                     : new mongoose.Types.ObjectId(),
