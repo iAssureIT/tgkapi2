@@ -53,5 +53,9 @@ router.post('/post/sa/displaylist', PropertiesController.property_displaylist);
 
 router.post('/post/findindexper', PropertiesController.find_PropertyIndexPer);
 
+//Location wise properties
+router.get('/get/locationWiseList/:subArea', PropertiesController.locationWiseList);
+router.get('/get/locationWiseListCount/:subArea', PropertiesController.locationWiseListCount);
+
 
 module.exports = router;

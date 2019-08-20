@@ -654,6 +654,7 @@ exports.postList = (req,res,next)=>{
                 propertyType    : req.body.propertyType, 
                 transactionType : req.body.transactionType 
             })
+        .sort({"propertyCreatedAt" : -1})
         .skip(req.body.startRange)
         .limit(req.body.limitRange)
         .exec()
@@ -708,12 +709,58 @@ exports.postList = (req,res,next)=>{
             });
     }
 
+exports.locationWiseList = (req,res,next)=>{
+    Properties
+        .find({
+                "propertyLocation.subArea" : req.params.subArea, 
+            })
+        .sort({"propertyCreatedAt" : -1})
+        .exec()
+        .then(properties=>{
+                res.status(200).json(properties);
+            })
+            .catch(err =>{
+                console.log(err);
+                res.status(500).json({
+                    error: err
+                });
+            });
+    }
 
 
+exports.locationWiseList = (req,res,next)=>{
+    Properties
+        .find({
+                "propertyLocation.subArea" : req.params.subArea, 
+            })
+        .sort({"propertyCreatedAt" : -1})
+        .exec()
+        .then(properties=>{
+                res.status(200).json(properties);
+            })
+            .catch(err =>{
+                console.log(err);
+                res.status(500).json({
+                    error: err
+                });
+            });
+    }
 
-
-
-
-
-
+    exports.locationWiseListCount = (req,res,next)=>{
+    Properties
+        .find({
+                "propertyLocation.subArea" : req.params.subArea, 
+            })
+        .count()
+        .exec()
+        .then(properties=>{
+                res.status(200).json(properties);
+            })
+            .catch(err =>{
+                console.log(err);
+                res.status(500).json({
+                    error: err
+                });
+            });
+    }
 
