@@ -709,14 +709,19 @@ exports.postList = (req,res,next)=>{
             });
     }
 
-exports.locationWiseList = (req,res,next)=>{
+
+exports.locationWiseListCount = (req,res,next)=>{
+    console.log("inside count method");
     Properties
-        .find({
-                "propertyLocation.subArea" : req.params.subArea, 
-            })
-        .sort({"propertyCreatedAt" : -1})
+        .aggregate([
+            {
+                "$group" : {"_id":"$propertyLocation.subArea", "count":{$sum:1}}
+            },
+            { $sort: { count: -1 } } 
+        ])
         .exec()
         .then(properties=>{
+                console.log(properties);
                 res.status(200).json(properties);
             })
             .catch(err =>{
@@ -725,42 +730,5 @@ exports.locationWiseList = (req,res,next)=>{
                     error: err
                 });
             });
-    }
-
-
-exports.locationWiseList = (req,res,next)=>{
-    Properties
-        .find({
-                "propertyLocation.subArea" : req.params.subArea, 
-            })
-        .sort({"propertyCreatedAt" : -1})
-        .exec()
-        .then(properties=>{
-                res.status(200).json(properties);
-            })
-            .catch(err =>{
-                console.log(err);
-                res.status(500).json({
-                    error: err
-                });
-            });
-    }
-
-    exports.locationWiseListCount = (req,res,next)=>{
-    Properties
-        .find({
-                "propertyLocation.subArea" : req.params.subArea, 
-            })
-        .count()
-        .exec()
-        .then(properties=>{
-                res.status(200).json(properties);
-            })
-            .catch(err =>{
-                console.log(err);
-                res.status(500).json({
-                    error: err
-                });
-            });
-    }
+}
 
