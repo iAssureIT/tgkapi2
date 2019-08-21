@@ -22,8 +22,9 @@ router.patch('/patch/propertyLocation', PropertiesController.update_PropertyLoca
 
 router.patch('/patch/propertyDetails', PropertiesController.update_PropertyDetails);
 
+router.patch('/patch/updateList', PropertiesController.update_list);
 
-
+router.patch('/patch/updateListed', PropertiesController.update_listed);
 
 router.patch('/patch/amenities', PropertiesController.update_amenities);
 

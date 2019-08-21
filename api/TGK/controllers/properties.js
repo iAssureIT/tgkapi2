@@ -652,7 +652,8 @@ exports.postList = (req,res,next)=>{
     Properties
         .find({
                 propertyType    : req.body.propertyType, 
-                transactionType : req.body.transactionType 
+                transactionType : req.body.transactionType,
+                listing         : req.body.listing, 
             })
         .sort({"propertyCreatedAt" : -1})
         .skip(req.body.startRange)
@@ -709,6 +710,49 @@ exports.postList = (req,res,next)=>{
             });
     }
 
+exports.update_list = (req,res,next)=>{
+    Properties.updateOne(
+        { "_id" : req.body.property_id},                        
+        {
+            $set:{
+                    "listing"  : false,
+            }
+        }
+        )
+        .exec()
+        .then(properties=>{
+                console.log(properties);
+                res.status(200).json(properties);
+            })
+            .catch(err =>{
+                console.log(err);
+                res.status(500).json({
+                    error: err
+                });
+            });
+}
+
+exports.update_listed = (req,res,next)=>{
+    Properties.updateOne(
+        { "_id" : req.body.property_id},                        
+        {
+            $set:{
+                    "listing"  : true,
+            }
+        }
+        )
+        .exec()
+        .then(properties=>{
+                console.log(properties);
+                res.status(200).json(properties);
+            })
+            .catch(err =>{
+                console.log(err);
+                res.status(500).json({
+                    error: err
+                });
+            });
+}
 
 exports.locationWiseListCount = (req,res,next)=>{
     console.log("inside count method");
