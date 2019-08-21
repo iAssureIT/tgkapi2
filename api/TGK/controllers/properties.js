@@ -710,12 +710,12 @@ exports.postList = (req,res,next)=>{
             });
     }
 
-exports.update_list = (req,res,next)=>{
+exports.update_listing = (req,res,next)=>{
     Properties.updateOne(
         { "_id" : req.body.property_id},                        
         {
             $set:{
-                    "listing"  : false,
+                    "listing"  : req.body.listing,
             }
         }
         )
@@ -732,27 +732,6 @@ exports.update_list = (req,res,next)=>{
             });
 }
 
-exports.update_listed = (req,res,next)=>{
-    Properties.updateOne(
-        { "_id" : req.body.property_id},                        
-        {
-            $set:{
-                    "listing"  : true,
-            }
-        }
-        )
-        .exec()
-        .then(properties=>{
-                console.log(properties);
-                res.status(200).json(properties);
-            })
-            .catch(err =>{
-                console.log(err);
-                res.status(500).json({
-                    error: err
-                });
-            });
-}
 
 exports.locationWiseListCount = (req,res,next)=>{
     console.log("inside count method");
