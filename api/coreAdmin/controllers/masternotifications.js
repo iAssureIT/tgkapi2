@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 
 const Masternotifications = require("../models/masternotifications");
+const User          = require('../models/users');
+const nodeMailer                      = require('nodemailer');
 
 
 exports.create_template = (req, res, next) => {
@@ -124,6 +126,120 @@ exports.update_notifications = (req,res,next)=>{
                 error: err
             });
         });
+}
+
+
+
+//get getEmailByUserId - Rushikesh Salunkhe
+function getEmailByUserId(toUserId){
+    return new Promise(function(resolve,reject){
+    User
+    .findOne({"_id":toUserId})
+    .exec()
+        .then(data=>{
+            resolve(data.emails[0].address);          
+        })
+        .catch(err =>{
+            console.log(err);
+            res.status(500).json({
+                error: err
+            });
+        });
+
+        });
+}
+
+
+//get TemplateDeatails - Rushikesh Salunkhe
+function getTemplateDetails(templateName,variables){
+    return new Promise(function(resolve,reject){
+        Masternotifications
+        .findOne({"templateName":templateName})
+        .exec()
+        .then(NotificationData=>{
+                    // console.log('serverside NotificationData: ', NotificationData);
+                    if(NotificationData){
+                        var content = NotificationData.content;
+                        var words = content.split(' ');
+                        var tokens = [];
+                        var n = 0;
+                        for(i=0;i<words.length;i++){
+                            if(words[i].charAt(0)=='['){
+                                tokens[n] = words[i];
+                                if(tokens[n].substr(tokens[n].length - 1) != ']'){
+                                   tokens[n] = tokens[n].substr(0,tokens[n].length - 1) ;
+                                }
+                                n++;
+                            }
+                        }
+                        var numOfVar = Object.keys(variables).length;
+
+                        for(i=0; i<numOfVar; i++){
+                            content = content.replace(tokens[i],variables[i].value);
+                        }
+                        var tData={
+                            content:content,
+                            subject:NotificationData.subject
+                        }
+                        resolve(tData);          
+                    }//NotificationData
+                    
+            })
+            .catch(err =>{
+                console.log(err);
+                err.status(500).json({
+                    error: err
+                });
+            });
+        }); 
+    }
+
+
+//send Mail Notification -Rushikesh Salunkhe
+exports.send_notifications = (req,res,next)=>{
+    const senderEmail = 'testtprm321@gmail.com';
+    const senderEmailPwd = 'tprm1234';
+
+    console.log(req.body);
+
+    let transporter = nodeMailer.createTransport({                
+        host: 'smtp.gmail.com',
+        port: 587,
+        auth: {
+            user: senderEmail,
+            pass: senderEmailPwd
+        }
+    });
+    main();
+    async function main(){
+        const toUserId = await getEmailByUserId(req.body.toUserId); 
+        const templateDetails = await getTemplateDetails(req.body.templateName, req.body.variables);
+
+        var mailOptions = {                
+            from        : '"TGK Admin" <'+senderEmail+'>', // sender address
+            to          : toUserId, // list of receiver
+            subject     : templateDetails.subject, // Subject line
+            html        : templateDetails.content, // plain text body
+        };
+    
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {                    
+                console.log("send mail error",error);
+                return "Failed";
+            }
+            if(info){
+                // return "Success";
+                res.status(200).json({              
+                    message: "Success",
+                    // return "Success",
+                });
+            }
+
+            res.render('index');
+        });
+
+    }
+    
 }
 
 
