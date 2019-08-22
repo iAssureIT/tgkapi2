@@ -736,7 +736,11 @@ exports.update_listing = (req,res,next)=>{
 exports.locationWiseListCount = (req,res,next)=>{
     console.log("inside count method");
     Properties
+
         .aggregate([
+            {
+              '$match' : { 'listing' : true}
+            },
             {
                 "$group" : {"_id":"$propertyLocation.subArea", "count":{$sum:1}}
             },

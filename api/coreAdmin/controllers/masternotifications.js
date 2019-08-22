@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const Masternotifications = require("../models/masternotifications");
 const User          = require('../models/users');
 const nodeMailer                      = require('nodemailer');
+const Companysettings = require('../models/companysettings');
 
 
 exports.create_template = (req, res, next) => {
@@ -131,13 +132,13 @@ exports.update_notifications = (req,res,next)=>{
 
 
 //get getEmailByUserId - Rushikesh Salunkhe
-function getEmailByUserId(toUserId){
+function getProfileByUserId(toUserId){
     return new Promise(function(resolve,reject){
     User
     .findOne({"_id":toUserId})
     .exec()
         .then(data=>{
-            resolve(data.emails[0].address);          
+            resolve(data);          
         })
         .catch(err =>{
             console.log(err);
@@ -149,6 +150,26 @@ function getEmailByUserId(toUserId){
         });
 }
 
+function getAdminEmail(){
+    //First record in CompanySetting belongs to Company
+    return new Promise(function(resolve,reject){
+        Companysettings
+            .find({})
+            .exec()
+            .then(data=>{
+                var email = data[0].companyEmail;
+                resolve(email);
+            })
+            .catch(err =>{
+                console.log(err);
+                res.status(500).json({
+                    error: err
+                });
+            });
+ 
+    })
+
+}
 
 //get TemplateDeatails - Rushikesh Salunkhe
 function getTemplateDetails(templateName,variables){
@@ -160,23 +181,28 @@ function getTemplateDetails(templateName,variables){
                     // console.log('serverside NotificationData: ', NotificationData);
                     if(NotificationData){
                         var content = NotificationData.content;
-                        var words = content.split(' ');
+                        if(content.indexOf('[') > -1 ){
+                            var wordsplit = content.split('[');
+                        }
+
                         var tokens = [];
                         var n = 0;
-                        for(i=0;i<words.length;i++){
-                            if(words[i].charAt(0)=='['){
-                                tokens[n] = words[i];
-                                if(tokens[n].substr(tokens[n].length - 1) != ']'){
-                                   tokens[n] = tokens[n].substr(0,tokens[n].length - 1) ;
-                                }
+                        for(i=0;i<wordsplit.length;i++){
+                            if(wordsplit[i].indexOf(']') > -1 ){
+                                tokensArr = wordsplit[i].split(']');
+                                tokens[n] = tokensArr[0];
                                 n++;
                             }
                         }
                         var numOfVar = Object.keys(variables).length;
 
                         for(i=0; i<numOfVar; i++){
-                            content = content.replace(tokens[i],variables[i].value);
+                            var tokVar = tokens[i].substr(1,tokens[i].length-2);
+                            content = content.replace(tokens[i],variables[tokens[i]]);
                         }
+                        content = content.split("[").join("'");
+                        content = content.split("]").join("'");
+                        console.log("content = ",content);
                         var tData={
                             content:content,
                             subject:NotificationData.subject
@@ -200,8 +226,6 @@ exports.send_notifications = (req,res,next)=>{
     const senderEmail = 'testtprm321@gmail.com';
     const senderEmailPwd = 'tprm1234';
 
-    console.log(req.body);
-
     let transporter = nodeMailer.createTransport({                
         host: 'smtp.gmail.com',
         port: 587,
@@ -212,29 +236,38 @@ exports.send_notifications = (req,res,next)=>{
     });
     main();
     async function main(){
-        const toUserId = await getEmailByUserId(req.body.toUserId); 
+        // console.log("request = ", req.body);
+
+        var userProfile = {};
+        if(req.body.toUserId === "admin"){
+            toEmail = await getAdminEmail(); 
+        }else{
+            userProfile = await getProfileByUserId(req.body.toUserId); 
+            toEmail = userProfile.emails[0].address;
+        }
         const templateDetails = await getTemplateDetails(req.body.templateName, req.body.variables);
+        // console.log("userProfile",userProfile);
 
         var mailOptions = {                
             from        : '"TGK Admin" <'+senderEmail+'>', // sender address
-            to          : toUserId, // list of receiver
+            to          : toEmail , // list of receiver
             subject     : templateDetails.subject, // Subject line
-            html        : templateDetails.content, // plain text body
+            html        : templateDetails.content, // html body
         };
+        // console.log("mailOptions",mailOptions);
     
         transporter.sendMail(mailOptions, (error, info) => {
             if (error) {                    
                 console.log("send mail error",error);
-                return "Failed";
-            }
-            if(info){
-                // return "Success";
-                res.status(200).json({              
-                    message: "Success",
-                    // return "Success",
+                res.status(500).json({              
+                    message: "Send Email Failed",
                 });
             }
-
+            if(info){
+                res.status(200).json({              
+                    message: "Mail Sent Successfully",
+                });
+            }
             res.render('index');
         });
 
