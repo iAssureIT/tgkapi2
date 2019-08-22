@@ -59,7 +59,7 @@ exports.searchProperties = (req,res,next)=>{
 
     if(req.body.floor === ">10" ){
         var floorSelector = [];
-        for(var i=1; i<=10; i++){
+        for(var i=0; i<=10; i++){
           floorSelector.push({"floor" : {$ne : String(i)}} );
         }
         if(i >= 10 && floorSelector.length>0){
