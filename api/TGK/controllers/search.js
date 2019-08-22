@@ -52,7 +52,8 @@ exports.searchProperties = (req,res,next)=>{
         if(i >= maxFloor && floorSelector.length>0){
           selector.push({"$or" : floorSelector }) ;
         }
-      }else if(req.body.floor.includes("-1")){
+      }
+      if(req.body.floor.includes("-1")){
         selector.push({"floor" : "-1"}) ;
       }
 
