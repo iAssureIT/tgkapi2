@@ -669,7 +669,7 @@ exports.postList = (req,res,next)=>{
                 transactionType : req.body.transactionType,
                 listing         : req.body.listing, 
             })
-        .sort({"propertyCreatedAt" : -1})
+        .sort({"propertyCreatedAt" : 1})
         .skip(req.body.startRange)
         .limit(req.body.limitRange)
         .exec()
