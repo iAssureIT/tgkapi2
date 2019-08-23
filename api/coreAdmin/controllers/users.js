@@ -37,7 +37,7 @@ exports.user_signupadmin = (req,res,next)=>{
 										firstName     : req.body.firstName,
 										lastName      : req.body.lastName,
 										fullName      : req.body.firstName+' '+req.body.lastName,
-										emailId       : req.body.emailId,
+										emailId       : req.body.email,
 										mobileNumber  : req.body.mobileNumber,
 										countryCode   : req.body.countryCode,
 										status		  : req.body.status
