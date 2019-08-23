@@ -108,58 +108,6 @@ exports.create_Properties = (req,res,next)=>{
 
 };
 
-// exports.create_Properties = (req,res,next)=>{
-    
-//         Properties.find()
-//                   .exec()
-//                   .then(data =>{
-//                           var propertyCode = data.length + 101;
-//                           const properties = new Properties({
-//                                   _id                     : new mongoose.Types.ObjectId(),
-//                                   owner_id                : req.body.uid,
-//                                   propertyCode            : propertyCode,
-//                                   propertyHolder          : req.body.propertyHolder,
-//                                   transactionType         : req.body.transactionType,
-//                                   propertyType            : req.body.propertyType,
-//                                   propertySubType         : req.body.propertySubType,                 
-//                                   floor                   : req.body.floor,
-//                                   totalFloor              : req.body.totalFloor,
-//                                   status                  : req.body.status,
-//                                   listing                 : false,           
-//                                   $push:{                            
-//                                         "statusArray"     : {
-//                                                                 "statusVal"   : req.body.status, 
-//                                                                 "createdAt"   : new Date(),
-//                                                                 // "allocatedTo" : allocatedToUserId,
-//                                                             },                
-//                                   }
-
-//                               });
-//                           properties.save()
-//                                           .then(data=>{                                            
-//                                               res.status(200).json({
-//                                               "message"        : 'Property Added',
-//                                               "propertyCode"   : data.propertyCode,
-//                                               "property_id"    : data._id
-//                                               });
-//                                           })
-//                                           .catch(err =>{
-//                                               console.log(err);
-//                                               res.status(500).json({
-//                                                   error: err
-//                                               });
-//                                           });
-//                       })
-//                       .catch(err =>{
-//                           console.log(err);
-//                           res.status(500).json({
-//                               error: err
-//                           });
-//                       });
-    
-
-
-// };
 exports.update_PropertyLocation = (req,res,next)=>{
     // var roleData = req.body.role;
     Properties.updateOne(

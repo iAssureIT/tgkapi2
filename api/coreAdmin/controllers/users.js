@@ -100,7 +100,7 @@ exports.update_user_resetpassword = (req,res,next)=>{
 				// console.log('data =========>>>',data);
                 res.status(200).json("Password  Updated");
             }else{
-                res.status(401).json("Password  Not Found");
+                res.status(200).json("Password  Not Found");
             }
         })
         .catch(err =>{
@@ -112,86 +112,6 @@ exports.update_user_resetpassword = (req,res,next)=>{
 	});
 }
 
-// exports.users_password = (req,res,next)=>{
-// 	console.log("req.body.mobNumber",req.body.mobNumber);
-// 	User.findOne({mobileNumber:req.body.mobNumber}).count()
-// 	// User.find({mobileNumber:req.body.mobNumber}).count()
-
-// 		.exec()
-// 		.then(count =>{
-// 			if(count > 0){
-
-			
-
-
-// 				res.status(409).json({
-// 					message: 'MOBILE-NUMBER-EXISTS'
-// 				});
-// 			}else{
-// 				res.status(505).json({
-// 					error: "MOBILE-NUMBER-NOT-FOUND"
-// 				});
-// 			}
-		
-// 		})
-// 		.catch(err =>{
-// 			console.log(err);
-// 			res.status(500).json({
-// 				message:"MOBILE-NUMBER-NOT-FOUND500", 
-// 				error: err,
-// 			});
-// 		});
-// };
-
-
-
-
-// exports.user_login = (req,res,next)=>{
-// 	User.findOne({emails:{$elemMatch:{address:req.body.email}}})
-// 		.exec()
-// 		.then(user => {
-			
-// 			if(user){
-// 				console.log("PWD===>",user);
-// 			var pwd = user.services.password.bcrypt;
-// 			}
-// 			if(pwd){
-// 				console.log("PWD===>");
-// 				bcrypt.compare(req.body.pwd,pwd,(err,result)=>{
-// 					if(err){
-// 						return res.status(401).json({
-// 							message: 'Auth failed'
-// 						});		
-// 					}
-// 					if(result){
-// 						const token = jwt.sign({
-// 							email 	: req.body.email,
-// 							userId	:  user._id,
-// 						},global.JWT_KEY,
-// 						{
-// 							expiresIn: "1h"
-// 						}
-// 						);
-// 						res.header("Access-Control-Allow-Origin","*");
-
-// 						return res.status(200).json({
-// 							message: 'Auth successful',
-// 							token: token
-// 						});	
-// 					}
-// 					return res.status(401).json({
-// 						message: 'Auth failed'
-// 					});
-// 				})
-// 			}
-// 		})
-// 		.catch(err =>{
-// 			console.log(err);
-// 			res.status(500).json({
-// 				error: err
-// 			});
-// 		});
-// };
 
 
 exports.user_login = (req,res,next)=>{
@@ -206,7 +126,7 @@ exports.user_login = (req,res,next)=>{
                     bcrypt.compare(req.body.password,pwd,(err,result)=>{
                         if(err){
                             console.log('password err ',err);
-                            return res.status(401).json({
+                            return res.status(200).json({
                                 message: 'Bcrypt Auth failed'
                             });     
                         }
@@ -234,15 +154,15 @@ exports.user_login = (req,res,next)=>{
                             }); 
                         }
                         console.log({message:"Neither err nor result"});
-                        return res.status(401).json({
+                        return res.status(200).json({
                             message: 'Error and Result Auth failed'
                         });
                     })
                 }else{
-                    res.status(409).status({message:"Password not found"}); 
+                    res.status(200).status({message:"Password not found"}); 
                 }
             }else{
-                res.status(409).status({message:"User Not found"});
+                res.status(200).status({message:"User Not found"});
             }
         })
         .catch(err =>{
@@ -394,80 +314,6 @@ exports.deleteall_user = function (req, res,next) {
 
 
 
-// exports.user_delete = (req,res,next)=>{
-// 	User.findOne({_id:req.params.userID})
-// 		.exec()
-// 		.then(data=>{
-// 			if(data){
-// 				if(data.profile.status == 'Inactive'){
-// 					User.deleteOne({_id:req.params.userID})
-// 						.exec()
-// 						.then(data=>{
-// 							res.status(200).json("User Deleted");
-// 						})
-// 						.catch(err =>{
-// 							console.log('user error ',err);
-// 							res.status(500).json({
-// 								error: err
-// 							});
-// 						});
-// 				}else{
-// 					res.status(200).json("Inactive users can only be Deleted");
-// 				}
-// 			}else{
-// 				res.status(404).json("User Not found");
-// 			}
-// 		})
-// 		.catch(err =>{
-// 			console.log('user error ',err);
-// 			res.status(500).json({
-// 				error: err
-// 			});
-// 		});
-// }
-
-// exports.user_update = (req,res,next)=>{
-	
-// 	User.findOne({_id:req.body.userID})
-// 		.exec()
-// 		.then(user=>{
-// 			if(user){
-// 				console.log('user ======+>',user);
-// 				User.updateOne(
-// 					{_id:req.body.userID},
-// 					{
-// 						$set:{
-// 							"profile.firstname"     : req.body.firstname,
-// 							"profile.lastname"      : req.body.lastname,
-// 							"profile.fullName"      : req.body.firstname+' '+req.body.lastname,
-// 							"profile.mobNumber"     : req.body.mobNumber,
-// 							"profile.status"		  : req.body.status,
-// 						},
-// 					}
-// 				)
-// 				.exec()
-// 				.then(data=>{
-// 					res.status(200).json("User Updated");
-// 				})
-// 				.catch(err =>{
-// 					console.log('user error ',err);
-// 					res.status(500).json({
-// 						error: err
-// 					});
-// 				});
-// 			}else{
-// 				res.status(404).json("User Not Found");
-// 			}
-// 		})
-// 		.catch(err=>{
-// 			console.log('update user error ',err);
-// 			res.status(500).json({
-// 				error:err
-// 			});
-// 		});
-// }
-
-
 
 exports.update_user = (req,res,next)=>{
 	// var roleData = req.body.role;
@@ -498,7 +344,7 @@ exports.update_user = (req,res,next)=>{
 				console.log('data =========>>>',data);
                 res.status(200).json("User Updated");
             }else{
-                res.status(401).json("User Not Found");
+                res.status(200).json("User Not Found");
             }
         })
         .catch(err =>{
