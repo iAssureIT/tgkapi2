@@ -104,6 +104,7 @@ exports.detail_companysettings = (req,res,next)=>{
 exports.list_companysettings = (req,res,next)=>{
     console.log('list');
     Companysettings.find({})
+    .sort({"createdAt":-1})
         .exec()
         .then(data=>{
             if(data){

@@ -460,7 +460,6 @@ exports.account_role_add= (req,res,next)=>{
 						} //End of set
 					}
 				)
-	
 				.exec()
 				.then( data =>{
 					if(data){

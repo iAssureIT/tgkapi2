@@ -9,6 +9,8 @@ router.get('/list',PropertiesController.list_Properties);
 
 router.post('/post/list',PropertiesController.postList); 
 
+router.post('/admin/post/list',PropertiesController.adminpostList); 
+
 router.post('/listofproperty/:propertyType/:transactionType',PropertiesController.property_list);
 
 router.get('/mypropertylist/:uid',PropertiesController.my_property_list);

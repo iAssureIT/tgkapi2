@@ -108,6 +108,7 @@ exports.create_Properties = (req,res,next)=>{
 
 };
 
+
 exports.update_PropertyLocation = (req,res,next)=>{
     // var roleData = req.body.role;
     Properties.updateOne(
@@ -657,6 +658,72 @@ exports.postList = (req,res,next)=>{
                 });
             });
     }
+
+
+    //Admin Post List
+    exports.adminpostList = (req,res,next)=>{
+
+    Properties
+        .find({
+                propertyType    : req.body.propertyType, 
+                transactionType : req.body.transactionType,
+                listing         : req.body.listing, 
+            })
+        .sort({"propertyCreatedAt" : -1})
+        .skip(req.body.startRange)
+        .limit(req.body.limitRange)
+        .exec()
+        .then(properties=>{
+            if(properties){
+                for(var k=0; k<properties.length; k++){                    
+                    properties[k] = {...properties[k]._doc, isInterested:false};
+                }
+
+                if(req.body.uid){
+                    InterestedProps
+                        .find({"buyer_id" : req.body.uid})
+                        .then(iprops => {
+                            console.log("iprops = ",iprops);
+                            if(iprops.length > 0){
+                                for(var i=0; i<iprops.length; i++){
+                                    for(let j=0; j<properties.length; j++){
+                                        if(iprops[i].property_id === String(properties[j]._id) ){
+                                            properties[j] = {...properties[j], isInterested:true};
+                                            break;
+                                        }
+
+                                    }
+
+                                }
+                                if(i >= iprops.length){
+                                    res.status(200).json(properties);
+                                }       
+                                }else{
+                                    res.status(200).json(properties);
+                                }
+                            })
+                            .catch(err =>{
+                                console.log(err);
+                                res.status(500).json({
+                                    error: err
+                                });
+                            });                        
+                    }else{
+                        // properties.map(obj=>({...obj, isInterested: false}));
+                        res.status(200).json(properties);
+                    }
+                }else{
+                    res.status(404).json('Property Details not found');
+                }
+            })
+            .catch(err =>{
+                console.log(err);
+                res.status(500).json({
+                    error: err
+                });
+            });
+    }
+
 
 exports.update_listing = (req,res,next)=>{
     Properties.updateOne(
