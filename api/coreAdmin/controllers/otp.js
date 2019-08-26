@@ -30,9 +30,7 @@ exports.user_signup = (req,res,next)=>{
         .then(user =>{
             console.log('user ',user);
             if(user.nModified == 1){
-                return res.status(200).json({
-                    "data" : user,
-                });	
+                res.status(200).json(user);
             }else{
                 res.status(401).json("User Not Found");
             }		
