@@ -157,7 +157,7 @@ exports.send_notifications = (req,res,next)=>{
             userProfile = await getProfileByUserId(req.body.toUserId);
             if(userProfile && userProfile!== null & userProfile!==""){
                 console.log("userProfile",userProfile);
-                toEmail = userProfile.emails[0].address;
+                toEmail = userProfile.profile.emailId;
             }
         }
         const templateDetails = await getTemplateDetails(req.body.templateName, req.body.variables);
