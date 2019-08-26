@@ -131,13 +131,73 @@ exports.update_notifications = (req,res,next)=>{
 
 
 
+
+//send Mail Notification -Rushikesh Salunkhe
+exports.send_notifications = (req,res,next)=>{
+    console.log('req',req.body);
+    const senderEmail = 'testtprm321@gmail.com';
+    const senderEmailPwd = 'tprm1234';
+
+    let transporter = nodeMailer.createTransport({                
+        host: 'smtp.gmail.com',
+        port: 587,
+        auth: {
+            user: senderEmail,
+            pass: senderEmailPwd
+        }
+    });
+    main();
+    async function main(){
+        // console.log("request = ", req.body);
+
+        var userProfile = {};
+        if(req.body.toUserId === "admin"){
+            toEmail = await getAdminEmail(); 
+        }else{
+            userProfile = await getProfileByUserId(req.body.toUserId);
+            if(userProfile && userProfile!== null & userProfile!==""){
+                console.log("userProfile",userProfile);
+                toEmail = userProfile.emails[0].address;
+            }
+        }
+        const templateDetails = await getTemplateDetails(req.body.templateName, req.body.variables);
+
+        var mailOptions = {                
+            from        : '"TGK Admin" <'+senderEmail+'>', // sender address
+            to          : toEmail , // list of receiver
+            subject     : templateDetails.subject, // Subject line
+            html        : templateDetails.content, // html body
+        };
+        // console.log("mailOptions",mailOptions);
+    
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {                    
+                console.log("send mail error",error);
+                res.status(500).json({              
+                    message: "Send Email Failed",
+                });
+            }
+            if(info){
+                res.status(200).json({              
+                    message: "Mail Sent Successfully",
+                });
+            }
+            res.render('index');
+        });
+
+    }
+    
+}
+
 //get getEmailByUserId - Rushikesh Salunkhe
 function getProfileByUserId(toUserId){
     return new Promise(function(resolve,reject){
+        console.log("getProfileByUserId",toUserId);
     User
     .findOne({"_id":toUserId})
     .exec()
         .then(data=>{
+            console.log('data',data);
             resolve(data);          
         })
         .catch(err =>{
@@ -219,61 +279,4 @@ function getTemplateDetails(templateName,variables){
             });
         }); 
     }
-
-
-//send Mail Notification -Rushikesh Salunkhe
-exports.send_notifications = (req,res,next)=>{
-    const senderEmail = 'testtprm321@gmail.com';
-    const senderEmailPwd = 'tprm1234';
-
-    let transporter = nodeMailer.createTransport({                
-        host: 'smtp.gmail.com',
-        port: 587,
-        auth: {
-            user: senderEmail,
-            pass: senderEmailPwd
-        }
-    });
-    main();
-    async function main(){
-        // console.log("request = ", req.body);
-
-        var userProfile = {};
-        if(req.body.toUserId === "admin"){
-            toEmail = await getAdminEmail(); 
-        }else{
-            userProfile = await getProfileByUserId(req.body.toUserId); 
-            toEmail = userProfile.emails[0].address;
-        }
-        const templateDetails = await getTemplateDetails(req.body.templateName, req.body.variables);
-        // console.log("userProfile",userProfile);
-
-        var mailOptions = {                
-            from        : '"TGK Admin" <'+senderEmail+'>', // sender address
-            to          : toEmail , // list of receiver
-            subject     : templateDetails.subject, // Subject line
-            html        : templateDetails.content, // html body
-        };
-        // console.log("mailOptions",mailOptions);
-    
-        transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {                    
-                console.log("send mail error",error);
-                res.status(500).json({              
-                    message: "Send Email Failed",
-                });
-            }
-            if(info){
-                res.status(200).json({              
-                    message: "Mail Sent Successfully",
-                });
-            }
-            res.render('index');
-        });
-
-    }
-    
-}
-
-
 
