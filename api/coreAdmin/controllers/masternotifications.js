@@ -152,7 +152,7 @@ exports.send_notifications = (req,res,next)=>{
 
         var userProfile = {};
         if(req.body.toUserId === "admin"){
-            toEmail = await getAdminEmail(); 
+            toEmail = "testtprm321@gmail.com"; 
         }else{
             userProfile = await getProfileByUserId(req.body.toUserId);
             if(userProfile && userProfile!== null & userProfile!==""){
@@ -210,26 +210,26 @@ function getProfileByUserId(toUserId){
         });
 }
 
-function getAdminEmail(){
-    //First record in CompanySetting belongs to Company
-    return new Promise(function(resolve,reject){
-        Companysettings
-            .find({})
-            .exec()
-            .then(data=>{
-                var email = data[0].companyEmail;
-                resolve(email);
-            })
-            .catch(err =>{
-                console.log(err);
-                res.status(500).json({
-                    error: err
-                });
-            });
+// function getAdminEmail(){
+//     //First record in CompanySetting belongs to Company
+//     return new Promise(function(resolve,reject){
+//         Companysettings
+//             .find({})
+//             .exec()
+//             .then(data=>{
+//                 var email = data[0].companyEmail;
+//                 resolve(email);
+//             })
+//             .catch(err =>{
+//                 console.log(err);
+//                 res.status(500).json({
+//                     error: err
+//                 });
+//             });
  
-    })
+//     })
 
-}
+// }
 
 //get TemplateDeatails - Rushikesh Salunkhe
 function getTemplateDetails(templateName,variables){
