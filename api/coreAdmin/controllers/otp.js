@@ -85,8 +85,7 @@ exports.users_verify_mobile = (req,res,next)=>{
                                 "message"  : 'MOBILE-NUMBER-EXISTS',
                                 "user_id"  : user[0]._id,
                                 "otp"      : OTP,
-                                "count"    : user.length,
-                                "userName" : user.profile[0].fullName,
+                                "count"    : user.length
                             });			
                         })
                         
