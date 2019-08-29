@@ -82,11 +82,11 @@ exports.users_verify_mobile = (req,res,next)=>{
 							console.log("src = ",src," | DST = ", dst, " | result = ", result);
                             // return res.status(200).json("OTP "+OTP+" Sent Successfully ")
                             return res.status(200).json({
-                                "message" : 'MOBILE-NUMBER-EXISTS',
-                                "user_id" : user[0]._id,
-                                "otp"     : OTP,
-                                "count"   : user.length,
-                                "count"   : user.profile[0].fullName,
+                                "message"  : 'MOBILE-NUMBER-EXISTS',
+                                "user_id"  : user[0]._id,
+                                "otp"      : OTP,
+                                "count"    : user.length,
+                                "userName" : user.profile[0].fullName,
                             });			
                         })
                         
