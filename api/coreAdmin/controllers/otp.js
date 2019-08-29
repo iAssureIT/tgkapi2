@@ -86,7 +86,7 @@ exports.users_verify_mobile = (req,res,next)=>{
                                 "user_id" : user[0]._id,
                                 "otp"     : OTP,
                                 "count"   : user.length,
-                                "count"   : user.profile.fullName,
+                                "count"   : user.profile[0].fullName,
                             });			
                         })
                         
