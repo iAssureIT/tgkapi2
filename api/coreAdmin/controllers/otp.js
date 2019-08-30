@@ -52,7 +52,7 @@ exports.user_signup = (req,res,next)=>{
 exports.users_verify_mobile = (req,res,next)=>{
 	console.log("req.body.mobile-Number",req.body.mobileNumber);
 	console.log("req.body.countryCode",req.body.countryCode);
-	User.find({'mobileNumber':req.body.mobileNumber, 'countryCode' : req.body.countryCode})
+	User.find({'mobileNumber':req.body.mobileNumber, 'countryCode' : req.body.countryCode},{'profile.fullName':1})
 		.limit(1)
 		.exec()
 		.then(user =>{
@@ -85,7 +85,8 @@ exports.users_verify_mobile = (req,res,next)=>{
                                 "message"  : 'MOBILE-NUMBER-EXISTS',
                                 "user_id"  : user[0]._id,
                                 "otp"      : OTP,
-                                "count"    : user.length
+                                "count"    : user.length,
+                                "fullName" : user[0].profile.fullName ? user[0].profile.fullName : ""
                             });			
                         })
                         
