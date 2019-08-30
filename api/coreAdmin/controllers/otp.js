@@ -127,8 +127,7 @@ exports.users_verify_mobile = (req,res,next)=>{
                         // console.log('Plivo Client = ',mobileNumber);
                         const client = new plivo.Client('MAMZU2MWNHNGYWY2I2MZ', 'MWM1MDc4NzVkYzA0ZmE0NzRjMzU2ZTRkNTRjOTcz');
                         const sourceMobile = "+919923393733";
-                        var text = "Dear User, "+'\n'+"To verify your account on TGK, Enter this verification code : \n"+OTP; 
-        
+                        var text = OTP+" is your OTP for online verification to your LYVO Account. OTP is valid for 24 hours and can be only used once."; 
                         client.messages.create(
                             src=sourceMobile,
                             dst=req.body.countryCode+''+req.body.mobileNumber,
