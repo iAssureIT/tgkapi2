@@ -1,6 +1,7 @@
-const http = require('http');
-const app = require('./app'); // app file include
-const port = process.env.PORT || 5016;
+const http 				= require('http');
+const app 				= require('./app'); // app file include
+const globalVariable 	= require('./nodemon.js');
+const port = process.env.PORT || globalVariable.port;
 
 const server = http.createServer(app);
 

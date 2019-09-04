@@ -3,7 +3,7 @@ const bcrypt		= require("bcrypt");
 const jwt			= require("jsonwebtoken");
 const plivo 		= require('plivo');
 const User 			= require('../models/users');
-
+const globalVariable 	= require('../../../nodemon.js');
 exports.user_signupadmin = (req,res,next)=>{
 
 	User.find()
@@ -136,7 +136,7 @@ exports.user_login = (req,res,next)=>{
                                 email   : req.body.email,
                                 // userId   : mongoose.Types.ObjectId(user._id) ,
                                 userId  : user._id ,
-                            },global.JWT_KEY,
+                            },globalVariable.JWT_KEY,
                             {
                                 expiresIn: "1h"
                             }
@@ -153,10 +153,7 @@ exports.user_login = (req,res,next)=>{
                                 // userProfileImg      : user.profile.userProfile,
                             }); 
                         }
-                        console.log({message:"Neither err nor result"});
-                        return res.status(200).json({
-                            message: 'Error and Result Auth failed'
-                        });
+                        
                     })
                 }else{
                     res.status(200).status({message:"Password not found"}); 

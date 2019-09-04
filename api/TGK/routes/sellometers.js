@@ -1,6 +1,6 @@
 const express 	= require("express");
 const router 	= express.Router();
-
+// const checkAuth = require('../../coreAdmin/middlerware/check-auth');
 const sellometersController = require('../controllers/sellometers');
 
 router.post('/', sellometersController.create_sellometers);
