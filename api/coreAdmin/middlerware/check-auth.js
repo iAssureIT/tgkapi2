@@ -30,12 +30,12 @@ const auth = (req, res, next) => {
 			    		next();
 	    			}
 	    		}catch(error){
-	    			res.status(401).send({ error: 'Not authorized to access this resource' })
+	    			res.status(401).send({ error: 'NOT_AUTHORIZED' })
 	    		}
 	    	}
 	    });
 	}else {
-		res.status(401).send({ error: 'Not authorized to access this resource' });
+		res.status(401).send({ error: 'NOT_AUTHORIZED' });
 	}
 }
 module.exports = auth
