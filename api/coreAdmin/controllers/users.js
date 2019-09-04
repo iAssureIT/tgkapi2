@@ -115,14 +115,14 @@ exports.update_user_resetpassword = (req,res,next)=>{
 
 
 exports.user_login = (req,res,next)=>{
-    console.log('login');
+    // console.log('login');
     User.findOne({emails:{$elemMatch:{address:req.body.email}}})
         .exec()
         .then(user => {
             if(user){
                 var pwd = user.services.password.bcrypt;
                 if(pwd){
-					console.log('PWD');
+					// console.log('PWD',pwd);
                     bcrypt.compare(req.body.password,pwd,(err,result)=>{
                         if(err){
                             console.log('password err ',err);
@@ -131,7 +131,7 @@ exports.user_login = (req,res,next)=>{
                             });     
                         }
                         if(result){
-                            console.log('result ',result);
+                            // console.log('result ',result);
                             const token = jwt.sign({
                                 email   : req.body.email,
                                 // userId   : mongoose.Types.ObjectId(user._id) ,
@@ -141,17 +141,47 @@ exports.user_login = (req,res,next)=>{
                                 expiresIn: "1h"
                             }
                             );
-                            console.log('login faild');
-                            res.header("Access-Control-Allow-Origin","*");
-                            return res.status(200).json({
-                                message             : 'Auth successful',
-                                token               : token,
-                                user_ID             : user._id,
-								userFullName       	: user.profile.fullName,
-								useremailId			: user.profile.emailId,						
-								roles 				: user.roles,
-                                // userProfileImg      : user.profile.userProfile,
-                            }); 
+                            User.updateOne(
+										{ emails:{$elemMatch:{address:req.body.email}}},
+										{
+											$push : {
+												"services.resume.loginTokens" : {
+														when: new Date(),
+														hashedToken : token
+													}
+											}
+										}
+									)
+									.exec()
+									.then(updateUser=>{
+										if(updateUser.nModified == 1){
+											// console.log("token = ",token);
+											res.status(200).json({
+												message             : 'Auth successful',
+				                                token               : token,
+				                                user_ID             : user._id,
+												userFullName       	: user.profile.fullName,
+												useremailId			: user.profile.emailId,						
+												roles 				: user.roles,
+				                                // userProfileImg      : user.profile.userProfile,
+											});	
+										}
+									})
+									.catch(err=>{
+										console.log("500 err ",err);
+										res.status(500).json(err);
+									});
+        //                     console.log('login faild');
+        //                     res.header("Access-Control-Allow-Origin","*");
+        //                     return res.status(200).json({
+        //                         message             : 'Auth successful',
+        //                         token               : token,
+        //                         user_ID             : user._id,
+								// userFullName       	: user.profile.fullName,
+								// useremailId			: user.profile.emailId,						
+								// roles 				: user.roles,
+        //                         // userProfileImg      : user.profile.userProfile,
+        //                     }); 
                         }
                         
                     })

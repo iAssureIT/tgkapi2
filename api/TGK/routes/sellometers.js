@@ -1,17 +1,17 @@
 const express 	= require("express");
 const router 	= express.Router();
-// const checkAuth = require('../../coreAdmin/middlerware/check-auth');
+const checkAuth = require('../../coreAdmin/middlerware/check-auth');
 const sellometersController = require('../controllers/sellometers');
 
-router.post('/', sellometersController.create_sellometers);
+router.post('/', checkAuth,sellometersController.create_sellometers);
 
-router.get('/list', sellometersController.list_sellometers);
+router.get('/list',checkAuth, sellometersController.list_sellometers);
 
-router.get('/:sellometersID', sellometersController.fetch_sellometers);
+router.get('/:sellometersID',checkAuth, sellometersController.fetch_sellometers);
 
-router.put('/:sellometersID', sellometersController.update_sell_O_meteor);
+router.put('/:sellometersID',checkAuth, sellometersController.update_sell_O_meteor);
 
-router.delete('/:sellometersID',sellometersController.delete_sellometers);
+router.delete('/:sellometersID',checkAuth,sellometersController.delete_sellometers);
 
 
 module.exports = router;
