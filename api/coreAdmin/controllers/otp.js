@@ -4,8 +4,9 @@
 const plivo = require('plivo');
 const User 		= require('../models/users');
 const mongoose	= require("mongoose");
-
-
+const request   = require('request-promise');
+const globalVariable = require('../../../nodemon.js');
+const jwt           = require("jsonwebtoken");
 function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
@@ -48,113 +49,138 @@ exports.user_signup = (req,res,next)=>{
 			
 };
 
+function createUser(mobileNumber,countryCode){
+    return new Promise(function(resolve,reject){
+        const user = new User({
+                        _id: new mongoose.Types.ObjectId(),
+                        createdAt       : new Date,                    
+                        mobileNumber  : mobileNumber,
+                        countryCode   : countryCode,                                  
+                        profile     : {                            
+                                    mobileNumber  : mobileNumber,
+                                    countryCode   : countryCode,                              
+                        },
+                        roles   : ['Client'],
+                        status  : "Active",
+                    });
+        user.save()
+        .then((result)=> {
+            resolve(result);
+        })
+        .catch(otpError=>{
+            reject(otpError);        
+        });
+
+    })
+};
+function updateOTP(user_ID,otp){
+    return new Promise(function(resolve,reject){
+        User.updateOne(
+                    { _id: user_ID},  
+                    {
+                        $set:{
+                            "otp" : otp,
+                        }
+                    })
+                .exec()
+                .then(data=>{
+                    resolve(true);
+                })
+                .catch(err=>{
+                    reject(err)
+                })
+
+    })
+}
 
 exports.users_verify_mobile = (req,res,next)=>{
-	console.log("req.body.mobile-Number",req.body.mobileNumber);
-	console.log("req.body.countryCode",req.body.countryCode);
-	User.find({'mobileNumber':req.body.mobileNumber, 'countryCode' : req.body.countryCode},{'profile.fullName':1})
-		.limit(1)
+    // console.log("body data ",req.body);
+	User.findOne({'mobileNumber':req.body.mobileNumber, 'countryCode' : req.body.countryCode},{'profile.fullName':1})
 		.exec()
 		.then(user =>{
+            var userData = user;
 			console.log('1. USER = ',user);
-			console.log('2. USER length = ',user.length);
-			if(user.length > 0){
-				const OTP = getRandomInt(1000,9999);
-				User.updateOne(
-					{ _id: user[0]._id},  
-					{
-						$set:{
-							"otp" : OTP,
-						}
-					})
-				.exec()
-				.then( data =>{
-					if(data){
-						console.log('USER AFTER OTP GENERATED = ',data);
-                        const client = new plivo.Client('MAMZU2MWNHNGYWY2I2MZ', 'MWM1MDc4NzVkYzA0ZmE0NzRjMzU2ZTRkNTRjOTcz');
-                        const sourceMobile = "+919923393733";
-                        var text = OTP+" is your OTP for online verification to your LYVO Account. OTP is valid for 24 hours and can be only used once."; 
-                        client.messages.create(
-							src=sourceMobile,
-							dst=req.body.countryCode+''+req.body.mobileNumber,
-							text=text
-						).then((result)=> {
-							console.log("src = ",src," | DST = ", dst, " | result = ", result);
-                            // return res.status(200).json("OTP "+OTP+" Sent Successfully ")
-                            return res.status(200).json({
-                                "message"  : 'MOBILE-NUMBER-EXISTS',
-                                "user_id"  : user[0]._id,
-                                "otp"      : OTP,
-                                "count"    : user.length,
-                                "fullName" : user[0].profile.fullName ? user[0].profile.fullName : ""
-                            });			
-                        })
-                        
-						.catch(otpError=>{
-							return res.status(500).json({
-                                messge: "Some issue happened in OTP Send Function",
-								error: otpError
-							});        
-						});       
-					}
-				})
-				.catch(err =>{
-					console.log(err);
-					res.status(500).json({
-                        message : "Some problem occured in User Update for OTP",
-						error: err
-					});
-				});			
-			}else{
+            getData();
+            async function getData(){
+                if(!user){
+                    var newUser = await createUser(req.body.mobileNumber,req.body.countryCode);
+                    user = newUser;
+                }
                 const OTP = getRandomInt(1000,9999);
-                const user = new User({
-                    _id: new mongoose.Types.ObjectId(),
-                    createdAt		: new Date,                    
-                    mobileNumber  : req.body.mobileNumber,
-                    countryCode   : req.body.countryCode,                                  
-                    profile		: {                            
-                                mobileNumber  : req.body.mobileNumber,
-                                countryCode   : req.body.countryCode,                              
-                                otp 		  : OTP,                                            
-                    },
-                    roles   : [req.body.roles],
-                    status  : req.body.status,
+                const client = new plivo.Client('MAMZU2MWNHNGYWY2I2MZ', 'MWM1MDc4NzVkYzA0ZmE0NzRjMzU2ZTRkNTRjOTcz');
+                const sourceMobile = "+919923393733";
+                var text = OTP+" is your OTP for online verification to your LYVO Account. OTP is valid for 24 hours and can be only used once."; 
+                client.messages.create(
+                    src=sourceMobile,
+                    dst=req.body.countryCode+''+req.body.mobileNumber,
+                    text=text
+                ).then((result)=> {
+                    console.log("src = ",src," | DST = ", dst, " | result = ", result);
+                    const token = jwt.sign({
+                            mobile   : req.body.mobileNumber,
+                            // userId   : mongoose.Types.ObjectId(user._id) ,
+                            userId  : user._id ,
+                        },"secret",
+                        {
+                            expiresIn: "1h"
+                        }
+                        );
+                    console.log("otp ",OTP);
+                        User.updateOne(
+                                    { 'mobileNumber':req.body.mobileNumber, 'countryCode' : req.body.countryCode},
+                                    {
+                                        // $set : { "otp" : OTP},
+                                        $push : {
+                                            "services.resume.loginTokens" : {
+                                                    when: new Date(),
+                                                    hashedToken : token
+                                                }
+                                        },
+                                    }
+                                )
+                                .exec()
+                                .then(updateUser=>{
+                                    if(updateUser.nModified == 1){
+                                        setotp();
+                                        async function setotp(){
+                                            var uotp = await updateOTP(user._id,OTP);
+                                            if(uotp){
+                                                res.status(200).json({
+                                                    "message"           : 'MOBILE-NUMBER-EXISTS',
+                                                    "user_id"           : user._id,
+                                                    "otp"               : OTP,
+                                                    "count"             : 1,
+                                                    "fullName"          : user.profile.fullName ? user.profile.fullName : "",
+                                                    "token"               : token,
+                                                    "userProfileImg"      : user.profile.userProfile,
+                                                }); 
+                                            }else{
+                                                res.status(200).json({
+                                                    "message"           : 'OTP Not Updated',
+                                                    "user_id"           : user._id,
+                                                    "otp"               : OTP,
+                                                    "count"             : 1,
+                                                    "fullName"          : user.profile.fullName ? user.profile.fullName : "",
+                                                    token               : token,
+                                                    userProfileImg      : user.profile.userProfile,
+                                                });
+                                            }
+                                        }
+                                    }
+                                })
+                                .catch(err=>{
+                                    console.log("500 err ",err);
+                                    res.status(500).json(err);
+                                });         
+                })
+                .catch(otpError=>{
+                    return res.status(501).json({
+                        message: "Some Error Occurred in OTP Send Function",
+                        error: otpError
+                    });        
                 });
-                user.save()
-                .then(newUser =>{
-                    if(newUser){
-                        console.log('New USER = ',newUser);
-                        // console.log('Plivo Client = ',mobileNumber);
-                        const client = new plivo.Client('MAMZU2MWNHNGYWY2I2MZ', 'MWM1MDc4NzVkYzA0ZmE0NzRjMzU2ZTRkNTRjOTcz');
-                        const sourceMobile = "+919923393733";
-                        var text = OTP+" is your OTP for online verification to your LYVO Account. OTP is valid for 24 hours and can be only used once."; 
-                        client.messages.create(
-                            src=sourceMobile,
-                            dst=req.body.countryCode+''+req.body.mobileNumber,
-                            text=text
-                        ).then((result)=> {
-                            console.log("src = ",src," | DST = ", dst, " | result = ", result);
-                            // return res.status(200).json("OTP "+OTP+" Sent Successfully ");
-                            return res.status(200).json({
-                                "message" : 'NEW-USER-CREATED',
-                                "user_id" : newUser._id,
-                                "otp"     : OTP,
-                            });			
-                        })
-                        .catch(otpError=>{
-                            return res.status(501).json({
-                                message: "Some Error Occurred in OTP Send Function",
-                                error: otpError
-                            });        
-                        });       
-                    }
-                    
-                })	
-				// res.status(200).json({
-				// 	message:"MOBILE-NUMBER-NOT-FOUND", 
-				// 	count : user.length,
-				// });
-			}
+            }
+
 		})
 		.catch(err =>{
 			console.log(err);

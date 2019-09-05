@@ -171,17 +171,6 @@ exports.user_login = (req,res,next)=>{
 										console.log("500 err ",err);
 										res.status(500).json(err);
 									});
-        //                     console.log('login faild');
-        //                     res.header("Access-Control-Allow-Origin","*");
-        //                     return res.status(200).json({
-        //                         message             : 'Auth successful',
-        //                         token               : token,
-        //                         user_ID             : user._id,
-								// userFullName       	: user.profile.fullName,
-								// useremailId			: user.profile.emailId,						
-								// roles 				: user.roles,
-        //                         // userProfileImg      : user.profile.userProfile,
-        //                     }); 
                         }
                         
                     })
