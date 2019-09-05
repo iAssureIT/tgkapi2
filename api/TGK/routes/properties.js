@@ -7,7 +7,7 @@ router.post('/', checkAuth,PropertiesController.create_Properties);
 
 router.get('/list',checkAuth,PropertiesController.list_Properties);
 
-router.post('/post/list',checkAuth,PropertiesController.postList); 
+router.post('/post/list',PropertiesController.postList); 
 
 router.post('/admin/post/list',checkAuth,PropertiesController.adminpostList); 
 
@@ -56,7 +56,7 @@ router.post('/post/findindexper', checkAuth,PropertiesController.find_PropertyIn
 
 //Location wise properties
 
-router.get('/get/locationWiseListCount', checkAuth,PropertiesController.locationWiseListCount);
+router.get('/get/locationWiseListCount', PropertiesController.locationWiseListCount);
 
 
 module.exports = router;
