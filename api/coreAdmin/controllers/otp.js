@@ -102,9 +102,11 @@ exports.users_verify_mobile = (req,res,next)=>{
 			console.log('1. USER = ',user);
             getData();
             async function getData(){
+                var msg = "MOBILE-NUMBER-EXISTS";
                 if(!user){
                     var newUser = await createUser(req.body.mobileNumber,req.body.countryCode);
                     user = newUser;
+                    msg = "NEW-USER-CREATED";
                 }
                 const OTP = getRandomInt(1000,9999);
                 const client = new plivo.Client('MAMZU2MWNHNGYWY2I2MZ', 'MWM1MDc4NzVkYzA0ZmE0NzRjMzU2ZTRkNTRjOTcz');
@@ -146,7 +148,7 @@ exports.users_verify_mobile = (req,res,next)=>{
                                             var uotp = await updateOTP(user._id,OTP);
                                             if(uotp){
                                                 res.status(200).json({
-                                                    "message"           : 'MOBILE-NUMBER-EXISTS',
+                                                    "message"           : msg,
                                                     "user_id"           : user._id,
                                                     "otp"               : OTP,
                                                     "count"             : 1,
@@ -156,7 +158,7 @@ exports.users_verify_mobile = (req,res,next)=>{
                                                 }); 
                                             }else{
                                                 res.status(200).json({
-                                                    "message"           : 'OTP Not Updated',
+                                                    "message"           : msg + 'OTP Not Updated',
                                                     "user_id"           : user._id,
                                                     "otp"               : OTP,
                                                     "count"             : 1,
