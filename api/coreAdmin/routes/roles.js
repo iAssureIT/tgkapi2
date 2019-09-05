@@ -11,7 +11,7 @@ router.get('/:role', checkAuth,RoleController.detail_role);
 
 router.put('/',checkAuth,RoleController.update_role);
 
-router.delete('/:roleID',checkAuth,RoleController.delete_role);
+router.delete('/:roleID',RoleController.delete_role);
 
 
 module.exports = router;

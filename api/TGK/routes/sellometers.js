@@ -11,7 +11,7 @@ router.get('/:sellometersID',checkAuth, sellometersController.fetch_sellometers)
 
 router.put('/:sellometersID',checkAuth, sellometersController.update_sell_O_meteor);
 
-router.delete('/:sellometersID',checkAuth,sellometersController.delete_sellometers);
+router.delete('/:sellometersID',sellometersController.delete_sellometers);
 
 
 module.exports = router;

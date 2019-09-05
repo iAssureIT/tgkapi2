@@ -36,9 +36,9 @@ router.patch('/patch/gallery', checkAuth,PropertiesController.update_photosandvi
 
 router.patch('/patch/availabilityPlan', checkAuth,PropertiesController.update_availabilityPlan);
 
-router.delete('/:propertyID',checkAuth,PropertiesController.delete_Properties);
+router.delete('/:propertyID',PropertiesController.delete_Properties);
 
-router.delete('/',checkAuth,PropertiesController.deleteall_Properties);
+router.delete('/',PropertiesController.deleteall_Properties);
 
 
 // router.get('/get/:status',PropertiesController.prop_get_by_status);

@@ -11,7 +11,7 @@ router.get('/:amenitiesID', checkAuth,MasteramenitiesController.fetch_masteramen
 
 router.put('/:amenitiesID',checkAuth,MasteramenitiesController.update_masteramenities);
 
-router.delete('/:amenitiesID',checkAuth,MasteramenitiesController.delete_masteramenities);
+router.delete('/:amenitiesID',MasteramenitiesController.delete_masteramenities);
 
 
 
