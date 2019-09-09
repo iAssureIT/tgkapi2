@@ -13,7 +13,7 @@ exports.create_Properties = (req,res,next)=>{
 
     async function main(){
         var allocatedToUserId = await getAllocatedToUserID(); 
-        var propertyCode = 101; // data.length + 101;
+        var propertyCode =   data.length + 101;
         const properties = new Properties({
                 _id                     : new mongoose.Types.ObjectId(),
                 owner_id                : req.body.uid,
@@ -294,10 +294,13 @@ exports.update_financials = (req,res,next)=>{
 
 exports.update_availabilityPlan = (req,res,next)=>{
     // var roleData = req.body.role;
+    console.log('update_availabilityPlan=>',req.body)
     Users.find({"roles" : "salesAgent" })
          .select("_id")
          .exec()
-         .then(toUser_id => {
+         .then(toUser_id => { 
+        console.log('toUser_id=>',toUser_id)
+
             Properties.updateOne(
                 { "_id" : req.body.property_id },                        
                 {
