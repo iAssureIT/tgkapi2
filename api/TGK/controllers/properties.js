@@ -320,7 +320,7 @@ exports.update_availabilityPlan = (req,res,next)=>{
                         "statusArray" :  {
                                         "statusVal"   : req.body.status, 
                                         "createdAt"   : new Date(),
-                                        "allocatedTo" : targetProperty.status[0].allocatedTo,
+                                        "allocatedTo" : toUser_id.status[0].allocatedTo,
                                     },                
                     }
                 }
