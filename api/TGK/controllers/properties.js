@@ -294,11 +294,9 @@ exports.update_financials = (req,res,next)=>{
 
 exports.update_availabilityPlan = (req,res,next)=>{
     // var roleData = req.body.role;
-    console.log('update_availabilityPlan=>',req.body)
-    Users.find({"roles" : "salesAgent" })
-         .select("_id")
-         .exec()
-         .then(toUser_id => { 
+     Properties.findOne({"_id":req.body.property_id})
+    .exec()
+    .then(toUser_id => { 
         console.log('toUser_id=>',toUser_id)
 
             Properties.updateOne(
