@@ -8,8 +8,6 @@ const propertiesSchema = mongoose.Schema({
     transactionType         : String,
     propertyType            : String,
     propertySubType         : String,
-    floor                   : String,
-    totalFloor              : String,
     statusArray             : Array,
     status                  : String,
     listing                 : Boolean,
@@ -28,6 +26,8 @@ const propertiesSchema = mongoose.Schema({
                                 },
                             
     propertyDetails         :   {
+                                    floor               : String,
+                                    totalFloor          : String,
                                     furnishedStatus     : String,
                                     bedrooms            : Number,
                                     balconies           : String,
@@ -64,8 +64,6 @@ const propertiesSchema = mongoose.Schema({
                                     contactPerson         : String,
                                     contactPersonMobile   : String,
                                     available             : Array,
-                                    
-                                   
                                 },
     propertyCreatedAt   : Date,
     index               : String,

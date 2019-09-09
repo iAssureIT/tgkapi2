@@ -193,7 +193,7 @@ exports.users_list = (req,res,next)=>{
 	User.find({roles : {$ne : "admin"} })
 		.exec()
 		.then(users =>{
-			console.log('users ',users);
+			// console.log('users ',users);
 			res.status(200).json(users);
 		})
 		.catch(err =>{
@@ -210,7 +210,7 @@ exports.users_directlist = (req,res,next)=>{
 		
 	   .exec()
 	   .then(users =>{
-			console.log("List of Users", users);
+			// console.log("List of Users", users);
 		   var userdataarr = [];
 		   users.map((data, index)=>{
 			// console.log('data =======================>>>>>>>>>>>>',data);
@@ -251,7 +251,7 @@ exports.users_fetch = (req,res,next)=>{
 		.select("_id username createdAt profile roles officeLocation")
 		.exec()
 		.then(users =>{			
-			console.log("fetch users = ",users);
+			// console.log("fetch users = ",users);
 			var userdataarr = []
 			users.map((data, index)=>{
 				userdataarr.push({
@@ -268,7 +268,7 @@ exports.users_fetch = (req,res,next)=>{
 					officeLocation 	: data.officeLocation,
 				});	
 			})
-			console.log('userdataarr = ',userdataarr);
+			// console.log('userdataarr = ',userdataarr);
 			res.status(200).json(userdataarr);
 		})
 		.catch(err =>{
@@ -333,8 +333,8 @@ exports.deleteall_user = function (req, res,next) {
 
 exports.update_user = (req,res,next)=>{
 	// var roleData = req.body.role;
-	console.log("req.params.userID",req.params.userID);
-	console.log("req.BODY+++=======+>",req.body);
+	// console.log("req.params.userID",req.params.userID);
+	// console.log("req.BODY+++=======+>",req.body);
 
     User.updateOne(
             { _id:req.params.userID},  
@@ -357,7 +357,7 @@ exports.update_user = (req,res,next)=>{
         .then(data=>{
             console.log('data ',data);
             if(data.nModified == 1){
-				console.log('data =========>>>',data);
+				// console.log('data =========>>>',data);
                 res.status(200).json("User Updated");
             }else{
                 res.status(200).json("User Not Found");
@@ -552,7 +552,7 @@ exports.user_search = (req,res,next)=>{
 	)
 	.exec()
 	.then( data =>{
-		console.log('data ',data);
+		// console.log('data ',data);
 		if(data.length > 0){
 			return res.status(200).json({
 				"message" : 'Search-Successfull',
@@ -585,7 +585,7 @@ exports.search_user_office = (req,res,next)=>{
 	)
 	.exec()
 	.then( data =>{
-		console.log('data ',data);
+		// console.log('data ',data);
 		if(data.length > 0){
 			return res.status(200).json({
 				"message" : 'Search-Successfull',
@@ -612,7 +612,7 @@ exports.users_count = (req,res,next)=>{
 	// .countDocuments()
 	.exec()
 	.then( data =>{
-		console.log('data ',data);
+		// console.log('data ',data);
 		if(data){
 			return res.status(200).json({
 				"message" : 'Count',

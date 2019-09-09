@@ -43,8 +43,6 @@ exports.searchProperties = (req,res,next)=>{
         var sepFloor = req.body.floor.split("-");
         var minFloor = parseInt(sepFloor[0]);
         var maxFloor = parseInt(sepFloor[1]);
-        console.log("minFloor=>",minFloor);
-        console.log("maxFloor=>",maxFloor);
         var floorSelector = [];
         for(var i=minFloor; i<=maxFloor; i++){
           floorSelector.push({"floor" : String(i)})
@@ -162,7 +160,7 @@ exports.searchProperties = (req,res,next)=>{
 
   }
 
-  console.log("selector = ", JSON.stringify(selector));
+  // console.log("selector = ", JSON.stringify(selector));
 
   Properties.find({ $and : selector, listing:true })
       .sort({"propertyCreatedAt" : -1})
@@ -177,7 +175,6 @@ exports.searchProperties = (req,res,next)=>{
                 InterestedProps
                     .find({"buyer_id" : req.body.uid})
                     .then(iprops => {
-                        console.log("iprops = ",iprops);
                         if(iprops.length > 0){
                             for(var i=0; i<iprops.length; i++){
                                 for(let j=0; j<searchResults.length; j++){

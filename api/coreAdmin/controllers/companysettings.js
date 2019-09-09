@@ -102,7 +102,7 @@ exports.detail_companysettings = (req,res,next)=>{
 }
 
 exports.list_companysettings = (req,res,next)=>{
-    console.log('list');
+    // console.log('list');
     Companysettings.find({})
     .sort({"createdAt":-1})
         .exec()
@@ -124,14 +124,14 @@ exports.list_companysettings = (req,res,next)=>{
 exports.update_companysettings = (req,res,next)=>{
     var info = req.params.info;
     var action = req.params.action;
-    console.log('update cs ',info, ' ,',action,' ,',req.body.companyId);
-    console.log("I am in update1");
+    // console.log('update cs ',info, ' ,',action,' ,',req.body.companyId);
+    // console.log("I am in update1");
     switch(action){
         case 'add' :
             switch(info){
                 case 'location':
-                     console.log("I am in switch");
-                     console.log("I am in req.body.companyId",req.body);
+                     // console.log("I am in switch");
+                     // console.log("I am in req.body.companyId",req.body);
 
                      Companysettings.updateOne(
 
@@ -157,7 +157,7 @@ exports.update_companysettings = (req,res,next)=>{
                     )
                     .exec()
                     .then(data=>{
-                        console.log('data ',data);
+                        // console.log('data ',data);
                         if(data.nModified == 1){
                             res.status(200).json("Company Locations Details added");
                         }else{
@@ -172,7 +172,7 @@ exports.update_companysettings = (req,res,next)=>{
                     });  
                     break;              
                 case 'tax' :
-                console.log("I am in req.body.companyId",req.body.companyId);
+                // console.log("I am in req.body.companyId",req.body.companyId);
 
                     Companysettings.updateOne(
                         { companyId : req.body.companyId},  
@@ -189,7 +189,7 @@ exports.update_companysettings = (req,res,next)=>{
                     )
                     .exec()
                     .then(data=>{
-                        console.log('data ',data);
+                        // console.log('data ',data);
                         if(data.nModified == 1){
                             res.status(200).json("Company Tax Details added");
                         }else{
@@ -204,8 +204,8 @@ exports.update_companysettings = (req,res,next)=>{
                     });  
                     break;
                 case 'bank' :
-                console.log("I am in switch bank");
-                console.log("companyID===>",req.body.companyId);
+                // console.log("I am in switch bank");
+                // console.log("companyID===>",req.body.companyId);
 
                     Companysettings.updateOne(
 
@@ -226,7 +226,7 @@ exports.update_companysettings = (req,res,next)=>{
                     )
                     .exec()
                     .then(data=>{
-                        console.log('data ',data);
+                        // console.log('data ',data);
                         if(data.nModified == 1){
                             res.status(200).json("Company Bank Details added");
                         }else{
@@ -247,7 +247,7 @@ exports.update_companysettings = (req,res,next)=>{
         case 'remove' :
             switch(info){
                 case 'location':
-                    console.log('location remove ',req.body);
+                    // console.log('location remove ',req.body);
                     Companysettings.updateOne(
                                         { companyId : req.body.companyId},  
                                         {
@@ -274,7 +274,7 @@ exports.update_companysettings = (req,res,next)=>{
                                     });  
                     break;
                 case 'tax' :
-                    console.log('tax remove ',req.body);
+                    // console.log('tax remove ',req.body);
                     Companysettings.updateOne(
                                         { companyId : req.body.companyId},  
                                         {
@@ -301,7 +301,7 @@ exports.update_companysettings = (req,res,next)=>{
                                     });  
                     break;
                 case 'bank' :
-                    console.log('bank remove ',req.body);
+                    // console.log('bank remove ',req.body);
                     Companysettings.updateOne(
                                         { companyId : req.body.companyID},  
                                         {
@@ -334,7 +334,7 @@ exports.update_companysettings = (req,res,next)=>{
         case 'edit' :
             switch(info){
                 case 'location':
-                    console.log('location edit ',req.body);
+                    // console.log('location edit ',req.body);
                     Companysettings.updateOne(
                                         { "companyId" : req.body.companyId, "companyLocationsInfo._id":req.body.locationID},  
                                         {
@@ -369,7 +369,7 @@ exports.update_companysettings = (req,res,next)=>{
                                     });  
                     break;
                 case 'tax' :
-                    console.log('tax edit ',req.body);
+                    // console.log('tax edit ',req.body);
                     Companysettings.updateOne(
                                         { "companyId" : req.body.companyID, "taxSettings._id":req.body.taxID},  
                                         {
@@ -397,7 +397,7 @@ exports.update_companysettings = (req,res,next)=>{
                                     });  
                     break;
                 case 'bank' :
-                    console.log('bank edit ',req.body);
+                    // console.log('bank edit ',req.body);
                     Companysettings.updateOne(
                                         { "companyId" : req.body.companyID, "bankDetails._id":req.body.bankID},  
                                         {

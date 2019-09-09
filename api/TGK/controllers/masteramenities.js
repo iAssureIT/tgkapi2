@@ -4,7 +4,7 @@ const Masteramenities = require('../models/masteramenities');
 
 exports.create_masteramenities = (req,res,next)=>{
     var masteramenitiesData = req.body.amenity;
-    console.log('masteramenitiesData ',req.body.amenity);
+    // console.log('masteramenitiesData ',req.body.amenity);
 	Masteramenities.findOne({amenity:masteramenitiesData})
 		.exec()
 		.then(data =>{
@@ -18,7 +18,7 @@ exports.create_masteramenities = (req,res,next)=>{
                     amenity             : req.body.amenity,
                     createdAt           : new Date()
                 });
-                console.log('amenity ',amenity);
+                // console.log('amenity ',amenity);
                 amenity.save()
                     .then(data=>{
                         res.status(200).json("Master-Amenities-Added");
@@ -81,9 +81,9 @@ exports.update_masteramenities = (req,res,next)=>{
         )
         .exec()
         .then(data=>{
-            console.log('data ',data);
+            // console.log('data ',data);
             if(data.nModified == 1){
-				console.log('data =========>>>',data);
+				// console.log('data =========>>>',data);
                 res.status(200).json("Master-Amenities-Updated");
             }else{
                 res.status(401).json("Master-Amenities-Not-Found");

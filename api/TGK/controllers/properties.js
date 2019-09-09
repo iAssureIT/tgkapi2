@@ -22,15 +22,28 @@ exports.create_Properties = (req,res,next)=>{
                 transactionType         : req.body.transactionType,
                 propertyType            : req.body.propertyType,
                 propertySubType         : req.body.propertySubType,                 
-                floor                   : req.body.floor,
-                totalFloor              : req.body.totalFloor,
                 status                  : req.body.status,
-                listing                 : false,           
+                listing                 : false,  
+                propertyLocation        : 
+                {
+                    "address"             : req.body.address,
+                    "society"             : req.body.societyName,
+                    "subArea"             : req.body.subAreaName,
+                    "area"                : req.body.areaName,
+                    "landmark"            : req.body.landmark,
+                    "city"                : req.body.cityName,
+                    "block"               : req.body.blockName,
+                    "district"            : req.body.districtName,
+                    "state"               : req.body.stateCode,
+                    "country"             : req.body.countryCode,
+                    "pincode"             : req.body.pincode,
+                },
+                index                  : req.body.index,    
                 $push : {
                       "statusArray"     : {
                                             "statusVal"   : req.body.status, 
-                                            "createdAt"   : new Date(),
-                                          },                
+                                            "createdAt"   : new Date()
+                                          }                
                 }
             });
 
@@ -277,8 +290,20 @@ exports.update_firstpage = (req,res,next)=>{
                 "transactionType"         : req.body.transactionType,
                 "propertyType"            : req.body.propertyType,
                 "propertySubType"         : req.body.propertySubType,                 
-                "floor"                   : req.body.floor,
-                "totalFloor"              : req.body.totalFloor,
+                "propertyLocation"        : 
+                        {
+                            "address"             : req.body.address,
+                            "society"             : req.body.societyName,
+                            "subArea"             : req.body.subAreaName,
+                            "area"                : req.body.areaName,
+                            "landmark"            : req.body.landmark,
+                            "city"                : req.body.cityName,
+                            "block"               : req.body.blockName,
+                            "district"            : req.body.districtName,
+                            "state"               : req.body.stateCode,
+                            "country"             : req.body.countryCode,
+                            "pincode"             : req.body.pincode,
+                        },
             }
         }
         )
@@ -618,7 +643,6 @@ exports.postList = (req,res,next)=>{
                     InterestedProps
                         .find({"buyer_id" : req.body.uid})
                         .then(iprops => {
-                            console.log("iprops = ",iprops);
                             if(iprops.length > 0){
                                 for(var i=0; i<iprops.length; i++){
                                     for(let j=0; j<properties.length; j++){
@@ -683,7 +707,6 @@ exports.postList = (req,res,next)=>{
                     InterestedProps
                         .find({"buyer_id" : req.body.uid})
                         .then(iprops => {
-                            console.log("iprops = ",iprops);
                             if(iprops.length > 0){
                                 for(var i=0; i<iprops.length; i++){
                                     for(let j=0; j<properties.length; j++){
@@ -749,7 +772,6 @@ exports.update_listing = (req,res,next)=>{
 
 
 exports.locationWiseListCount = (req,res,next)=>{
-    console.log("inside count method");
     Properties
 
         .aggregate([
@@ -763,7 +785,6 @@ exports.locationWiseListCount = (req,res,next)=>{
         ])
         .exec()
         .then(properties=>{
-                console.log(properties);
                 res.status(200).json(properties);
             })
             .catch(err =>{

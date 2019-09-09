@@ -14,7 +14,7 @@ exports.create_sellometers = (req,res,next)=>{
                     index 			: req.body.index,
                     createdAt       : new Date()
                 });
-                console.log('sellometers ',sellometers);
+                // console.log('sellometers ',sellometers);
                 sellometers.save()
                     .then(data=>{
                         res.status(200).json("Sell-O-Meter-Added");
@@ -80,9 +80,9 @@ exports.update_sell_O_meteor = (req,res,next)=>{
         )
         .exec()
         .then(data=>{
-            console.log('data ',data);
+            // console.log('data ',data);
             if(data.nModified == 1){
-				console.log('data =========>>>',data);
+				// console.log('data =========>>>',data);
                 res.status(200).json("Sell-O-Meter-Updated");
             }else{
                 res.status(401).json("Sell-O-Meter-Not-Found");

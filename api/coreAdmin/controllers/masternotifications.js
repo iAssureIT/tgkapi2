@@ -9,7 +9,7 @@ const Companysettings = require('../models/companysettings');
 exports.create_template = (req, res, next) => {
     var masternotificationData = req.body.templateName;
     var masternotificationtemptype = req.body.templateType
-    console.log('masternotificationData ',req.body.templateName);
+    // console.log('masternotificationData ',req.body.templateName);
 	Masternotifications.findOne({templateName:masternotificationData, templateType:masternotificationtemptype})
 		.exec()
 		.then(data =>{
@@ -115,7 +115,7 @@ exports.update_notifications = (req,res,next)=>{
         .then(data=>{
             console.log('data ',data);
             if(data.nModified == 1){
-				console.log('data =========>>>',data);
+				// console.log('data =========>>>',data);
                 res.status(200).json("Master notifications Updated");
             }else{
                 res.status(401).json("Master notifications Not Found");
@@ -134,7 +134,7 @@ exports.update_notifications = (req,res,next)=>{
 
 //send Mail Notification -Rushikesh Salunkhe
 exports.send_notifications = (req,res,next)=>{
-    console.log('req',req.body);
+    // console.log('req',req.body);
     const senderEmail = 'testtprm321@gmail.com';
     const senderEmailPwd = 'tprm1234';
 
@@ -154,7 +154,7 @@ exports.send_notifications = (req,res,next)=>{
         }else{
             userProfile = await getProfileByUserId(req.body.toUserId);
             if(userProfile && userProfile!== null & userProfile!==""){
-                console.log("userProfile",userProfile);
+                // console.log("userProfile",userProfile);
                 toEmail = userProfile.profile.emailId;
             }
         }
@@ -188,12 +188,12 @@ exports.send_notifications = (req,res,next)=>{
 //get getEmailByUserId - Rushikesh Salunkhe
 function getProfileByUserId(toUserId){
     return new Promise(function(resolve,reject){
-        console.log("getProfileByUserId",toUserId);
+        // console.log("getProfileByUserId",toUserId);
     User
     .findOne({"_id":toUserId})
     .exec()
         .then(data=>{
-            console.log('data',data);
+            // console.log('data',data);
             resolve(data);          
         })
         .catch(err =>{
@@ -258,7 +258,7 @@ function getTemplateDetails(templateName,variables){
                         }
                         content = content.split("[").join("'");
                         content = content.split("]").join("'");
-                        console.log("content = ",content);
+                        // console.log("content = ",content);
                         var tData={
                             content:content,
                             subject:NotificationData.subject
