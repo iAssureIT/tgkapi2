@@ -4,7 +4,7 @@ const ProjectSettings   = require('../models/projectSettings');
 
 exports.create_projectSettings = (req, res, next) => {
     var projectSettingsData = req.body.type;
-    console.log('projectSettingsData ',req.body.type);
+    // console.log('projectSettingsData ',req.body.type);
 	ProjectSettings.findOne({type:projectSettingsData})
 		.exec()
 		.then(data =>{
@@ -50,11 +50,11 @@ exports.create_projectSettings = (req, res, next) => {
 
 exports.fetch_projectsettings = (req, res, next)=>{
     const type = req.params.type;
-    console.log("type = |"+type+"|");
+    // console.log("type = |"+type+"|");
         ProjectSettings.findOne({"type": req.params.type})
             .exec()
             .then(data=>{
-                console.log("data ",data);
+                // console.log("data ",data);
                 res.status(200).json(data);
             })
             .catch(err =>{
@@ -66,11 +66,11 @@ exports.fetch_projectsettings = (req, res, next)=>{
 }
 exports.list_projectsettings = (req, res, next)=>{
     const type = req.params.type;
-    console.log("type = |"+type+"|");
+    // console.log("type = |"+type+"|");
         ProjectSettings.find({})
             .exec()
             .then(data=>{
-                console.log("data ",data);
+                // console.log("data ",data);
                 res.status(200).json(data);
             })
             .catch(err =>{

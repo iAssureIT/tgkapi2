@@ -40,9 +40,8 @@ const propertiesSchema = mongoose.Schema({
                                     personal            : String,
                                     pantry              : String,
                                     availableFrom       : Date,
-                                   
+                                    Amenities           : Array,
                                 },
-    Amenities               :   Array,
     gallery                 :   {
                                     Images                  :   Array,
                                     video                   :   String,

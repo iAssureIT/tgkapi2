@@ -13,7 +13,7 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 exports.user_signup = (req,res,next)=>{
-    console.log("Request = ",req.body);
+    // console.log("Request = ",req.body);
         User.updateOne(
             { _id:req.body.userID},  
             {
@@ -29,7 +29,7 @@ exports.user_signup = (req,res,next)=>{
             }
         )
         .then(user =>{
-            console.log('user ',user);
+            // console.log('user ',user);
             if(user.nModified == 1){
                 return res.status(200).json({
                     "message" : 'USER-UPDATED',
@@ -99,7 +99,7 @@ exports.users_verify_mobile = (req,res,next)=>{
 		.exec()
 		.then(user =>{
             var userData = user;
-			console.log('1. USER = ',user);
+			// console.log('1. USER = ',user);
             getData();
             async function getData(){
                 var msg = "MOBILE-NUMBER-EXISTS";
@@ -117,7 +117,7 @@ exports.users_verify_mobile = (req,res,next)=>{
                     dst=req.body.countryCode+''+req.body.mobileNumber,
                     text=text
                 ).then((result)=> {
-                    console.log("src = ",src," | DST = ", dst, " | result = ", result);
+                    // console.log("src = ",src," | DST = ", dst, " | result = ", result);
                     const token = jwt.sign({
                             mobile   : req.body.mobileNumber,
                             // userId   : mongoose.Types.ObjectId(user._id) ,
@@ -127,7 +127,7 @@ exports.users_verify_mobile = (req,res,next)=>{
                             expiresIn: "1h"
                         }
                         );
-                    console.log("otp ",OTP);
+                    // console.log("otp ",OTP);
                         User.updateOne(
                                     { 'mobileNumber':req.body.mobileNumber, 'countryCode' : req.body.countryCode},
                                     {

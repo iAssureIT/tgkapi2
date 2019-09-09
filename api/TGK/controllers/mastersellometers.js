@@ -27,7 +27,7 @@ const MasterSellometers = require('../models/mastersellometer');
 
 exports.create_mastersellometers = (req,res,next)=>{
     var mastersellometersData = req.body.class;
-    console.log('mastersellometersData ',req.body.class);
+    // console.log('mastersellometersData ',req.body.class);
 	MasterSellometers.findOne({class:mastersellometersData})
 		.exec()
 		.then(data =>{
@@ -108,9 +108,9 @@ exports.update_master_sell_O_meteor = (req,res,next)=>{
         )
         .exec()
         .then(data=>{
-            console.log('data ',data);
+            // console.log('data ',data);
             if(data.nModified == 1){
-				console.log('data =========>>>',data);
+				// console.log('data =========>>>',data);
                 res.status(200).json("Master-Sell-O-Meter-Updated");
             }else{
                 res.status(401).json("Master-Sell-O-Meter-Not-Found");

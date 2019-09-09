@@ -122,46 +122,6 @@ exports.create_Properties = (req,res,next)=>{
 };
 
 
-exports.update_PropertyLocation = (req,res,next)=>{
-    // var roleData = req.body.role;
-    Properties.updateOne(
-        { "_id" : req.body.property_id },                        
-        {
-            $set:{
-                propertyLocation        : 
-                                        {
-                                            "address"             : req.body.address,
-                                            "society"             : req.body.societyName,
-                                            "subArea"             : req.body.subAreaName,
-                                            "area"                : req.body.areaName,
-                                            "landmark"            : req.body.landmark,
-                                            "city"                : req.body.cityName,
-                                            "block"               : req.body.blockName,
-                                            "district"            : req.body.districtName,
-                                            "state"               : req.body.stateCode,
-                                            "country"             : req.body.countryCode,
-                                            "pincode"             : req.body.pincode,
-                                        },
-                 index                  : req.body.index,
-            }
-        }
-    )
-        .exec()
-        .then(data=>{
-            if(data.nModified == 1){				
-                res.status(200).json("property Location Updated");
-            }else{
-                res.status(401).json("property Location Not Found");
-            }
-        })
-        .catch(err =>{
-            console.log(err);
-            res.status(500).json({
-                error: err
-            });
-        });
-}
-
 //////////////////
 
 
@@ -217,6 +177,8 @@ exports.update_PropertyDetails = (req,res,next)=>{
         {
             $set:{
                 propertyDetails         :   {
+                                                "floor"               :  req.body.floor,
+                                                "totalFloor"          :  req.body.totalFloor,
                                                 "furnishedStatus"     :  req.body.furnishedStatus,
                                                 "bedrooms"            :  req.body.bedrooms,
                                                 "balconies"           :  req.body.balconies,
@@ -228,9 +190,7 @@ exports.update_PropertyDetails = (req,res,next)=>{
                                                 "facing"              :  req.body.facing,                                                            
                                                 "superArea"           :  req.body.superArea,
                                                 "builtupArea"         :  req.body.builtupArea,
-                                              
-                                               
-                                                
+                                                "Amenities"           :  req.body.Amenities,
                                             },
             }
         }
@@ -242,33 +202,6 @@ exports.update_PropertyDetails = (req,res,next)=>{
                 res.status(200).json("Property Details Updated");
             }else{
                 res.status(401).json("Property Details Not Found");
-            }
-        })
-        .catch(err =>{
-            console.log(err);
-            res.status(500).json({
-                error: err
-            });
-        });
-}
-
-exports.update_amenities = (req,res,next)=>{
-    // var roleData = req.body.role;
-    Properties.updateOne(
-        { "_id" : req.body.property_id },                        
-        {
-            $set:{
-                    "Amenities"    : req.body.Amenities,
-            }
-        }
-        )
-        .exec()
-        .then(data=>{
-            if(data.nModified == 1){
-				
-                res.status(200).json("Amenities Updated");
-            }else{
-                res.status(401).json("Amenities Not Found");
             }
         })
         .catch(err =>{
@@ -338,8 +271,7 @@ exports.update_financials = (req,res,next)=>{
                     "description"         : req.body.description,     
                     "availableFrom"       : req.body.availableFrom,
                     "depositAmount"       : req.body.depositAmount,       
-                    "monthlyRent"         : req.body.monthlyRent,
-                    
+                    "monthlyRent"         : req.body.monthlyRent,               
                 },
             }
         }
@@ -376,9 +308,17 @@ exports.update_availabilityPlan = (req,res,next)=>{
                                             "available"             : req.body.available,
                                     
                                         },
-                      
-        
+                        "gallery.Images" : req.body.propertyImages,
+                        "gallery.video"  : req.body.video,
+                        "status"         : req.body.status, 
                         "propertyCreatedAt" : new Date(),
+                    },
+                    $push:{                            
+                        "statusArray" :  {
+                                        "statusVal"   : req.body.status, 
+                                        "createdAt"   : new Date(),
+                                        "allocatedTo" : targetProperty.status[0].allocatedTo,
+                                    },                
                     }
                 }
                 )
@@ -407,53 +347,6 @@ exports.update_availabilityPlan = (req,res,next)=>{
 
 
 }
-
-exports.update_photosandvideos = (req,res,next)=>{
-    Properties.findOne({"_id":req.body.property_id})
-              .exec()
-              .then( targetProperty =>{
-                    Properties.updateOne(
-                        { "_id" : req.body.property_id },
-                        {
-                            $set:{
-                                "gallery.Images" : req.body.propertyImages,
-                                "gallery.video"  : req.body.video,
-                                "status"         : req.body.status, 
-                            },
-                            
-                            $push:{                            
-                                "statusArray" :  {
-                                                "statusVal"   : req.body.status, 
-                                                "createdAt"   : new Date(),
-                                                "allocatedTo" : targetProperty.status[0].allocatedTo,
-                                            },                
-                            }
-                        }
-                    )
-                    .exec()
-                    .then(data=>{
-                        if(data.nModified == 1){				
-                            res.status(200).json("Images and Video Updated");
-                        }else{
-                            res.status(401).json("Images and Video are Not Found");
-                        }
-                    })
-                    .catch(err =>{
-                        console.log(err);
-                        res.status(500).json({
-                            error: err
-                        });
-                    });
-
-              })
-            .catch(err =>{
-                console.log(err);
-                res.status(500).json({
-                    error: err
-                });
-            });
-
-},
 
 exports.detail_Properties = (req, res, next)=>{
 	var id = req.params.propertyID;

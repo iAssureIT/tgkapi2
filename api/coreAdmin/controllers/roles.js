@@ -84,7 +84,7 @@ exports.update_role = (req,res,next)=>{
         )
         .exec()
         .then(data=>{
-            console.log('data ',data);
+            // console.log('data ',data);
             if(data){
                 res.status(200).json("Role Updated");
             }else{

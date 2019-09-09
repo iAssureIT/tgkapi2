@@ -20,17 +20,14 @@ router.get('/:propertyID', checkAuth,PropertiesController.detail_Properties);
 // router.patch('/:info/:action', PropertiesController.update_Properties);
 router.patch('/patch/properties', checkAuth,PropertiesController.update_firstpage);
 
-router.patch('/patch/propertyLocation', checkAuth,PropertiesController.update_PropertyLocation);
 
 router.patch('/patch/propertyDetails', checkAuth,PropertiesController.update_PropertyDetails);
 
 router.patch('/patch/updateListing', checkAuth,PropertiesController.update_listing);
 
-router.patch('/patch/amenities', checkAuth,PropertiesController.update_amenities);
 
 router.patch('/patch/financials', checkAuth,PropertiesController.update_financials);
 
-router.patch('/patch/gallery', checkAuth,PropertiesController.update_photosandvideos);
 
 // router.patch('/patch/video', PropertiesController.update_video);
 
