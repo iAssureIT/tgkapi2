@@ -41,6 +41,11 @@ const propertiesSchema = mongoose.Schema({
                                     pantry              : String,
                                     availableFrom       : Date,
                                     Amenities           : Array,
+                                    superAreaUnit       : String,
+                                    builtupAreaUnit     : String,
+                                    furnishedOptions    : Array,
+                                    workStation         : String,
+                                    furnishPantry       : String
                                 },
     gallery                 :   {
                                     Images                  :   Array,
@@ -50,6 +55,7 @@ const propertiesSchema = mongoose.Schema({
    
     financial               :   {
                                     expectedRate        : Number,
+                                    measurementUnit     : String,
                                     totalPrice          : Number,
                                     includeCharges      : Array,
                                     maintenanceCharges  : Number,

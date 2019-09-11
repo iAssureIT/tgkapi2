@@ -191,6 +191,11 @@ exports.update_PropertyDetails = (req,res,next)=>{
                                                 "superArea"           :  req.body.superArea,
                                                 "builtupArea"         :  req.body.builtupArea,
                                                 "Amenities"           :  req.body.Amenities,
+                                                "superAreaUnit"       :  req.body.superAreaUnit,
+                                                "builtupAreaUnit"     :  req.body.builtupAreaUnit,
+                                                "furnishedOptions"    :  req.body.furnishedOptions,
+                                                "workStation"         :  req.body.workStation,
+                                                "furnishPantry"       :  req.body.furnishPantry,
                                             },
             }
         }
@@ -271,7 +276,8 @@ exports.update_financials = (req,res,next)=>{
                     "description"         : req.body.description,     
                     "availableFrom"       : req.body.availableFrom,
                     "depositAmount"       : req.body.depositAmount,       
-                    "monthlyRent"         : req.body.monthlyRent,               
+                    "monthlyRent"         : req.body.monthlyRent, 
+                    "measurementUnit"     : req.body.measurementUnit,              
                 },
             }
         }
