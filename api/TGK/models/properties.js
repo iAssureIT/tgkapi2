@@ -45,7 +45,7 @@ const propertiesSchema = mongoose.Schema({
                                     builtupAreaUnit     : String,
                                     furnishedOptions    : Array,
                                     workStation         : String,
-                                    furnishPantry       : String
+                                    furnishPantry       : String,
                                 },
     gallery                 :   {
                                     Images                  :   Array,
