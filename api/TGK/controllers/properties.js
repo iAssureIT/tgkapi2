@@ -401,7 +401,6 @@ exports.detail_Properties = (req, res, next)=>{
                 }else{
                     res.status(404).json('Property Details not found');
                 }
-            })
 		})
 		.catch(err =>{
 			console.log(err);
