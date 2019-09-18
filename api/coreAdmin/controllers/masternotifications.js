@@ -156,7 +156,7 @@ exports.send_notifications = (req,res,next)=>{
             if(userProfile && userProfile!== null & userProfile!==""){
                 // console.log("userProfile",userProfile);
                 toEmail = userProfile.profile.emailId;
-                toMobile = userProfile.profile.mobileNumber;
+                // toMobile = userProfile.profile.mobileNumber;
             }
         }
         const templateDetailsEmail = await getTemplateDetailsEmail(req.body.templateName, req.body.variables);
@@ -183,31 +183,31 @@ exports.send_notifications = (req,res,next)=>{
             res.render('index');
         });
 
-        onsole.log('Plivo Client =======+> ',toMobile);
-        const client = new plivo.Client('MAMZU2MWNHNGYWY2I2MZ', 'MWM1MDc4NzVkYzA0ZmE0NzRjMzU2ZTRkNTRjOTcz');
-        // const client = new plivo.Client('MANJFLZDG4MDEWNDBIND', 'NGExNzQ3ZjFmZDM4ZmVmMjBjNmY4ZjM0M2VmMWIw');   // Vowels LLP
+        // onsole.log('Plivo Client =======+> ',toMobile);
+        // const client = new plivo.Client('MAMZU2MWNHNGYWY2I2MZ', 'MWM1MDc4NzVkYzA0ZmE0NzRjMzU2ZTRkNTRjOTcz');
+        // // const client = new plivo.Client('MANJFLZDG4MDEWNDBIND', 'NGExNzQ3ZjFmZDM4ZmVmMjBjNmY4ZjM0M2VmMWIw');   // Vowels LLP
 
-        const sourceMobile = "+919923393733";
-        var text = templateDetailsSMS.content;
+        // const sourceMobile = "+919923393733";
+        // var text = templateDetailsSMS.content;
         
-        client.messages.create(
-            src=sourceMobile,
-            dst=toMobile,
-            text=text
-        ).then((result)=> {
-            // console.log("src = ",src," | DST = ", dst, " | result = ", result);
-            // return res.status(200).json("OTP "+OTP+" Sent Successfully ");
-            return res.status(200).json({
-                "message" : 'SMS-SEND-SUCCESSFULLY',
+        // client.messages.create(
+        //     src=sourceMobile,
+        //     dst=toMobile,
+        //     text=text
+        // ).then((result)=> {
+        //     // console.log("src = ",src," | DST = ", dst, " | result = ", result);
+        //     // return res.status(200).json("OTP "+OTP+" Sent Successfully ");
+        //     return res.status(200).json({
+        //         "message" : 'SMS-SEND-SUCCESSFULLY',
                 
-            });         
-        })
-        .catch(otpError=>{
-            return res.status(501).json({
-                message: "Some Error Occurred in SMS Send Function",
-                error: otpError
-            });
-        });
+        //     });         
+        // })
+        // .catch(otpError=>{
+        //     return res.status(501).json({
+        //         message: "Some Error Occurred in SMS Send Function",
+        //         error: otpError
+        //     });
+        // });
 
 
     }
@@ -260,7 +260,7 @@ function getProfileByUserId(toUserId){
 function getTemplateDetailsEmail(templateName,variables){
     return new Promise(function(resolve,reject){
         Masternotifications
-        .findOne({"templateName":templateName,"templateType":'Email'})
+        .findOne({"templateName":templateName})
         .exec()
         .then(NotificationData=>{
                     // console.log('serverside NotificationData: ', NotificationData);
@@ -305,56 +305,56 @@ function getTemplateDetailsEmail(templateName,variables){
         }); 
     }
 
-function getTemplateDetailsSMS(templateName,variables){
-    console.log("Inside getTemplateDetails SMS templateName = ",templateName);
-    console.log("Inside getTemplateDetails  SMS variables = ",variables);
-    return new Promise(function(resolve,reject){
-        console.log("2. Inside promise = ",templateName);
+// function getTemplateDetailsSMS(templateName,variables){
+//     console.log("Inside getTemplateDetails SMS templateName = ",templateName);
+//     console.log("Inside getTemplateDetails  SMS variables = ",variables);
+//     return new Promise(function(resolve,reject){
+//         console.log("2. Inside promise = ",templateName);
 
-        Masternotifications
-        .findOne({"templateName":templateName, "templateType":'SMS'})
-        .exec()
-        .then(NotificationData=>{
-            console.log('serverside NotificationData: ', NotificationData);
-            if(NotificationData){
-                var content = NotificationData.content;
-                var wordsplit = [];
-            if(content.indexOf('[') > -1 ){
-                wordsplit = content.split('[');
-        }
+//         Masternotifications
+//         .findOne({"templateName":templateName, "templateType":'SMS'})
+//         .exec()
+//         .then(NotificationData=>{
+//             console.log('serverside NotificationData: ', NotificationData);
+//             if(NotificationData){
+//                 var content = NotificationData.content;
+//                 var wordsplit = [];
+//             if(content.indexOf('[') > -1 ){
+//                 wordsplit = content.split('[');
+//         }
 
-        var tokens = [];
-        var n = 0;
-        for(i=0;i<wordsplit.length;i++){
-            if(wordsplit[i].indexOf(']') > -1 ){
-                tokensArr = wordsplit[i].split(']');
-                tokens[n] = tokensArr[0];
-                n++;
-            }
-        }
-        var numOfVar = Object.keys(variables).length;
+//         var tokens = [];
+//         var n = 0;
+//         for(i=0;i<wordsplit.length;i++){
+//             if(wordsplit[i].indexOf(']') > -1 ){
+//                 tokensArr = wordsplit[i].split(']');
+//                 tokens[n] = tokensArr[0];
+//                 n++;
+//             }
+//         }
+//         var numOfVar = Object.keys(variables).length;
 
-        for(i=0; i<numOfVar; i++){
-            // var tokVar = tokens[i].substr(1,tokens[i].length-2);
-            content = content.replace(tokens[i],variables[tokens[i]]);
-        }
-        content = content.split("[").join("'");
-        content = content.split("]").join("'");
-        console.log("content = ",content);
-        var tData={
-            content:content,
-            subject:NotificationData.subject
-        }
-        resolve(tData);
-        }//NotificationData
+//         for(i=0; i<numOfVar; i++){
+//             // var tokVar = tokens[i].substr(1,tokens[i].length-2);
+//             content = content.replace(tokens[i],variables[tokens[i]]);
+//         }
+//         content = content.split("[").join("'");
+//         content = content.split("]").join("'");
+//         console.log("content = ",content);
+//         var tData={
+//             content:content,
+//             subject:NotificationData.subject
+//         }
+//         resolve(tData);
+//         }//NotificationData
 
-        })
-        .catch(err =>{
-            console.log(err);
-            err.status(500).json({
-             error: err
-           });
-        });
-    });
-}
+//         })
+//         .catch(err =>{
+//             console.log(err);
+//             err.status(500).json({
+//              error: err
+//            });
+//         });
+//     });
+// }
 
