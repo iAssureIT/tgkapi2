@@ -360,8 +360,48 @@ exports.detail_Properties = (req, res, next)=>{
 	Properties.findOne({_id:id})
 		// .select("profile")
 		.exec()
-		.then(data =>{
-			res.status(200).json(data);
+		.then(properties =>{
+			if(properties){
+                for(var k=0; k<properties.length; k++){                    
+                    properties[k] = {...properties[k]._doc, isInterested:false};
+                }
+
+                if(req.body.uid){
+                    InterestedProps
+                        .find({"buyer_id" : req.body.uid})
+                        .then(iprops => {
+                            if(iprops.length > 0){
+                                for(var i=0; i<iprops.length; i++){
+                                    for(let j=0; j<properties.length; j++){
+                                        if(iprops[i].property_id === String(properties[j]._id) ){
+                                            properties[j] = {...properties[j], isInterested:true};
+                                            break;
+                                        }
+
+                                    }
+
+                                }
+                                if(i >= iprops.length){
+                                    res.status(200).json(properties);
+                                }       
+                                }else{
+                                    res.status(200).json(properties);
+                                }
+                            })
+                            .catch(err =>{
+                                console.log(err);
+                                res.status(500).json({
+                                    error: err
+                                });
+                            });                        
+                    }else{
+                        // properties.map(obj=>({...obj, isInterested: false}));
+                        res.status(200).json(properties);
+                    }
+                }else{
+                    res.status(404).json('Property Details not found');
+                }
+            })
 		})
 		.catch(err =>{
 			console.log(err);
