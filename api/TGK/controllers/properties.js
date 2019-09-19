@@ -382,9 +382,9 @@ exports.single_property = (req, res, next)=>{
                     properties[k] = {...properties[k]._doc, isInterested:false};
                 }
 
-                if(req.body.uid){
+                if(req.body.buyer_id){
                     InterestedProps
-                        .find({"buyer_id" : req.body.uid})
+                        .find({"buyer_id" : req.body.buyer_id})
                         .then(iprops => {
                             if(iprops.length > 0){
                                 for(var i=0; i<iprops.length; i++){
