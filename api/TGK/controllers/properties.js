@@ -356,12 +356,28 @@ exports.update_availabilityPlan = (req,res,next)=>{
 }
 
 exports.detail_Properties = (req, res, next)=>{
-	var id = req.params.propertyID;
-	Properties.findOne({_id:id})
-		// .select("profile")
-		.exec()
-		.then(properties =>{
-			if(properties){
+    var id = req.params.propertyID;
+    Properties.findOne({_id:id})
+        // .select("profile")
+        .exec()
+        .then(data =>{
+            res.status(200).json(data);
+        })
+        .catch(err =>{
+            console.log(err);
+            res.status(500).json({
+                error: err
+            });
+        });
+}
+
+
+exports.single_property = (req, res, next)=>{
+    Properties.findOne({_id:req.body.property_id})
+        // .select("profile")
+        .exec()
+        .then(properties =>{
+            if(properties){
                 for(var k=0; k<properties.length; k++){                    
                     properties[k] = {...properties[k]._doc, isInterested:false};
                 }
@@ -401,13 +417,13 @@ exports.detail_Properties = (req, res, next)=>{
                 }else{
                     res.status(404).json('Property Details not found');
                 }
-		})
-		.catch(err =>{
-			console.log(err);
-			res.status(500).json({
-				error: err
-			});
-		});
+        })
+        .catch(err =>{
+            console.log(err);
+            res.status(500).json({
+                error: err
+            });
+        });
 }
 
 exports.list_Properties = (req,res,next)=>{

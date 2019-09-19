@@ -17,6 +17,8 @@ router.get('/mypropertylist/:uid',checkAuth,PropertiesController.my_property_lis
 
 router.get('/:propertyID', checkAuth,PropertiesController.detail_Properties);
 
+router.post('/one/property', checkAuth,PropertiesController.single_property);
+
 // router.patch('/:info/:action', PropertiesController.update_Properties);
 router.patch('/patch/properties', checkAuth,PropertiesController.update_firstpage);
 
