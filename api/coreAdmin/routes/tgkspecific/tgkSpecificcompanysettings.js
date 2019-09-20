@@ -19,7 +19,7 @@ router.patch('/:info/:action', TgkSpecificCompanysettingsController.update_compa
 
 router.patch('/information', TgkSpecificCompanysettingsController.update_companysettinginfo);
 
-router.delete('/:companysettingsID',TgkSpecificCompanysettingsController.delete_companysettings);
+router.delete('/:companysettingsID',checkAuth,TgkSpecificCompanysettingsController.delete_companysettings);
 
 
 router.get('/email/:companyId', TgkSpecificCompanysettingsController.adminEmail_companysettings);

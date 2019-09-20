@@ -35,7 +35,7 @@ router.patch('/patch/financials', checkAuth,PropertiesController.update_financia
 
 router.patch('/patch/availabilityPlan', checkAuth,PropertiesController.update_availabilityPlan);
 
-router.delete('/:propertyID',PropertiesController.delete_Properties);
+router.delete('/:propertyID',checkAuth,PropertiesController.delete_Properties);
 
 router.delete('/',PropertiesController.deleteall_Properties);
 

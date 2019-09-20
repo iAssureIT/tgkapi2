@@ -13,7 +13,7 @@ router.patch('/', checkAuth,CompanySettingController.update_companysettings);
 
 router.patch('/:info/:action',checkAuth, CompanySettingController.update_companysettings);
 
-router.delete('/:companysettingsID',CompanySettingController.delete_companysettings);
+router.delete('/:companysettingsID',checkAuth,CompanySettingController.delete_companysettings);
 
 router.get('/email/:companysettingsID', checkAuth,CompanySettingController.adminEmail_companysettings);
 

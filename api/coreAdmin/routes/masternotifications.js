@@ -17,7 +17,7 @@ const masterNotificationsController = require('../controllers/masternotification
 
 router.post('/', checkAuth,masterNotificationsController.create_template);
 
-router.delete('/:notificationmasterID',masterNotificationsController.delete_template);
+router.delete('/:notificationmasterID',checkAuth,masterNotificationsController.delete_template);
 
 router.get('/list', checkAuth,masterNotificationsController.get_list);
 

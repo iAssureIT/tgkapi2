@@ -9,7 +9,7 @@ router.get('/list/:user_id',checkAuth,InterestedPropsController.list_myIntereste
 
 router.get('/:interestedPropsId', checkAuth,InterestedPropsController.detail_interestedProps);
 
-router.delete('/:buyer_id/:property_id',InterestedPropsController.delete_interestedProps);
+router.delete('/:buyer_id/:property_id',checkAuth,InterestedPropsController.delete_interestedProps);
 
 // router.delete('/',InterestedPropsController.deleteall_interestedProps);
 
