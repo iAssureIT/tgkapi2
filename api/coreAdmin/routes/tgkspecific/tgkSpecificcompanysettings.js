@@ -1,5 +1,6 @@
 const express 	= require("express");
 const router 	= express.Router();
+const checkAuth     = require('../../middlerware/check-auth');
 
 const TgkSpecificCompanysettingsController = require('../../controllers/tgkspecific/tgkSepcificcompanysettings');
 
