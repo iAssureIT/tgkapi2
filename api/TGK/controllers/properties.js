@@ -218,6 +218,34 @@ exports.update_PropertyDetails = (req,res,next)=>{
 }
 
 
+exports.update_amenities = (req,res,next)=>{
+    // var roleData = req.body.role;
+    Properties.updateOne(
+        { "_id" : req.body.property_id },                        
+        {
+            $set:{
+                propertyDetails :   {
+                                        "Amenities"           :  req.body.Amenities,
+                                    },
+            }
+        }
+        )
+        .exec()
+        .then(data=>{
+            if(data.nModified == 1){
+                res.status(200).json("Amenities Updated");
+            }else{
+                res.status(401).json("Amenities Updated");
+            }
+        })
+        .catch(err =>{
+            console.log(err);
+            res.status(500).json({
+                error: err
+            });
+        });
+}
+
 exports.update_firstpage = (req,res,next)=>{
     // var roleData = req.body.role;
     Properties.updateOne(
@@ -297,6 +325,8 @@ exports.update_financials = (req,res,next)=>{
             });
         });
 }
+
+
 
 exports.update_availabilityPlan = (req,res,next)=>{
     // var roleData = req.body.role;

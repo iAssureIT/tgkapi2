@@ -30,6 +30,8 @@ router.patch('/patch/updateListing', checkAuth,PropertiesController.update_listi
 
 router.patch('/patch/financials', checkAuth,PropertiesController.update_financials);
 
+router.patch('/patch/amenities', checkAuth,PropertiesController.update_amenities);
+
 
 // router.patch('/patch/video', PropertiesController.update_video);
 
