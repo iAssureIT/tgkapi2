@@ -203,7 +203,6 @@ exports.update_PropertyDetails = (req,res,next)=>{
         .exec()
         .then(data=>{
             if(data.nModified == 1){
-				
                 res.status(200).json("Property Details Updated");
             }else{
                 res.status(401).json("Property Details Not Found");
@@ -224,9 +223,7 @@ exports.update_amenities = (req,res,next)=>{
         { "_id" : req.body.property_id },                        
         {
             $set:{
-                propertyDetails :   {
-                                        "Amenities"           :  req.body.Amenities,
-                                    },
+                "propertyDetails.Amenities"    :  req.body.Amenities,
             }
         }
         )
@@ -235,7 +232,7 @@ exports.update_amenities = (req,res,next)=>{
             if(data.nModified == 1){
                 res.status(200).json("Amenities Updated");
             }else{
-                res.status(401).json("Amenities Updated");
+                res.status(401).json("Amenities Not Updated");
             }
         })
         .catch(err =>{
