@@ -112,11 +112,11 @@ exports.users_verify_mobile = (req,res,next)=>{
                 const client = new plivo.Client('MAMZU2MWNHNGYWY2I2MZ', 'MWM1MDc4NzVkYzA0ZmE0NzRjMzU2ZTRkNTRjOTcz');
                 const sourceMobile = "+919923393733";
                 var text = OTP+" is your OTP for online verification to your LYVO Account. OTP is valid for 24 hours and can be only used once."; 
-                client.messages.create(
-                    src=sourceMobile,
-                    dst=req.body.countryCode+''+req.body.mobileNumber,
-                    text=text
-                ).then((result)=> {
+                // client.messages.create(
+                //     src=sourceMobile,
+                //     dst=req.body.countryCode+''+req.body.mobileNumber,
+                //     text=text
+                // ).then((result)=> {
                     // console.log("src = ",src," | DST = ", dst, " | result = ", result);
                     const token = jwt.sign({
                             mobile   : req.body.mobileNumber,
@@ -174,13 +174,13 @@ exports.users_verify_mobile = (req,res,next)=>{
                                     console.log("500 err ",err);
                                     res.status(500).json(err);
                                 });         
-                })
-                .catch(otpError=>{
-                    return res.status(501).json({
-                        message: "Some Error Occurred in OTP Send Function",
-                        error: otpError
-                    });        
-                });
+                // })
+                // .catch(otpError=>{
+                //     return res.status(501).json({
+                //         message: "Some Error Occurred in OTP Send Function",
+                //         error: otpError
+                //     });        
+                // });
             }
 
 		})
