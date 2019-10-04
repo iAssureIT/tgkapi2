@@ -576,11 +576,6 @@ exports.update_approvedlist = (req,res,next)=>{
 exports.property_displaylist = (req,res,next)=>{
     Properties.find(
             {
-                statusArray: {
-                    $elemMatch: {
-                        allocatedTo : req.body.user_id, statusVal : req.body.status
-                    }
-                },
                 status:req.body.status
             }
         )
