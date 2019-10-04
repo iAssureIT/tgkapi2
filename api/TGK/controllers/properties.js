@@ -594,9 +594,9 @@ exports.property_sa_displaylist = (req,res,next)=>{
                                 mobNumber: user[0].mobileNumber,
                                 emailId  : user[0].profile.emailId
                             }
-                            console.log("property",propertyObj);
-                            property[i] = {...property[i]._doc, propertyObj};
-                            // property[i].push(propertyObj);
+                            if(propertyObj && propertyObj.mobileNumber && propertyObj.mobileNumber!==""){
+                                property[i].push(propertyObj);
+                            }
                         }else{
                             res.status(404).json('user not found');
                         }
