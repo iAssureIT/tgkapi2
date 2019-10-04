@@ -30,10 +30,11 @@ exports.property_sa_displaylist = (req,res,next)=>{
 	                                emailId  : user[0].profile.emailId
                             	}
                             }
+                                console.log("propertyObj",propertyObj);
                             if(propertyObj){
-                                // property[i].push(propertyObj);
+                                property[i].push(propertyObj);
                                 console.log("Inside obj");
-                                property[i] = {...property[i]._doc, propertyObj};
+                                // property[i] = {...property[i]._doc, propertyObj};
                             }
                         }else{
                             res.status(404).json('user not found');
