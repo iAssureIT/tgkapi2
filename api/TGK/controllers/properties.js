@@ -595,7 +595,8 @@ exports.property_sa_displaylist = (req,res,next)=>{
                                 emailId  : user[0].profile.emailId
                             }
                             console.log("property",propertyObj);
-                            property[i].push(propertyObj);
+                            property[i] = {...property[i]._doc, propertyObj};
+                            // property[i].push(propertyObj);
                         }else{
                             res.status(404).json('user not found');
                         }
