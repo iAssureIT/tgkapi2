@@ -584,15 +584,17 @@ exports.property_sa_displaylist = (req,res,next)=>{
         .then(property=>{
             if(property){
                 for (var i = property.length - 1; i >= 0; i--) {
-                    Users.find({_id:property[i].owner_id})
+                    Users.find({"_id":property[i].owner_id})
                     .exec()
                     .then(user=>{
+                        console.log("user",user);
                         if(user){
                             var property ={
                                 userName : user.profile.fullName,
                                 mobNumber: user.mobileNumber,
                                 emailId  : user.emails.address
                             }
+                            console.log("property",property);
                             property[i].push(property);
                         }else{
                             res.status(404).json('user not found');
