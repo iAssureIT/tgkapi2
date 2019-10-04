@@ -16,31 +16,21 @@ exports.property_sa_displaylist = (req,res,next)=>{
         .sort({"propertyCreatedAt" : 1})
         .exec()
         .then(property=>{
-        	var propetyList = [];
             if(property){
-            	console.log("property=>>>>>",property)
                 for (var i = property.length - 1; i >= 0; i--) {
-                	console.log("property[i]",property[i])
                     Users.find({"_id":property[i].owner_id})
                     .exec()
                     .then(user=>{
                         console.log("user",user);
                         if(user){
                             var propertyObj ={
-                            		propertyId      : property[i]._id,
-                            		propertyCode    : property[i].propertyCode,
-                            		propertyType    : property[i].propertyType,
-                          			transactionType : property[i].transactionType,
-                          			bedrooms        : property[i].propertyDetails.bedrooms,
-                          			propertyHolder  : property[i].propertyHolder,
-                          			propertyCreatedAt:property[i].propertyCreatedAt,
-                          			userId          : user[0]._id,
-                            		userName        : user[0].profile.fullName,
-	                                mobNumber       : user[0].mobileNumber,
-	                                emailId         : user[0].profile.emailId,
+                                userName : user[0].profile.fullName,
+                                mobNumber: user[0].mobileNumber,
+                                emailId  : user[0].profile.emailId
                             }
-                             console.log("propertyObj",propertyObj);
-                           	propetyList.push(propertyObj)
+                            if(propertyObj && propertyObj.mobileNumber){
+                                property[i].push(propertyObj);
+                            }
                         }else{
                             res.status(404).json('user not found');
                         }
@@ -53,7 +43,7 @@ exports.property_sa_displaylist = (req,res,next)=>{
                     }); 
                 }
                 if(i<0){
-                  res.status(200).json(propetyList);
+                  res.status(200).json(property);
                 }   
             }else{
                 res.status(404).json('Properties Details not found');

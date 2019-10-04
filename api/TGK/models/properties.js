@@ -11,6 +11,11 @@ const propertiesSchema = mongoose.Schema({
     statusArray             : Array,
     status                  : String,
     listing                 : Boolean,
+    ownerDetails            : {
+                                userName     : String,
+                                emailId      : String,
+                                mobileNumber : String,
+                            },
     propertyLocation        : {
                                     address             : String,
                                     society             : String,
