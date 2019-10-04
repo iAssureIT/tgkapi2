@@ -594,7 +594,7 @@ exports.property_sa_displaylist = (req,res,next)=>{
                                 mobNumber: user[0].mobileNumber,
                                 emailId  : user[0].profile.emailId
                             }
-                            if(propertyObj && propertyObj.mobileNumber && propertyObj.mobileNumber!==""){
+                            if(propertyObj && propertyObj.mobileNumber){
                                 property[i].push(propertyObj);
                             }
                         }else{
