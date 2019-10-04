@@ -4,7 +4,6 @@ const jwt			= require("jsonwebtoken");
 const plivo 		= require('plivo');
 const User 			= require('../models/users');
 const globalVariable 	= require('../../../nodemon.js');
-const axios 		= require('axios');
 exports.user_signupadmin = (req,res,next)=>{
 	User.find()
 		.exec()
