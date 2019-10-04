@@ -49,7 +49,7 @@ router.get('/:propertyID', checkAuth,PropertiesController.detail_Properties);
 
 router.patch('/patch/sa/approvedlist',PropertiesController.update_approvedlist);
 
-router.post('/post/sa/displaylist',PropertiesController.property_displaylist);
+router.post('/post/sa/displaylist',PropertiesController.property_sa_displaylist);
 
 //////////////
 

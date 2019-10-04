@@ -573,16 +573,41 @@ exports.update_approvedlist = (req,res,next)=>{
 }
 
 
-exports.property_displaylist = (req,res,next)=>{
+exports.property_sa_displaylist = (req,res,next)=>{
     Properties.find(
             {
                 status:req.body.status
             }
         )
+        .sort({"propertyCreatedAt" : 1})
         .exec()
-        .then(data=>{
-            if(data){
-                res.status(200).json(data);
+        .then(property=>{
+            if(property){
+                for (var i = property.length - 1; i >= 0; i--) {
+                    Users.find({_id:property[i].owner_id})
+                    .exec()
+                    .then(user=>{
+                        if(user){
+                            var property ={
+                                userName : user.profile.fullName,
+                                mobNumber: user.mobileNumber,
+                                emailId  : user.emails.address
+                            }
+                            property[i].push(property);
+                        }else{
+                            res.status(404).json('user not found');
+                        }
+                    })
+                    .catch(err =>{
+                        console.log(err);
+                        res.status(500).json({
+                            error: err
+                        });
+                    }); 
+                }
+                if(i<0){
+                  res.status(200).json(property);
+                }   
             }else{
                 res.status(404).json('Properties Details not found');
             }
@@ -594,9 +619,6 @@ exports.property_displaylist = (req,res,next)=>{
             });
         });
     }
-
-
-
 
 exports.postList = (req,res,next)=>{
 
