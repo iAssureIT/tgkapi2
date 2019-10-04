@@ -582,6 +582,7 @@ exports.property_sa_displaylist = (req,res,next)=>{
         .sort({"propertyCreatedAt" : 1})
         .exec()
         .then(property=>{
+            var propertyList =property;
             if(property){
                 for (var i = property.length - 1; i >= 0; i--) {
                     Users.find({"_id":property[i].owner_id})
@@ -590,12 +591,14 @@ exports.property_sa_displaylist = (req,res,next)=>{
                         console.log("user",user);
                         if(user){
                             var property ={
-                                userName : user[0].profile.fullName,
-                                mobNumber: user[0].mobileNumber,
-                                emailId  : user[0].profile.emailId
+                                propertyOwnerDetails:{
+                                    userName : user[0].profile.fullName,
+                                    mobNumber: user[0].mobileNumber,
+                                    emailId  : user[0].profile.emailId
+                                }
                             }
                             console.log("property",property);
-                            property[i].push(property);
+                            propertyList[i].push(property);
                         }else{
                             res.status(404).json('user not found');
                         }
@@ -608,7 +611,7 @@ exports.property_sa_displaylist = (req,res,next)=>{
                     }); 
                 }
                 if(i<0){
-                  res.status(200).json(property);
+                  res.status(200).json(propertyList);
                 }   
             }else{
                 res.status(404).json('Properties Details not found');
