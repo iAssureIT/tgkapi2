@@ -30,8 +30,9 @@ exports.property_sa_displaylist = (req,res,next)=>{
 	                                emailId  : user[0].profile.emailId
                             	}
                             }
-                            if(propertyObj && propertyObj.propertyOwner.mobileNumber){
+                            if(propertyObj){
                                 // property[i].push(propertyObj);
+                                console.log("Inside obj");
                                 property[i] = {...property[i]._doc, propertyObj};
                             }
                         }else{
