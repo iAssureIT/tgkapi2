@@ -28,9 +28,9 @@ exports.create_Properties = (req,res,next)=>{
                 listing                 : false, 
                 ownerDetails            : 
                                             {
-                                               "userName"     : ownerData.mobileNumber,
-                                               "emailId"      : ownerData.profile.fullName,
-                                               "mobileNumber" : ownerData.profile.emailId,
+                                               "userName"     : ownerData[0].profile.fullName,
+                                               "emailId"      : ownerData[0].profile.emailId,
+                                               "mobileNumber" : ownerData[0].mobileNumber
                                             }, 
                 propertyLocation        : 
                 {
