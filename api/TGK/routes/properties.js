@@ -47,9 +47,9 @@ router.delete('/',PropertiesController.deleteall_Properties);
 // router.patch('/patch/updatestatus',PropertiesController.update_status)
 router.get('/:propertyID', checkAuth,PropertiesController.detail_Properties);
 
-router.patch('/patch/sa/approvedlist', checkAuth,PropertiesController.update_approvedlist);
+router.patch('/patch/sa/approvedlist',PropertiesController.update_approvedlist);
 
-router.post('/post/sa/displaylist', checkAuth,PropertiesController.property_displaylist);
+router.post('/post/sa/displaylist',PropertiesController.property_displaylist);
 
 //////////////
 

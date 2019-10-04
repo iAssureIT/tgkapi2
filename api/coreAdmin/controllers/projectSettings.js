@@ -19,7 +19,10 @@ exports.create_projectSettings = (req, res, next) => {
                 secret          : req.body.secret,
                 bucket          : req.body.bucket,
                 region          : req.body.region,
-                type            : req.body.type
+                type            : req.body.type,
+                authID          : req.body.authID,
+                authToken       : req.body.authToken,
+                sourceMobile    : req.body.sourceMobile
             });
             
             projectsetting.save(

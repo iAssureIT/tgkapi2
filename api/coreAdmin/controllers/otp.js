@@ -108,10 +108,11 @@ exports.users_verify_mobile = (req,res,next)=>{
                     user = newUser;
                     msg = "NEW-USER-CREATED";
                 }
-                const OTP = getRandomInt(1000,9999);
-                const client = new plivo.Client('MAMZU2MWNHNGYWY2I2MZ', 'MWM1MDc4NzVkYzA0ZmE0NzRjMzU2ZTRkNTRjOTcz');
-                const sourceMobile = "+919923393733";
-                var text = OTP+" is your OTP for online verification to your LYVO Account. OTP is valid for 24 hours and can be only used once."; 
+                // const OTP = getRandomInt(1000,9999);
+                const OTP = 1234;
+                // const client = new plivo.Client('MAMZU2MWNHNGYWY2I2MZ', 'MWM1MDc4NzVkYzA0ZmE0NzRjMzU2ZTRkNTRjOTcz');
+                // const sourceMobile = "+919923393733";
+                // var text = OTP+" is your OTP for online verification to your LYVO Account. OTP is valid for 24 hours and can be only used once."; 
                 // client.messages.create(
                 //     src=sourceMobile,
                 //     dst=req.body.countryCode+''+req.body.mobileNumber,
