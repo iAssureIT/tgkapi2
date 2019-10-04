@@ -19,6 +19,7 @@ exports.property_sa_displaylist = (req,res,next)=>{
         	var propetyList = [];
             if(property){
                 for (var i = property.length - 1; i >= 0; i--) {
+                	console.log("property[i]",property[i])
                     Users.find({"_id":property[i].owner_id})
                     .exec()
                     .then(user=>{
