@@ -14,8 +14,8 @@ exports.create_Properties = (req,res,next)=>{
     async function main(){
         var allocatedToUserId = await getAllocatedToUserID(); 
         var ownerData         = await getOwnerData(req.body.uid);
-        console.log("ownerData",ownerData)
-        var propertyCode =  101;
+        var propertyCode      = await getPropertyCode();
+
         const properties = new Properties({
                 _id                     : new mongoose.Types.ObjectId(),
                 owner_id                : req.body.uid,
@@ -139,6 +139,22 @@ exports.create_Properties = (req,res,next)=>{
                 .catch(err =>{
                     res.status(500).json({
                         message : "User not found.",
+                        error: err
+                       });
+                });
+        });
+    }
+
+    function getPropertyCode(){
+        return new Promise(function(resolve,reject){
+            Properties.find({}).count()
+                 .exec()
+                 .then(property=>{
+                    resolve(property);
+                 })
+                .catch(err =>{
+                    res.status(500).json({
+                        message : "property not found.",
                         error: err
                        });
                 });
