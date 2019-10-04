@@ -32,6 +32,7 @@ exports.property_sa_displaylist = (req,res,next)=>{
                             }
                             if(propertyObj && propertyObj.mobileNumber){
                                 property[i].push(propertyObj);
+                                property[i] = {...property[i]._doc, propertyObj};
                             }
                         }else{
                             res.status(404).json('user not found');
