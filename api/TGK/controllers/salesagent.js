@@ -30,8 +30,8 @@ exports.property_sa_displaylist = (req,res,next)=>{
 	                                emailId  : user[0].profile.emailId
                             	}
                             }
-                            if(propertyObj && propertyObj.mobileNumber){
-                                property[i].push(propertyObj);
+                            if(propertyObj && propertyObj.propertyOwner.mobileNumber){
+                                // property[i].push(propertyObj);
                                 property[i] = {...property[i]._doc, propertyObj};
                             }
                         }else{
