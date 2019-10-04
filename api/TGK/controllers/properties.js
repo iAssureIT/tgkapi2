@@ -592,7 +592,7 @@ exports.property_sa_displaylist = (req,res,next)=>{
                             var property ={
                                 userName : user[0].profile.fullName,
                                 mobNumber: user[0].mobileNumber,
-                                emailId  : user[0].emails.address
+                                emailId  : user[0].profile.emailId
                             }
                             console.log("property",property);
                             property[i].push(property);
