@@ -244,7 +244,7 @@ exports.update_PropertyDetails = (req,res,next)=>{
             if(data.nModified == 1){
                 res.status(200).json("Property Details Updated");
             }else{
-                res.status(401).json("Property Details Not Found");
+                res.status(404).json("Property Details Not Found");
             }
         })
         .catch(err =>{
@@ -271,7 +271,7 @@ exports.update_amenities = (req,res,next)=>{
             if(data.nModified == 1){
                 res.status(200).json("Amenities Updated");
             }else{
-                res.status(401).json("Amenities Not Updated");
+                res.status(404).json("Amenities Not Updated");
             }
         })
         .catch(err =>{
@@ -314,7 +314,7 @@ exports.update_firstpage = (req,res,next)=>{
             if(data.nModified == 1){				
                 res.status(200).json("Property Updated");
             }else{
-                res.status(401).json("Property Not Found");
+                res.status(404).json("Property Not Found");
             }
         })
         .catch(err =>{
@@ -351,7 +351,7 @@ exports.update_financials = (req,res,next)=>{
             if(data.nModified == 1){				
                 res.status(200).json("Financial Updated");
             }else{
-                res.status(401).json("Financial Not Found");
+                res.status(404).json("Financial Not Found");
             }
         })
         .catch(err =>{
@@ -400,7 +400,7 @@ exports.update_availabilityPlan = (req,res,next)=>{
                     if(data.nModified == 1){                        
                         res.status(200).json("Avalibility Plan Visit Updated");
                     }else{
-                        res.status(401).json("Avalibility Plan Visit Not Found");
+                        res.status(404).json("Avalibility Plan Visit Not Found");
                     }
                 })
                 .catch(err =>{
