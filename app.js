@@ -110,7 +110,6 @@
 	const interestedPropertiesurl 	= require("./api/TGK/routes/interestedProperties");
     const searchPropertiesurl       = require("./api/TGK/routes/searchProperties");
     const salesAgenturl             = require("./api/TGK/routes/salesagent");
-    const chaturl                   = require("./api/TGK/routes/chat");
 	
 
 
@@ -121,7 +120,6 @@
 	app.use("/api/interestedProperties",interestedPropertiesurl);
 	app.use("/api/search",searchPropertiesurl);
 	app.use("/api/salesagent",salesAgenturl);
-	app.use("/api/chat",chaturl);
 
 
 	app.use((req, res, next) => {

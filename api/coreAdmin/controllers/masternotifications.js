@@ -135,8 +135,8 @@ exports.update_notifications = (req,res,next)=>{
 //send Mail Notification -Rushikesh Salunkhe
 exports.send_notifications = (req,res,next)=>{
     // console.log('req',req.body);
-    const senderEmail = 'testtprm321@gmail.com';
-    const senderEmailPwd = 'tprm1234';
+    const senderEmail = 'lyvoapp@gmail.com';
+    const senderEmailPwd = 'Lyvo@123';
 
     let transporter = nodeMailer.createTransport({                
         host: 'smtp.gmail.com',
@@ -150,7 +150,7 @@ exports.send_notifications = (req,res,next)=>{
     async function main(){
         var userProfile = {};
         if(req.body.toUserId === "admin"){
-            toEmail = "testtprm321@gmail.com"; 
+            toEmail = "lyvoapp@gmail.com'"; 
         }else{
             userProfile = await getProfileByUserId(req.body.toUserId);
             if(userProfile && userProfile!== null & userProfile!==""){

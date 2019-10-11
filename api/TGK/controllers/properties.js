@@ -550,16 +550,16 @@ exports.my_property_list = (req,res,next)=>{
 
 exports.delete_Properties = (req,res,next)=>{
     Properties.deleteOne({_id:req.params.propertyID})
-        .exec()
-        .then(data=>{
-            res.status(200).json("Properties deleted");
-        })
-        .catch(err =>{
-            console.log(err);
-            res.status(500).json({
-                error: err
-            });
+    .exec()
+    .then(data=>{
+        res.status(200).json("Properties deleted");
+    })
+    .catch(err =>{
+        console.log(err);
+        res.status(500).json({
+            error: err
         });
+    });
 }
 
 exports.deleteall_Properties = (req,res,next)=>{
@@ -578,7 +578,6 @@ exports.deleteall_Properties = (req,res,next)=>{
         
 
 exports.postList = (req,res,next)=>{
-
     Properties
         .find({
                 propertyType    : req.body.propertyType, 
@@ -642,7 +641,6 @@ exports.postList = (req,res,next)=>{
 
     //Admin Post List
     exports.adminpostList = (req,res,next)=>{
-
     Properties
         .find({
                 propertyType    : req.body.propertyType, 
@@ -729,26 +727,25 @@ exports.update_listing = (req,res,next)=>{
 
 exports.locationWiseListCount = (req,res,next)=>{
     Properties
-
-        .aggregate([
-            {
-              '$match' : { 'listing' : true}
-            },
-            {
-                "$group" : {"_id":"$propertyLocation.subArea", "count":{$sum:1}}
-            },
-            { $sort: { count: -1 } } 
-        ])
-        .exec()
-        .then(properties=>{
-                res.status(200).json(properties);
-            })
-            .catch(err =>{
-                console.log(err);
-                res.status(500).json({
-                    error: err
-                });
+    .aggregate([
+        {
+          '$match' : { 'listing' : true}
+        },
+        {
+            "$group" : {"_id":"$propertyLocation.subArea", "count":{$sum:1}}
+        },
+        { $sort: { count: -1 } } 
+    ])
+    .exec()
+    .then(properties=>{
+            res.status(200).json(properties);
+        })
+        .catch(err =>{
+            console.log(err);
+            res.status(500).json({
+                error: err
             });
+        });
 }
 
 
