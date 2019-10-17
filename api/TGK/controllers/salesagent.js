@@ -17,31 +17,42 @@ exports.property_sa_displaylist = (req,res,next)=>{
         .exec()
         .then(property=>{
             if(property){
-                property = property.map((propertyData)=>{
-                    console.log("in map function");
+
+                var propertyData = property;
+                var propertyData1;
+                var propertyData2=[];
+                for(var z=0;z<propertyData.length;z++){
+                    console.log("in map function-----------------------------------------");
                         var count = 0;
                         var Tcount = 0;
-                        var data = propertyData;
-                        var propertyData = JSON.stringify(data, replaceUndefinedOrNull.bind(this));
-                        propertyData = JSON.parse(propertyData);
+                        propertyData1 = propertyData[z];
+                        propertyData1 = JSON.stringify(propertyData1, replaceUndefinedOrNull.bind(this));
+                        propertyData1 = JSON.parse(propertyData1);
                         function replaceUndefinedOrNull(key, value) {                       
                             Tcount = Tcount + 1;
-                            propertyData.Tcount = Tcount;
+                            propertyData1.Tcount = Tcount;
                               if (value === ""){
                                    count = count+1;
-                                    propertyData.setCount = count;
+                                    propertyData1.setCount = count;
                                     var formFillPercentage = ((Tcount-count)/Tcount) * 100;
                                     console.log("formFillPercentage----->",formFillPercentage);
-                                    propertyData.formFillPercentage = (formFillPercentage).toFixed(2);  
+                                    propertyData1.formFillPercentage = (formFillPercentage).toFixed(2);  
                                     return count;
                               }
                               return value;
                         }
 
+                        propertyData2.push(propertyData1);
+                }
 
-                        return propertyData
+                console.log("propertyData2--->",propertyData2);
 
-                        })
+
+               
+                    
+                       
+
+                        
 
                 
                 for (var i = property.length - 1; i >= 0; i--) {
