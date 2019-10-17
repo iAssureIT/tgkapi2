@@ -28,11 +28,14 @@ exports.property_sa_displaylist = (req,res,next)=>{
                         propertyData1 = propertyData[0];
                         propertyData1 = JSON.stringify(propertyData1, replaceUndefinedOrNull.bind(this));
                         propertyData1 = JSON.parse(propertyData1);
+
                         function replaceUndefinedOrNull(key, value) {                       
                             Tcount = Tcount + 1;
                             propertyData1.Tcount = Tcount;
+                             console.log("Tcount--->",Tcount);
                               if (value === ""){
                                    count = count+1;
+                                    console.log("count--->",count);
                                     propertyData1.setCount = count;
                                     var formFillPercentage = ((Tcount-count)/Tcount) * 100;
                                     propertyData1.formFillPercentage = (formFillPercentage).toFixed(2);  
@@ -41,7 +44,7 @@ exports.property_sa_displaylist = (req,res,next)=>{
                               return value;
                         }
 
-                        console.log("propertyData1--->",propertyData1);
+                       
 
                         // propertyData2.push(propertyData1);
                 // }
