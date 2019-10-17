@@ -17,6 +17,33 @@ exports.property_sa_displaylist = (req,res,next)=>{
         .exec()
         .then(property=>{
             if(property){
+                property = property.map((propertyData)=>{
+                    console.log("in map function");
+                        var count = 0;
+                        var Tcount = 0;
+                        var data = propertyData;
+                        var propertyData = JSON.stringify(data, replaceUndefinedOrNull.bind(this));
+                        propertyData = JSON.parse(propertyData);
+                        function replaceUndefinedOrNull(key, value) {                       
+                            Tcount = Tcount + 1;
+                            propertyData.Tcount = Tcount;
+                              if (value === ""){
+                                   count = count+1;
+                                    propertyData.setCount = count;
+                                    var formFillPercentage = ((Tcount-count)/Tcount) * 100;
+                                    console.log("formFillPercentage----->",formFillPercentage);
+                                    propertyData.formFillPercentage = (formFillPercentage).toFixed(2);  
+                                    return count;
+                              }
+                              return value;
+                        }
+
+
+                        return propertyData
+
+                        })
+
+                
                 for (var i = property.length - 1; i >= 0; i--) {
                     Users.find({"_id":property[i].owner_id})
                     .exec()
@@ -43,32 +70,8 @@ exports.property_sa_displaylist = (req,res,next)=>{
                     }); 
                 }
                 if(i<0){
-                    var newData = property.map((propertyData)=>{
-                                            var count = 0;
-                                            var Tcount = 0;
-                                            var data = propertyData;
-                                            var propertyData = JSON.stringify(data, replaceUndefinedOrNull.bind(this));
-                                            propertyData = JSON.parse(propertyData);
-                                            function replaceUndefinedOrNull(key, value) {                       
-                                                Tcount = Tcount + 1;
-                                                propertyData.Tcount = Tcount;
-                                                  if (value === ""){
-                                                       count = count+1;
-                                                        propertyData.setCount = count;
-                                                        var formFillPercentage = ((Tcount-count)/Tcount) * 100;
-                                                        propertyData.formFillPercentage = (formFillPercentage).toFixed(2);  
-                                                        return count;
-                                                  }
-                                                  return value;
-                                            }
-
-
-                                            return propertyData
-
-                                            })
-
-                console.log("newData---------->",newData);
-                  res.status(200).json(newData);
+                   console.log("newData---------->",property);
+                  res.status(200).json(property);
 
                 }   
             }else{
