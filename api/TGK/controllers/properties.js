@@ -73,7 +73,7 @@ exports.create_Properties = (req,res,next)=>{
     }
     function getAllocatedToUserID(){
         return new Promise(function(resolve,reject){
-            Users.find({"roles" : "sales agent"},{$sort:{createdAt:1}})
+            Users.find({"roles" : "Sales Agent"},{$sort:{createdAt:1}})
                  .exec()
                  .then(salesAgents=>{
                     if(salesAgents.length > 0){
