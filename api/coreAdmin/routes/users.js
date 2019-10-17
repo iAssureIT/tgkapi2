@@ -12,6 +12,8 @@ router.post('/post', UserController.user_signupadmin);
 
 router.post('/post/login',UserController.user_login); 
 
+router.post('/post/login/role',UserController.user_login_role); 
+
 router.post('/post/userslist',UserController.users_fetch); 
 
 router.post('/post/searchValue',UserController.user_search); 

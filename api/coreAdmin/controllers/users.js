@@ -629,3 +629,79 @@ exports.users_count = (req,res,next)=>{
 		});
 	});
 }
+
+///////////////////////Anagha's Code//////////////////////////////////////
+exports.user_login_role = (req,res,next)=>{
+    // console.log('login');
+    User.findOne({emails:{$elemMatch:{address:req.body.email}},"roles" : req.body.role})
+        .exec()
+        .then(user => {
+            if(user){
+                var pwd = user.services.password.bcrypt;
+                if(pwd){
+					// console.log('PWD',pwd);
+                    bcrypt.compare(req.body.password,pwd,(err,result)=>{
+                        if(err){
+                            console.log('password err ',err);
+                            return res.status(200).json({
+                                message: 'Bcrypt Auth failed'
+                            });     
+                        }
+                        if(result){
+                            // console.log('result ',result);
+                            const token = jwt.sign({
+                                email   : req.body.email,
+                                // userId   : mongoose.Types.ObjectId(user._id) ,
+                                userId  : user._id ,
+                            },globalVariable.JWT_KEY,
+                            {
+                                expiresIn: "23h"
+                            }
+                            );
+                            User.updateOne(
+										{ emails:{$elemMatch:{address:req.body.email}}},
+										{
+											$push : {
+												"services.resume.loginTokens" : {
+														when: new Date(),
+														hashedToken : token
+													}
+											}
+										}
+									)
+									.exec()
+									.then(updateUser=>{
+										if(updateUser.nModified == 1){
+											// console.log("token = ",token);
+											res.status(200).json({
+												message             : 'Auth successful',
+				                                token               : token,
+				                                user_ID             : user._id,
+												userFullName       	: user.profile.fullName,
+												useremailId			: user.profile.emailId,						
+												roles 				: user.roles,
+				                                // userProfileImg      : user.profile.userProfile,
+											});	
+										}
+									})
+									.catch(err=>{
+										console.log("500 err ",err);
+										res.status(500).json(err);
+									});
+                        }
+                        
+                    })
+                }else{
+                    res.status(200).status({message:"Password not found"}); 
+                }
+            }else{
+                res.status(200).status({message:"User Not found"});
+            }
+        })
+        .catch(err =>{
+            console.log(err);
+            res.status(500).json({
+                error: err
+            });
+        });
+};

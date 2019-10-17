@@ -50,8 +50,9 @@ exports.create_Properties = (req,res,next)=>{
                 index                  : req.body.index,    
                 $push : {
                       "statusArray"     : {
-                                            "statusVal"   : req.body.status, 
-                                            "createdAt"   : new Date()
+                                            "statusVal"         : req.body.status, 
+                                            "createdAt"         : new Date(),
+                                            "allocatedToUserId" : allocatedToUserId,
                                           }                
                 }
             });
@@ -76,6 +77,7 @@ exports.create_Properties = (req,res,next)=>{
             Users.find({"roles" : "Sales Agent"},{$sort:{createdAt:1}})
                  .exec()
                  .then(salesAgents=>{
+                    console.log("salesAgents ",salesAgents);
                     if(salesAgents.length > 0){
                         //Sales agents found. Then find, to which SA, the last property was assigned
                         Properties.find({})
