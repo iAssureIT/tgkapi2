@@ -10,7 +10,6 @@ const InterestedProps = require('../models/interestedProperties');
 // ===================== round robin ================
 exports.create_Properties = (req,res,next)=>{
     main();
-
     async function main(){
         var allocatedToUserId = await getAllocatedToUserID(); 
         var ownerData         = await getOwnerData(req.body.uid);
@@ -26,6 +25,7 @@ exports.create_Properties = (req,res,next)=>{
                 propertySubType         : req.body.propertySubType,                 
                 status                  : req.body.status,
                 listing                 : false, 
+                salesAgent_id           : allocatedToUserId,
                 ownerDetails            : 
                                             {
                                                "userName"     : ownerData[0].profile.fullName,

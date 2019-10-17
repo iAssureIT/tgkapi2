@@ -92,11 +92,6 @@ exports.update_approvedlist = (req,res,next)=>{
         });
 }
 
-
-
-
-
-
 exports.property_sa_totaldisplaylist = (req,res,next)=>{
     Properties.find()        
         .exec()

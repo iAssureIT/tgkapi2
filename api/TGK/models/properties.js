@@ -75,8 +75,9 @@ const propertiesSchema = mongoose.Schema({
                                     contactPersonMobile   : String,
                                     available             : Array,
                                 },
-    propertyCreatedAt   : Date,
-    index               : String,
+    propertyCreatedAt       : Date,
+    index                   : String,
+    salesAgent_id           : { type: mongoose.Schema.Types.ObjectId, ref: 'users' }
 
 });
 

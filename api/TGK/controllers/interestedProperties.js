@@ -6,7 +6,6 @@ const ObjectId = require('mongodb').ObjectID;
 
 
 exports.create_interestedProps = (req,res,next)=>{ 
-
     const interestedProps = new InterestedProps({
             _id                     : new mongoose.Types.ObjectId(),
             buyer_id                : req.body.buyer_id,
