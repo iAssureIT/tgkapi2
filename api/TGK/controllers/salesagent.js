@@ -47,22 +47,24 @@ exports.property_sa_displaylist = (req,res,next)=>{
                                             var count = 0;
                                             var Tcount = 0;
                                             var data = propertyData;
-                                            var exampleObject = JSON.stringify(data, replaceUndefinedOrNull.bind(this));
-                                                exampleObject = JSON.parse(exampleObject);
-                                                        function replaceUndefinedOrNull(key, value) {                       
-                                                            Tcount = Tcount + 1;
-                                                            propertyData.Tcount = Tcount;
-                                                              if (value === ""){
-                                                                   count = count+1;
-                                                                    propertyData.setCount = count;
-                                                                    var formFillPercentage = ((Tcount-count)/Tcount) * 100;
-                                                                    propertyData.formFillPercentage = (formFillPercentage).toFixed(2);  
-                                                                    return count;
-                                                              }
-                                                              return value;
-                                                        }
+                                            var propertyData = JSON.stringify(data, replaceUndefinedOrNull.bind(this));
+                                            propertyData = JSON.parse(propertyData);
+                                            function replaceUndefinedOrNull(key, value) {                       
+                                                Tcount = Tcount + 1;
+                                                propertyData.Tcount = Tcount;
+                                                  if (value === ""){
+                                                       count = count+1;
+                                                        propertyData.setCount = count;
+                                                        var formFillPercentage = ((Tcount-count)/Tcount) * 100;
+                                                        propertyData.formFillPercentage = (formFillPercentage).toFixed(2);  
+                                                        return count;
+                                                  }
+                                                  return value;
+                                            }
 
-                                                        return exampleObject
+                                            console.log("propertyData--->",propertyData);
+
+                                            return propertyData
 
                                             })
 
