@@ -49,7 +49,7 @@ exports.property_sa_displaylist = (req,res,next)=>{
                         // propertyData2.push(propertyData1);
                 // }
 
-                // console.log("propertyData2--->",propertyData2[0]);
+                console.log("propertyData1--->",propertyData1);
 
 
                
