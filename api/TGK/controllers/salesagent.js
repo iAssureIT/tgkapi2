@@ -21,11 +21,11 @@ exports.property_sa_displaylist = (req,res,next)=>{
                 var propertyData = property;
                 var propertyData1;
                 var propertyData2=[];
-                for(var z=0;z<propertyData.length;z++){
-                    console.log("in map function-----------------------------------------");
+                // for(var z=0;z<propertyData.length;z++){
+                    // console.log("in map function-----------------------------------------");
                         var count = 0;
                         var Tcount = 0;
-                        propertyData1 = propertyData[z];
+                        propertyData1 = propertyData[0];
                         propertyData1 = JSON.stringify(propertyData1, replaceUndefinedOrNull.bind(this));
                         propertyData1 = JSON.parse(propertyData1);
                         function replaceUndefinedOrNull(key, value) {                       
@@ -35,17 +35,18 @@ exports.property_sa_displaylist = (req,res,next)=>{
                                    count = count+1;
                                     propertyData1.setCount = count;
                                     var formFillPercentage = ((Tcount-count)/Tcount) * 100;
-                                    console.log("formFillPercentage----->",formFillPercentage);
                                     propertyData1.formFillPercentage = (formFillPercentage).toFixed(2);  
                                     return count;
                               }
                               return value;
                         }
 
-                        propertyData2.push(propertyData1);
-                }
+                        console.log("propertyData1--->",propertyData1);
 
-                console.log("propertyData2--->",propertyData2);
+                        // propertyData2.push(propertyData1);
+                // }
+
+                // console.log("propertyData2--->",propertyData2[0]);
 
 
                
