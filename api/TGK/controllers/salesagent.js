@@ -31,14 +31,14 @@ exports.property_sa_displaylist = (req,res,next)=>{
 
                         function replaceUndefinedOrNull(key, value) {                       
                             Tcount = Tcount + 1;
-                            propertyData1.Tcount = Tcount;
+                            property[0].Tcount = Tcount;
                              console.log("Tcount--->",Tcount);
                               if (value === ""){
                                    count = count+1;
                                     console.log("count--->",count);
-                                    propertyData1.setCount = count;
+                                    property[0].setCount = count;
                                     var formFillPercentage = ((Tcount-count)/Tcount) * 100;
-                                    propertyData1.formFillPercentage = (formFillPercentage).toFixed(2);  
+                                    property[0].formFillPercentage = (formFillPercentage).toFixed(2);  
                                     return count;
                               }
                               return value;
@@ -49,7 +49,7 @@ exports.property_sa_displaylist = (req,res,next)=>{
                         // propertyData2.push(propertyData1);
                 // }
 
-                console.log("propertyData1--->",propertyData1);
+                console.log("propertyData1--->",property[0]);
 
 
                
