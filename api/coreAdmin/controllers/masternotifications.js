@@ -150,7 +150,7 @@ exports.send_notifications = (req,res,next)=>{
     async function main(){
         var userProfile = {};
         if(req.body.toUserId === "admin"){
-            toEmail = "lyvoapp@gmail.com'"; 
+            toEmail = "lyvoapp@gmail.com"; 
         }else{
             userProfile = await getProfileByUserId(req.body.toUserId);
             if(userProfile && userProfile!== null & userProfile!==""){
