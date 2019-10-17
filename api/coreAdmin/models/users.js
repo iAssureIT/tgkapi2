@@ -38,10 +38,12 @@ const userSchema = mongoose.Schema({
 		status			: String,
 		otp 			: Number,
 		city 			: String,
+		propertyCount	: Number,
 	},
 	roles 				: [String],
 	officeLocation 		: String,
-	heartbeat : Date
+	heartbeat 			: Date,
+	updateAt 			: Date,
 });
 
 module.exports = mongoose.model('users',userSchema);

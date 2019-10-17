@@ -72,31 +72,90 @@ exports.create_Properties = (req,res,next)=>{
                     });
                   });
     }
+    // function getAllocatedToUserID(){
+    //     return new Promise(function(resolve,reject){
+    //         Users.find({"roles" : "Sales Agent"},{$sort:{createdAt:1}})
+    //              .exec()
+    //              .then(salesAgents=>{
+    //                 console.log("salesAgents ",salesAgents);
+    //                 if(salesAgents.length > 0){
+    //                     //Sales agents found. Then find, to which SA, the last property was assigned
+    //                     Properties.find({})
+    //                               .sort({createdAt:-1})
+    //                               .limit(1)
+    //                               .exec()
+    //                               .then(oneProperty=>{
+    //                                   if(oneProperty.length > 0){
+    //                                     resolve(oneProperty.statusArray[0].allocatedToUserId);
+    //                                   }else{
+    //                                     resolve(salesAgents[0]._id);
+    //                                   }
+    //                               })
+    //                               .catch(err =>{
+    //                                 res.status(500).json({
+    //                                     message : "Properties Not Found",
+    //                                     error: err
+    //                                 });
+    //                             });
+    //                 }else{
+    //                     Users.findOne({"roles" : "Technical Admin"})
+    //                     .exec()
+    //                     .then(admin=>{
+    //                         resolve(admin._id);
+    //                     })
+    //                    .catch(err =>{
+    //                     res.status(500).json({
+    //                         message : "Admin role user Not Found",
+    //                         error: err
+    //                        });
+    //                    });
+    //                 }
+    //              })
+    //             .catch(err =>{
+    //               console.log(err);
+    //                 Users.findOne({"roles" : "Technical Admin"})
+    //                 .exec()
+    //                 .then(admin=>{
+    //                     resolve(admin._id);
+    //                 })
+    //                .catch(err =>{
+    //                 res.status(500).json({
+    //                     message : "Admin role user Not Found",
+    //                     error: err
+    //                    });
+    //                });
+    //             });
+    //     });
+    // }
+    ///Code By Anagha////
     function getAllocatedToUserID(){
         return new Promise(function(resolve,reject){
-            Users.find({"roles" : "Sales Agent"},{$sort:{createdAt:1}})
+            Users.find({"roles" : "Sales Agent"})
+                 .sort({updateAt:1})
                  .exec()
                  .then(salesAgents=>{
                     console.log("salesAgents ",salesAgents);
                     if(salesAgents.length > 0){
                         //Sales agents found. Then find, to which SA, the last property was assigned
-                        Properties.find({})
-                                  .sort({createdAt:-1})
-                                  .limit(1)
-                                  .exec()
-                                  .then(oneProperty=>{
-                                      if(oneProperty.length > 0){
-                                        resolve(oneProperty.statusArray[0].allocatedToUserId);
-                                      }else{
-                                        resolve(salesAgents[0]);
-                                      }
-                                  })
-                                  .catch(err =>{
-                                    res.status(500).json({
-                                        message : "Properties Not Found",
-                                        error: err
-                                    });
-                                });
+                        Users.updateOne(
+                                    { "_id" : salesAgents[0]._id},
+                                    {
+                                        $set : {
+                                            "updateAt"              : new Date(),
+                                            "profile.propertyCount" : salesAgents[0].profile.propertyCount ? profile.propertyCount + 1 : 1
+                                        }
+                                    }
+                                )
+                             .exec()
+                             .then(data=>{
+                                resolve(salesAgents[0]._id)
+                             })
+                             .catch(err =>{
+                                res.status(500).json({
+                                    message : "Admin role user Not Found",
+                                    error: err
+                                   });
+                               });      
                     }else{
                         Users.findOne({"roles" : "Technical Admin"})
                         .exec()
