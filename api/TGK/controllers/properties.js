@@ -444,6 +444,7 @@ exports.update_availabilityPlan = (req,res,next)=>{
                         "gallery.video"  : req.body.video,
                         "status"         : req.body.status, 
                         "propertyCreatedAt" : new Date(),
+                        "updateAt"       : new Date(),
                     },
                     $push:{                            
                         "statusArray" :  {
@@ -553,6 +554,26 @@ exports.single_property = (req, res, next)=>{
 
 exports.list_Properties = (req,res,next)=>{
     Properties.find({})
+        .sort({"updatedAt":1})
+        .exec()
+        .then(data=>{
+            if(data){
+                res.status(200).json(data);
+            }else{
+                res.status(404).json('Properties Details not found');
+            }
+        })
+        .catch(err =>{
+            console.log(err);
+            res.status(500).json({
+                error: err
+            });
+        });
+}
+
+exports.list_Properties_status = (req,res,next)=>{
+    Properties.find({status:req.params.status})
+        .sort({"updatedAt":1})
         .exec()
         .then(data=>{
             if(data){
@@ -571,6 +592,7 @@ exports.list_Properties = (req,res,next)=>{
 
 exports.list_Properties_salesAgent = (req,res,next)=>{
     Properties.find({"salesAgent_id":ObjectID(req.params.salesAgentID)})
+        .sort({"updatedAt":1})
         .exec()
         .then(data=>{
             if(data){
@@ -585,6 +607,25 @@ exports.list_Properties_salesAgent = (req,res,next)=>{
                 error: err
             });
         });
+}
+
+exports.list_Properties_salesAgent_type = (req,res,next)=>{
+    Properties.find({"salesAgent_id":ObjectID(req.params.salesAgentID),status:req.params.status})
+                .sort({"updatedAt":1})
+                .exec()
+                .then(data=>{
+                    if(data){
+                        res.status(200).json(data);
+                    }else{
+                        res.status(404).json('Properties Details not found');
+                    }
+                })
+                .catch(err =>{
+                    console.log(err);
+                    res.status(500).json({
+                        error: err
+                    });
+                });
 }
 
 exports.property_list = (req,res,next)=>{
@@ -785,6 +826,7 @@ exports.update_listing = (req,res,next)=>{
         {
             $set:{
                     "listing"  : req.body.listing,
+                    "updatedAt": new Date()
             }
         }
         )

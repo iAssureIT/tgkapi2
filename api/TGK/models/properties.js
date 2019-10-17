@@ -79,6 +79,7 @@ const propertiesSchema = mongoose.Schema({
     index                   : String,
     salesAgent_id           : { type: mongoose.Schema.Types.ObjectId, ref: 'users' },
     perComplete             : Number,
+    updatedAt               : Date
 
 });
 

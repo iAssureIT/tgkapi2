@@ -109,11 +109,12 @@ exports.update_approvedlist = (req,res,next)=>{
                                 "createdBy"             : req.body.user_id, 
                                 "createdAt"             : new Date(),
                                 "allocatedTo"           : req.body.allocatedToUserId,
-                                "remark"                : req.body.remark,  
+                                "remark"                : req.body.remark, 
                             }],
                 },
             $set:{
                 "status" : req.body.status,
+                "updateAt" : new Date(), 
             }   
         }
         )
