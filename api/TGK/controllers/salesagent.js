@@ -62,12 +62,12 @@ exports.property_sa_displaylist = (req,res,next)=>{
                                                   return value;
                                             }
 
-                                            console.log("propertyData--->",propertyData);
 
                                             return propertyData
 
                                             })
 
+                console.log("newData---------->",newData);
                   res.status(200).json(newData);
 
                 }   
