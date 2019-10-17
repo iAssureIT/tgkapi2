@@ -60,7 +60,7 @@ exports.property_sa_displaylist = (req,res,next)=>{
                     Users.find({"_id":property[i].owner_id})
                     .exec()
                     .then(user=>{
-                        console.log("user",user);
+                        // console.log("user",user);
                         if(user){
                             var propertyObj ={
                                 userName : user[0].profile.fullName,
@@ -82,7 +82,7 @@ exports.property_sa_displaylist = (req,res,next)=>{
                     }); 
                 }
                 if(i<0){
-                   console.log("newData---------->",property);
+                   // console.log("newData---------->",property);
                   res.status(200).json(property);
 
                 }   
