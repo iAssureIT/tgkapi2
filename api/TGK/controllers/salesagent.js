@@ -43,43 +43,28 @@ exports.property_sa_displaylist = (req,res,next)=>{
                     }); 
                 }
                 if(i<0){
-
-
-
-
                     var newData = property.map((propertyData)=>{
-                    var count = 0;
-                    var Tcount = 0;
-                    var data = propertyData;
-                    var exampleObject = JSON.stringify(data, replaceUndefinedOrNull.bind(this));
-                    exampleObject = JSON.parse(exampleObject);
-                                function replaceUndefinedOrNull(key, value) {                       
-                                    Tcount = Tcount + 1;
-                                     this.setState({
-                                             Tcount  : Tcount
-                                           },()=>{
-                                            propertyData.Tcount = this.state.Tcount;
-                                                                             
-                                     })
-                                      if (value === ""){
-                                           count = count+1;
-                                           this.setState({
-                                             setCount  : count
-                                           },()=>{
-                                            console.log("this.state.setCount",this.state.setCount);
-                                            propertyData.setCount = this.state.setCount;
-                                            var formFillPercentage = ((Tcount-this.state.setCount)/Tcount) * 100;
-                                            propertyData.formFillPercentage = (formFillPercentage).toFixed(2);                              
-                                           })
+                                            var count = 0;
+                                            var Tcount = 0;
+                                            var data = propertyData;
+                                            var exampleObject = JSON.stringify(data, replaceUndefinedOrNull.bind(this));
+                                                exampleObject = JSON.parse(exampleObject);
+                                                        function replaceUndefinedOrNull(key, value) {                       
+                                                            Tcount = Tcount + 1;
+                                                            propertyData.Tcount = Tcount;
+                                                              if (value === ""){
+                                                                   count = count+1;
+                                                                    propertyData.setCount = count;
+                                                                    var formFillPercentage = ((Tcount-count)/Tcount) * 100;
+                                                                    propertyData.formFillPercentage = (formFillPercentage).toFixed(2);  
+                                                                    return count;
+                                                              }
+                                                              return value;
+                                                        }
 
-                                            return count;
-                                      }
-                                      return value;
-                                }
+                                                        return exampleObject
 
-                                return exampleObject
-
-                            })
+                                            })
 
                   res.status(200).json(newData);
 
