@@ -93,3 +93,40 @@ exports.update_approvedlist = (req,res,next)=>{
 }
 
 
+
+
+
+
+exports.property_sa_totaldisplaylist = (req,res,next)=>{
+    Properties.find()        
+        .exec()
+        .then(property=>{
+            if(property){
+
+                var WIPData = property.filter((WIPdata)=>{return WIPdata.status==="WIP"});
+                var NEWData = property.filter((WIPdata)=>{return WIPdata.status==="N"});
+                var RELISTINGData = property.filter((WIPdata)=>{return WIPdata.status==="ReListing"});
+                var VERIFIEDData = property.filter((WIPdata)=>{return WIPdata.status==="Verified"});
+                var LISTEDData  = property.filter((WIPdata)=>{return WIPdata.status==="Listed"});
+
+                var WIPCount = WIPData.length;
+                var NEWCount = NEWData.length;
+                var RELISTINGCount = RELISTINGData.length;
+                var VERIFIEDCount = VERIFIEDData.length;
+                var LISTEDCount = LISTEDData.length;
+                // if(i<0){
+                  res.status(200).json({"WIPCount":WIPCount,"NEWCount":NEWCount,"RELISTINGCount":RELISTINGCount,"VERIFIEDCount":VERIFIEDCount,"LISTEDCount":LISTEDCount});
+                // }   
+            }else{
+                res.status(404).json('Properties Details not found');
+            }
+        })
+        .catch(err =>{
+            console.log(err);
+            res.status(500).json({
+                error: err
+            });
+        });
+    }
+
+
