@@ -7,6 +7,8 @@ router.post('/', checkAuth,PropertiesController.create_Properties);
 
 router.get('/list',checkAuth,PropertiesController.list_Properties);
 
+router.get('/list/salesagent/:salesAgentID',checkAuth,PropertiesController.list_Properties_salesAgent);
+
 router.post('/post/list',PropertiesController.postList); 
 
 router.post('/admin/post/list',checkAuth,PropertiesController.adminpostList); 

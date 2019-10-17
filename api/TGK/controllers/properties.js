@@ -5,6 +5,7 @@ const Sellometers = require('../models/sellometers');
 const MasterSellometers = require('../models/mastersellometer');
 const Users             = require('../../coreAdmin/models/users');
 const InterestedProps = require('../models/interestedProperties');
+var ObjectID = require('mongodb').ObjectID;
 
 
 // ===================== round robin ================
@@ -70,9 +71,7 @@ exports.create_Properties = (req,res,next)=>{
                     });
                   });
     }
-
-
-     function getAllocatedToUserID(){
+    function getAllocatedToUserID(){
         return new Promise(function(resolve,reject){
             Users.find({"roles" : "sales agent"},{$sort:{createdAt:1}})
                  .exec()
@@ -126,40 +125,39 @@ exports.create_Properties = (req,res,next)=>{
                 });
         });
     }
-
 };
 
-     function getOwnerData(owner_id){
-        return new Promise(function(resolve,reject){
-            Users.find({"_id" : owner_id})
-                 .exec()
-                 .then(user=>{
-                    resolve(user);
-                 })
-                .catch(err =>{
-                    res.status(500).json({
-                        message : "User not found.",
-                        error: err
-                       });
-                });
-        });
-    }
+function getOwnerData(owner_id){
+    return new Promise(function(resolve,reject){
+        Users.find({"_id" : owner_id})
+             .exec()
+             .then(user=>{
+                resolve(user);
+             })
+            .catch(err =>{
+                res.status(500).json({
+                    message : "User not found.",
+                    error: err
+                   });
+            });
+    });
+}
 
-    function getPropertyCode(){
-        return new Promise(function(resolve,reject){
-            Properties.find({}).count()
-                 .exec()
-                 .then(property=>{
-                    resolve(property);
-                 })
-                .catch(err =>{
-                    res.status(500).json({
-                        message : "property not found.",
-                        error: err
-                       });
-                });
-        });
-    }
+function getPropertyCode(){
+    return new Promise(function(resolve,reject){
+        Properties.find({}).count()
+             .exec()
+             .then(property=>{
+                resolve(property);
+             })
+            .catch(err =>{
+                res.status(500).json({
+                    message : "property not found.",
+                    error: err
+                   });
+            });
+    });
+}
 
 //////////////////
 
@@ -494,6 +492,24 @@ exports.single_property = (req, res, next)=>{
 
 exports.list_Properties = (req,res,next)=>{
     Properties.find({})
+        .exec()
+        .then(data=>{
+            if(data){
+                res.status(200).json(data);
+            }else{
+                res.status(404).json('Properties Details not found');
+            }
+        })
+        .catch(err =>{
+            console.log(err);
+            res.status(500).json({
+                error: err
+            });
+        });
+}
+
+exports.list_Properties_salesAgent = (req,res,next)=>{
+    Properties.find({"salesAgent_id":ObjectID(req.params.salesAgentID)})
         .exec()
         .then(data=>{
             if(data){

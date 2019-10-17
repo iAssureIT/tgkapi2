@@ -77,7 +77,8 @@ const propertiesSchema = mongoose.Schema({
                                 },
     propertyCreatedAt       : Date,
     index                   : String,
-    salesAgent_id           : { type: mongoose.Schema.Types.ObjectId, ref: 'users' }
+    salesAgent_id           : { type: mongoose.Schema.Types.ObjectId, ref: 'users' },
+    perComplete             : Number,
 
 });
 
