@@ -104,7 +104,7 @@ exports.property_sa_totaldisplaylist = (req,res,next)=>{
             if(property){
 
                 var WIPData = property.filter((WIPdata)=>{return WIPdata.status==="WIP"});
-                var NEWData = property.filter((WIPdata)=>{return WIPdata.status==="N"});
+                var NEWData = property.filter((WIPdata)=>{return WIPdata.status==="New"});
                 var RELISTINGData = property.filter((WIPdata)=>{return WIPdata.status==="ReListing"});
                 var VERIFIEDData = property.filter((WIPdata)=>{return WIPdata.status==="Verified"});
                 var LISTEDData  = property.filter((WIPdata)=>{return WIPdata.status==="Listed"});
