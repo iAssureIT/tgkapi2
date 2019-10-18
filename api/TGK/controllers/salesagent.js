@@ -5,6 +5,26 @@ const Properties        = require('../models/properties');
 const Users             = require('../../coreAdmin/models/users');
 
 
+var count = 0;
+var Tcount = 0;
+var formFillPercentage=0;
+
+function replaceUndefinedOrNull(key, value) {                       
+    Tcount = Tcount + 1;
+    // property[0].Tcount = Tcount;
+     console.log("Tcount--->",Tcount);
+      if (value === ""){
+           count = count+1;
+            console.log("count--->",count);
+            // property[0].setCount = count;
+             formFillPercentage = ((Tcount-count)/Tcount) * 100;
+            // property[0].formFillPercentage = (formFillPercentage).toFixed(2);  
+            return count;
+      }
+      return value;
+}
+
+
 ////////////////////////////SA API////////////////////////////
 
 exports.property_sa_displaylist = (req,res,next)=>{
@@ -21,35 +41,31 @@ exports.property_sa_displaylist = (req,res,next)=>{
                 var propertyData = property;
                 var propertyData1;
                 var propertyData2=[];
-                // for(var z=0;z<propertyData.length;z++){
-                    // console.log("in map function-----------------------------------------");
-                        var count = 0;
-                        var Tcount = 0;
+               
+                   
+                     
                         propertyData1 = propertyData[0];
-                        propertyData1 = JSON.stringify(propertyData1, replaceUndefinedOrNull.bind(this));
+
+
+                        propertyData1 = JSON.stringify(propertyData1, replaceUndefinedOrNull());
                         propertyData1 = JSON.parse(propertyData1);
 
-                        function replaceUndefinedOrNull(key, value) {                       
-                            Tcount = Tcount + 1;
-                            property[0].Tcount = Tcount;
-                             console.log("Tcount--->",Tcount);
-                              if (value === ""){
-                                   count = count+1;
-                                    console.log("count--->",count);
-                                    property[0].setCount = count;
-                                    var formFillPercentage = ((Tcount-count)/Tcount) * 100;
-                                    property[0].formFillPercentage = (formFillPercentage).toFixed(2);  
-                                    return count;
-                              }
-                              return value;
-                        }
+                        property[0].setCount = count;
+                        property[0].Tcount = Tcount;
+                        property[0].formFillPercentage = formFillPercentage;
+
+                        console.log("property[0]----->",property[0]);
+
+
+
+
 
                        
 
                         // propertyData2.push(propertyData1);
                 // }
 
-                console.log("propertyData1--->",property[0]);
+               
 
 
                
