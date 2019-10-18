@@ -55,9 +55,19 @@ router.get('/:propertyID', checkAuth,PropertiesController.detail_Properties);
 
 router.post('/post/findindexper', checkAuth,PropertiesController.find_PropertyIndexPer);
 
+
+
+
 //Location wise properties
 
 router.get('/get/locationWiseListCount', PropertiesController.locationWiseListCount);
+
+
+
+
+///////////////////Field Agent--------------------
+
+router.post('/post/allocateTofieldAgent/:propertyID', checkAuth,PropertiesController.allocateTofieldAgent);
 
 
 module.exports = router;

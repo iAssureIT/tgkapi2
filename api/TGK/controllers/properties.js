@@ -26,7 +26,13 @@ exports.create_Properties = (req,res,next)=>{
                 propertySubType         : req.body.propertySubType,                 
                 status                  : req.body.status,
                 listing                 : false, 
-                salesAgent_id           : allocatedToUserId,
+                salesAgent           : [
+                                                {
+                                                    agentID    : allocatedToUserId,
+                                                    createdAt  : new Date(),
+                                                    status     : "Active"
+                                                }
+                                            ],
                 ownerDetails            : 
                                             {
                                                "userName"     : ownerData[0].profile.fullName,
@@ -54,7 +60,8 @@ exports.create_Properties = (req,res,next)=>{
                                             "createdAt"         : new Date(),
                                             "allocatedToUserId" : allocatedToUserId,
                                           }                
-                }
+                },
+                createdAt               : new Date()
             });
 
         properties.save()
@@ -295,6 +302,9 @@ exports.update_PropertyDetails = (req,res,next)=>{
                                                 "workStation"         :  req.body.workStation,
                                                 "furnishPantry"       :  req.body.furnishPantry,
                                             },
+                "Fcount2"                 : req.body.Fcount2,                 
+                "setCount2"               : req.body.setCount2,                 
+                "formFillPrecentage2"     : req.body.formFillPrecentage2, 
             }
         }
         )
@@ -351,6 +361,9 @@ exports.update_firstpage = (req,res,next)=>{
                 "transactionType"         : req.body.transactionType,
                 "propertyType"            : req.body.propertyType,
                 "propertySubType"         : req.body.propertySubType,                 
+                "Fcount1"                 : req.body.Fcount1,                 
+                "setCount1"               : req.body.setCount1,                 
+                "formFillPrecentage1"     : req.body.formFillPrecentage1,                 
                 "propertyLocation"        : 
                         {
                             "address"             : req.body.address,
@@ -402,6 +415,15 @@ exports.update_financials = (req,res,next)=>{
                     "monthlyRent"         : req.body.monthlyRent, 
                     "measurementUnit"     : req.body.measurementUnit,              
                 },
+
+                "Fcount3"                 : req.body.Fcount3,                 
+                "setCount3"               : req.body.setCount3,                 
+                "formFillPrecentage3"     : req.body.formFillPrecentage3,
+
+
+
+
+
             }
         }
         )
@@ -445,6 +467,9 @@ exports.update_availabilityPlan = (req,res,next)=>{
                         "status"         : req.body.status, 
                         "propertyCreatedAt" : new Date(),
                         "updateAt"       : new Date(),
+                         "Fcount4"                 : req.body.Fcount4,                 
+                        "setCount4"               : req.body.setCount4,                 
+                        "formFillPrecentage4"     : req.body.formFillPrecentage4, 
                     },
                     $push:{                            
                         "statusArray" :  {
@@ -591,7 +616,10 @@ exports.list_Properties_status = (req,res,next)=>{
 }
 
 exports.list_Properties_salesAgent = (req,res,next)=>{
-    Properties.find({"salesAgent_id":ObjectID(req.params.salesAgentID)})
+    Properties.find({
+                        "salesAgent.agentID" : ObjectID(req.params.salesAgentID),
+                        "salesAgent.status"  : "Active",
+                    })
         .sort({"updatedAt":1})
         .exec()
         .then(data=>{
@@ -610,7 +638,13 @@ exports.list_Properties_salesAgent = (req,res,next)=>{
 }
 
 exports.list_Properties_salesAgent_type = (req,res,next)=>{
-    Properties.find({"salesAgent_id":ObjectID(req.params.salesAgentID),status:req.params.status})
+
+    Properties.find({
+                            "salesAgent.agentID" : ObjectID(req.params.salesAgentID),
+                            "salesAgent.status"  : "Active",
+                            "status"                : req.params.status,
+                            "createdAt"             : {$ne : new Date()}
+                    })
                 .sort({"updatedAt":1})
                 .exec()
                 .then(data=>{
@@ -867,6 +901,88 @@ exports.locationWiseListCount = (req,res,next)=>{
         });
 }
 
+exports.allocateTofieldAgent = (req,res,next)=>{
+    Users.find({"roles" : "Field Agent"})
+                 .sort({updateAt:1})
+                 .exec()
+                 .then(fieldAgents=>{
+                    console.log("fieldAgents ",fieldAgents);
+                    if(fieldAgents.length > 0){
+                        //Sales agents found. Then find, to which SA, the last property was assigned
+                        Users.updateOne(
+                                    { "_id" : fieldAgents[0]._id},
+                                    {
+                                        $set : {
+                                            "updateAt"              : new Date(),
+                                            "profile.propertyCount" : salesAgents[0].profile.propertyCount ? profile.propertyCount + 1 : 1
+                                        }
+                                    }
+                                )
+                             .exec()
+                             .then(data=>{
+                                Properties.updateOne(
+                                                {"_id" : req.params.propertyID},
+                                                {
+                                                    $push :{
+                                                            fieldAgent : {
+                                                                    agentID    :  fieldAgent[0]._id,
+                                                                   createdAt  : new Date(),
+                                                                   status       : "Active"
+                                                                }
+                                                            }
+                                                }
+                                    )
+                                        .then(data=>{
+                                                if(data.nModified == 1){
+                                                    res.status(200).json("Successfull");
+                                                }else{
+                                                    res.status(401).json("Failed");
+                                                }
+                                            })
+                                        .catch(err=>{
+                                            res.status(500).json({
+                                                message : "Field Agent Not Found",
+                                                error: err
+                                           });
 
+                                        })
+                             })
+                             .catch(err =>{
+                                res.status(500).json({
+                                    message : "Admin role user Not Found",
+                                    error: err
+                                   });
+                               });      
+                    }else{
+                       //  Users.findOne({"roles" : "Technical Admin"})
+                       //  .exec()
+                       //  .then(admin=>{
+                       //      resolve(admin._id);
+                       //  })
+                       // .catch(err =>{
+                       //  res.status(500).json({
+                       //      message : "Admin role user Not Found",
+                       //      error: err
+                       //     });
+                       // });
+                    }
+                 })
+                .catch(err =>{
+                  console.log(err);
+                    Users.findOne({"roles" : "Technical Admin"})
+                    .exec()
+                    .then(admin=>{
+                        resolve(admin._id);
+                    })
+                   .catch(err =>{
+                    res.status(500).json({
+                        message : "Admin role user Not Found",
+                        error: err
+                       });
+                   });
+                });
+        });
+    }
+};
 
 

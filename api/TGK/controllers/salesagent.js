@@ -122,7 +122,10 @@ exports.update_approvedlist = (req,res,next)=>{
 }
 
 exports.property_sa_totaldisplaylist = (req,res,next)=>{
-    Properties.find()        
+    Properties.find({
+                        "salesAgent.agentID" : ObjectID(req.params.salesAgentID),
+                        "salesAgent.status"  : "Active",
+                    })        
         .exec()
         .then(property=>{
             if(property){

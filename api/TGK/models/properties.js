@@ -11,6 +11,24 @@ const propertiesSchema = mongoose.Schema({
     statusArray             : Array,
     status                  : String,
     listing                 : Boolean,
+    
+    Fcount1                 : String,
+    setCount1               : String,
+    formFillPrecentage1     : String,
+
+    Fcount2                 : String,
+    setCount2               : String,
+    formFillPrecentage2     : String,
+
+    Fcount3                 : String,
+    setCount3               : String,
+    formFillPrecentage3     : String,
+
+    Fcount4                 : String,
+    setCount4               : String,
+    formFillPrecentage4     : String,
+
+
     ownerDetails            : {
                                 userName     : String,
                                 emailId      : String,
@@ -77,9 +95,19 @@ const propertiesSchema = mongoose.Schema({
                                 },
     propertyCreatedAt       : Date,
     index                   : String,
-    salesAgent_id           : { type: mongoose.Schema.Types.ObjectId, ref: 'users' },
+    salesAgent              : [{
+                                   agentID    :  { type: mongoose.Schema.Types.ObjectId, ref: 'users' },
+                                   createdAt  : Date,
+                                   status     : String, //"Active" or "Inactive"
+                               }],
+    fieldAgent              : [{
+                                   agentID    :  { type: mongoose.Schema.Types.ObjectId, ref: 'users' },
+                                   createdAt  : Date,
+                                   status     : String, //"Active" or "Inactive"
+                               }],
     perComplete             : Number,
-    updatedAt               : Date
+    updatedAt               : Date,
+    createdAt               : Date
 
 });
 

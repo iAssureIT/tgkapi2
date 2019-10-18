@@ -125,7 +125,7 @@ exports.users_verify_mobile = (req,res,next)=>{
                             userId  : user._id ,
                         },"secret",
                         {
-                            expiresIn: "1h"
+                            expiresIn: "24h"
                         }
                         );
                     // console.log("otp ",OTP);
