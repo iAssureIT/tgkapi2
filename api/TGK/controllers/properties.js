@@ -64,7 +64,7 @@ exports.create_Properties = (req,res,next)=>{
                 createdAt               : new Date(),
                 "Fcount1"                 : req.body.Fcount1?parseInt(req.body.Fcount1):0,                 
                 "setCount1"               : req.body.setCount1?parseInt(req.body.setCount1):0,                 
-                "formFillPercentage1"     : req.body.formFillPercentage1?parseInt(req.body.formFillPercentage1):0, 
+                "formFillPercentage1"     : req.body.formFillPercentage1?req.body.formFillPercentage1:0, 
             });
 
         properties.save()
@@ -307,7 +307,7 @@ exports.update_PropertyDetails = (req,res,next)=>{
                                             },
                 "Fcount2"                 : req.body.Fcount2?parseInt(req.body.Fcount2):0,                 
                 "setCount2"               : req.body.setCount2?parseInt(req.body.setCount2):0,                 
-                "formFillPercentage2"     : req.body.formFillPercentage2?parseInt(req.body.formFillPercentage2):0, 
+                "formFillPercentage2"     : req.body.formFillPercentage2?req.body.formFillPercentage2:0, 
             }
         }
         )
@@ -366,7 +366,7 @@ exports.update_firstpage = (req,res,next)=>{
                 "propertySubType"         : req.body.propertySubType,                 
                 "Fcount1"                 : req.body.Fcount1?parseInt(req.body.Fcount1):0,                 
                 "setCount1"               : req.body.setCount1?parseInt(req.body.setCount1):0,                 
-                "formFillPercentage1"     : req.body.formFillPercentage1?parseInt(req.body.formFillPercentage1):0,                  
+                "formFillPercentage1"     : req.body.formFillPercentage1?req.body.formFillPercentage1:0,                  
                 "propertyLocation"        : 
                         {
                             "address"             : req.body.address,
@@ -421,7 +421,7 @@ exports.update_financials = (req,res,next)=>{
 
                 "Fcount3"                 : req.body.Fcount3?parseInt(req.body.Fcount3):0,                 
                 "setCount3"               : req.body.setCount3?parseInt(req.body.setCount3):0,                 
-                "formFillPercentage3"     : req.body.formFillPercentage3?parseInt(req.body.formFillPercentage3):0,
+                "formFillPercentage3"     : req.body.formFillPercentage3?req.body.formFillPercentage3:0,
 
 
 
@@ -472,7 +472,7 @@ exports.update_availabilityPlan = (req,res,next)=>{
                         "updateAt"       : new Date(),
                          "Fcount4"                : req.body.Fcount4?parseInt(req.body.Fcount4):0,                 
                         "setCount4"               : req.body.setCount4?parseInt(req.body.setCount4):0,                 
-                        "formFillPercentage4"     : req.body.formFillPercentage4?parseInt(req.body.formFillPercentage4):0, 
+                        "formFillPercentage4"     : req.body.formFillPercentage4?req.body.formFillPercentage4:0, 
                     },
                     $push:{                            
                         "statusArray" :  {

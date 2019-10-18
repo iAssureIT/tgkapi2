@@ -129,7 +129,6 @@ exports.property_sa_totaldisplaylist = (req,res,next)=>{
         .exec()
         .then(property=>{
             if(property){
-
                 var WIPData = property.filter((WIPdata)=>{return WIPdata.status==="WIP"});
                 var NEWData = property.filter((WIPdata)=>{return WIPdata.status==="New"});
                 var RELISTINGData = property.filter((WIPdata)=>{return WIPdata.status==="ReListing"});
