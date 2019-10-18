@@ -11,11 +11,8 @@ var formFillPercentage=0;
 
 function replaceUndefinedOrNull(key, value) {                       
     Tcount = Tcount + 1;
-    // property[0].Tcount = Tcount;
-     console.log("Tcount--->",Tcount);
       if (value === ""){
            Fcount = Fcount+1;
-            console.log("count--->",Fcount);
             // property[0].setCount = count;
              formFillPercentage = ((Tcount-Fcount)/Tcount) * 100;
             // property[0].formFillPercentage = (formFillPercentage).toFixed(2);  
@@ -49,12 +46,12 @@ exports.property_sa_displaylist = (req,res,next)=>{
 
                         propertyData1 = JSON.stringify(propertyData1, replaceUndefinedOrNull());
                         propertyData1 = JSON.parse(propertyData1);
+                        console.log("Fcount---->",Fcount,Tcount);
 
                         property[0].setCount = Fcount;
                         property[0].Tcount = Tcount;
                         property[0].formFillPercentage = formFillPercentage;
 
-                        console.log("property[0]----->",property[0]);
 
 
 
