@@ -7,7 +7,7 @@ router.post('/', checkAuth,PropertiesController.create_Properties);
 
 router.get('/list',checkAuth,PropertiesController.list_Properties);
 
-router.get('/list/admin/:staus',checkAuth,PropertiesController.list_Properties_status);
+router.get('/list/admin/:status',checkAuth,PropertiesController.list_Properties_status);
 
 router.get('/list/salesagent/:salesAgentID',checkAuth,PropertiesController.list_Properties_salesAgent);
 
