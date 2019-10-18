@@ -5,23 +5,6 @@ const Properties        = require('../models/properties');
 const Users             = require('../../coreAdmin/models/users');
 
 
-var Fcount = 0;
-var Tcount = 0;
-var formFillPercentage=0;
-
-function replaceUndefinedOrNull(key, value) {                       
-    Tcount = Tcount + 1;
-      if (value === ""){
-           Fcount = Fcount+1;
-            // property[0].setCount = count;
-             formFillPercentage = ((Tcount-Fcount)/Tcount) * 100;
-            // property[0].formFillPercentage = (formFillPercentage).toFixed(2);  
-            return Fcount;
-      }
-      return value;
-}
-
-
 ////////////////////////////SA API////////////////////////////
 
 exports.property_sa_displaylist = (req,res,next)=>{
@@ -35,41 +18,29 @@ exports.property_sa_displaylist = (req,res,next)=>{
         .then(property=>{
             if(property){
 
-                var propertyData = property;
-                var propertyData1;
-                var propertyData2=[];
-               
-                   
-                     
-                        propertyData1 = propertyData[0];
-
-
-                        propertyData1 = JSON.stringify(propertyData1, replaceUndefinedOrNull());
-                        propertyData1 = JSON.parse(propertyData1);
-                        console.log("Fcount---->",Fcount,Tcount);
-
-                        property[0].setCount = Fcount;
-                        property[0].Tcount = Tcount;
-                        property[0].formFillPercentage = formFillPercentage;
-
-
-
-
-
-
-                       
-
-                        // propertyData2.push(propertyData1);
-                // }
-
-               
-
-
-               
-                    
-                       
-
-                        
+                // code to calculate form fill percentage-------------
+                // var propertyData = property;
+                // var propertyData1;
+                // var propertyData2=[];
+                // var count = 0;
+                // var Tcount = 0;
+                // propertyData1 = propertyData[0];
+                // propertyData1 = JSON.stringify(propertyData1, replaceUndefinedOrNull());
+                // propertyData1 = JSON.parse(propertyData1);
+                // async function replaceUndefinedOrNull(key, value) {                       
+                //     Tcount = Tcount + 1;
+                //     property[0].Tcount = Tcount;
+                //      // console.log("Tcount--->",Tcount);
+                //       if (value === ""){
+                //            count = count+1;
+                //             // console.log("count--->",count);
+                //             property[0].setCount = count;
+                //             var formFillPercentage = ((Tcount-count)/Tcount) * 100;
+                //             property[0].formFillPercentage = (formFillPercentage).toFixed(2);  
+                //             return count;
+                //       }
+                //       return value;
+                // } 
 
                 
                 for (var i = property.length - 1; i >= 0; i--) {
