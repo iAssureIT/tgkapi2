@@ -61,7 +61,10 @@ exports.create_Properties = (req,res,next)=>{
                                             "allocatedToUserId" : allocatedToUserId,
                                           }                
                 },
-                createdAt               : new Date()
+                createdAt               : new Date(),
+                "Fcount1"                 : req.body.Fcount1?parseInt(req.body.Fcount1):0,                 
+                "setCount1"               : req.body.setCount1?parseInt(req.body.setCount1):0,                 
+                "formFillPrecentage1"     : req.body.formFillPrecentage1?parseInt(req.body.formFillPrecentage1):0, 
             });
 
         properties.save()
@@ -302,9 +305,9 @@ exports.update_PropertyDetails = (req,res,next)=>{
                                                 "workStation"         :  req.body.workStation,
                                                 "furnishPantry"       :  req.body.furnishPantry,
                                             },
-                "Fcount2"                 : req.body.Fcount2,                 
-                "setCount2"               : req.body.setCount2,                 
-                "formFillPrecentage2"     : req.body.formFillPrecentage2, 
+                "Fcount2"                 : req.body.Fcount2?parseInt(req.body.Fcount2):0,                 
+                "setCount2"               : req.body.setCount2?parseInt(req.body.setCount2):0,                 
+                "formFillPrecentage2"     : req.body.formFillPrecentage2?parseInt(req.body.formFillPrecentage2):0, 
             }
         }
         )
@@ -361,9 +364,9 @@ exports.update_firstpage = (req,res,next)=>{
                 "transactionType"         : req.body.transactionType,
                 "propertyType"            : req.body.propertyType,
                 "propertySubType"         : req.body.propertySubType,                 
-                "Fcount1"                 : req.body.Fcount1,                 
-                "setCount1"               : req.body.setCount1,                 
-                "formFillPrecentage1"     : req.body.formFillPrecentage1,                 
+                "Fcount1"                 : req.body.Fcount1?parseInt(req.body.Fcount1):0,                 
+                "setCount1"               : req.body.setCount1?parseInt(req.body.setCount1):0,                 
+                "formFillPrecentage1"     : req.body.formFillPrecentage1?parseInt(req.body.formFillPrecentage1):0,                  
                 "propertyLocation"        : 
                         {
                             "address"             : req.body.address,
@@ -416,9 +419,9 @@ exports.update_financials = (req,res,next)=>{
                     "measurementUnit"     : req.body.measurementUnit,              
                 },
 
-                "Fcount3"                 : req.body.Fcount3,                 
-                "setCount3"               : req.body.setCount3,                 
-                "formFillPrecentage3"     : req.body.formFillPrecentage3,
+                "Fcount3"                 : req.body.Fcount3?parseInt(req.body.Fcount3):0,                 
+                "setCount3"               : req.body.setCount3?parseInt(req.body.setCount3):0,                 
+                "formFillPrecentage3"     : req.body.formFillPrecentage3?parseInt(req.body.formFillPrecentage3):0,
 
 
 
@@ -467,9 +470,9 @@ exports.update_availabilityPlan = (req,res,next)=>{
                         "status"         : req.body.status, 
                         "propertyCreatedAt" : new Date(),
                         "updateAt"       : new Date(),
-                         "Fcount4"                 : req.body.Fcount4,                 
-                        "setCount4"               : req.body.setCount4,                 
-                        "formFillPrecentage4"     : req.body.formFillPrecentage4, 
+                         "Fcount4"                : req.body.Fcount4?parseInt(req.body.Fcount4):0,                 
+                        "setCount4"               : req.body.setCount4?parseInt(req.body.setCount4):0,                 
+                        "formFillPrecentage4"     : req.body.formFillPrecentage4?parseInt(req.body.formFillPrecentage4):0, 
                     },
                     $push:{                            
                         "statusArray" :  {
