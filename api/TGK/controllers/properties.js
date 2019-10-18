@@ -969,20 +969,20 @@ exports.allocateTofieldAgent = (req,res,next)=>{
                  })
                 .catch(err =>{
                   console.log(err);
-                    Users.findOne({"roles" : "Technical Admin"})
-                    .exec()
-                    .then(admin=>{
-                        resolve(admin._id);
-                    })
-                   .catch(err =>{
-                    res.status(500).json({
-                        message : "Admin role user Not Found",
-                        error: err
-                       });
-                   });
+                   //  Users.findOne({"roles" : "Technical Admin"})
+                   //  .exec()
+                   //  .then(admin=>{
+                   //      resolve(admin._id);
+                   //  })
+                   // .catch(err =>{
+                   //  res.status(500).json({
+                   //      message : "Admin role user Not Found",
+                   //      error: err
+                   //     });
+                   // });
                 });
-        });
-    }
+        // });
+    // }
 };
 
 
