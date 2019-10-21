@@ -11,7 +11,7 @@ router.get('/list/admin/:status',checkAuth,PropertiesController.list_Properties_
 
 router.get('/list/salesagent/:salesAgentID',checkAuth,PropertiesController.list_Properties_salesAgent);
 
-router.get('/list/salesagent/type/:salesAgentID/:status',checkAuth,PropertiesController.list_Properties_salesAgent_type);
+router.post('/list/salesagent/type/:salesAgentID/:status',checkAuth,PropertiesController.list_Properties_salesAgent_type);
 
 router.post('/post/list',PropertiesController.postList); 
 
