@@ -152,7 +152,7 @@ exports.create_Properties = (req,res,next)=>{
                                     {
                                         $set : {
                                             "updateAt"              : new Date(),
-                                            "profile.propertyCount" : salesAgents[0].profile.propertyCount ? profile.propertyCount + 1 : 1
+                                            "profile.propertyCount" : salesAgents[0].profile.propertyCount ? salesAgents[0].profile.propertyCount + 1 : 1
                                         }
                                     }
                                 )
