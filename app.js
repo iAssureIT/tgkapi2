@@ -114,8 +114,6 @@
     const searchPropertiesurl       = require("./api/TGK/routes/searchProperties");
     const salesAgenturl             = require("./api/TGK/routes/salesagent");
 	
-
-
 	app.use("/api/properties",propertiesurl);
 	app.use("/api/sellometers",sellometeorurl);
 	app.use("/api/masteramenities",masteramenitiesurl);
