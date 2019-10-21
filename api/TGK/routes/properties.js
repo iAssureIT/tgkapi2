@@ -68,6 +68,6 @@ router.get('/get/locationWiseListCount', PropertiesController.locationWiseListCo
 ///////////////////Field Agent--------------------
 
 router.post('/post/allocateTofieldAgent/:propertyID', checkAuth,PropertiesController.allocateTofieldAgent);
-
+router.get('/list/fieldagent/type/:fieldAgentID/:status',checkAuth,PropertiesController.list_Properties_fieldAgent_type);
 
 module.exports = router;

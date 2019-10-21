@@ -9,6 +9,8 @@
 	// const dbname = "uattgk";
 	// global.JWT_KEY = "secret";
 
+
+
 	mongoose.connect('mongodb://localhost/'+globalVariable.dbname,{
 		useNewUrlParser: true
 	})

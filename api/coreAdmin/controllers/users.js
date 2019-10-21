@@ -633,7 +633,8 @@ exports.users_count = (req,res,next)=>{
 ///////////////////////Anagha's Code//////////////////////////////////////
 exports.user_login_role = (req,res,next)=>{
     // console.log('login');
-    User.findOne({emails:{$elemMatch:{address:req.body.email}},"roles" : req.body.role})
+    // User.findOne({emails:{$elemMatch:{address:req.body.email}},"roles" : req.body.role})
+    User.findOne({emails:{$elemMatch:{address:req.body.email}}})
         .exec()
         .then(user => {
             if(user){
