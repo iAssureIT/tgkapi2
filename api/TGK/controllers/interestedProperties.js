@@ -54,6 +54,7 @@ function allocateTofieldAgent(propertyID)=>{
                                                         Users.findOne({"roles" : "Field Manager"})
                                                             .exec()
                                                             .then(fieldAgents=>{
+                                                                console.log("fieldAgents---in field agent----->",fieldAgents[0]._id); 
                                                                 resolve(fieldAgents[0]._id);
                                                             })
                                                            .catch(err =>{
@@ -69,6 +70,7 @@ function allocateTofieldAgent(propertyID)=>{
                                                     Users.findOne({"roles" : "Field Manager"})
                                                     .exec()
                                                     .then(fieldAgents=>{
+                                                         console.log("fieldAgents---in manager----->",fieldAgents[0]._id); 
                                                         resolve(fieldAgents[0]._id);
                                                     })
                                                    .catch(err =>{
@@ -115,7 +117,9 @@ exports.create_interestedProps = (req,res,next)=>{
         });
 
         interestedProps.save()
-            .then(data=>{        
+            .then(data=>{ 
+
+            console.log("saved interest property----------->",data);       
                 res.status(200).json({
                     "message" : 'Property Interest from this Buyer is Saved',
                 });
