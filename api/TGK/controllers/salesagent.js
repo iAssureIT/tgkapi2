@@ -87,6 +87,7 @@ exports.property_sa_displaylist = (req,res,next)=>{
 
 //----------------Rushikesh----------------------
 exports.update_approvedlist = (req,res,next)=>{
+    console.log("update_approvedlist",req.body);
     Properties.updateOne(
         { "_id" : req.body.property_id },
         {
