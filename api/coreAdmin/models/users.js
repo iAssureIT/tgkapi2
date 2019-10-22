@@ -41,7 +41,7 @@ const userSchema = mongoose.Schema({
 		propertyCount	: Number,
 	},
 	roles 				: [String],
-	officeLocation 		: String,
+	officeLocation 		: { type: mongoose.Schema.Types.ObjectId, ref: 'tgkspecificcompanysettings.companyLocationsInfo._id' },
 	heartbeat 			: Date,
 	updateAt 			: Date,
 });

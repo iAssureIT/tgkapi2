@@ -1,10 +1,11 @@
 const mongoose	= require("mongoose");
 
 const Properties        = require('../models/properties');
-const Sellometers = require('../models/sellometers');
+const Sellometers       = require('../models/sellometers');
 const MasterSellometers = require('../models/mastersellometer');
 const Users             = require('../../coreAdmin/models/users');
-const InterestedProps = require('../models/interestedProperties');
+const InterestedProps   = require('../models/interestedProperties');
+const CompanySettings   = require('../../coreAdmin/models/tgkspecific/tgkSpecificcompanysettings.js');
 var ObjectID = require('mongodb').ObjectID;
 
 
@@ -906,87 +907,168 @@ exports.locationWiseListCount = (req,res,next)=>{
 }
 
 exports.allocateTofieldAgent = (req,res,next)=>{
-    Users.find({"roles" : "Field Agent"})
-                 .sort({updateAt:1})
-                 .exec()
-                 .then(fieldAgents=>{
-                    console.log("fieldAgents ",fieldAgents);
-                    if(fieldAgents.length > 0){
-                        //Sales agents found. Then find, to which SA, the last property was assigned
-                        Users.updateOne(
-                                    { "_id" : fieldAgents[0]._id},
-                                    {
-                                        $set : {
-                                            "updateAt"              : new Date(),
-                                            "profile.propertyCount" : salesAgents[0].profile.propertyCount ? profile.propertyCount + 1 : 1
-                                        }
-                                    }
-                                )
-                             .exec()
-                             .then(data=>{
-                                Properties.updateOne(
-                                                {"_id" : req.params.propertyID},
-                                                {
-                                                    $push :{
-                                                            fieldAgent : {
-                                                                    agentID    :  fieldAgent[0]._id,
-                                                                   createdAt  : new Date(),
-                                                                   status       : "Active"
+    Properties.findOne({"_id" : ObjectID(req.params.propertyID)})
+              .exec()
+              .then(property=>{
+                if(property){
+                    console.log("property _id",property.propertyLocation.pincode);
+                    CompanySettings.findOne(
+                                            {
+                                                "companyId"                             : 1,
+                                                "companyLocationsInfo.pincodesCovered"  : property.propertyLocation.pincode
+                                            },
+                                            {
+                                                "_id"                  : 0, 
+                                                "companyLocationsInfo" : {
+                                                        $elemMatch: {"pincodesCovered" : property.propertyLocation.pincode}
+                                                    }
+                                            }
+                                        )
+                                    .exec()
+                                    .then(csdata=>{
+                                        Users.find({"roles" : "Field Agent","officeLocation" : ObjectID(csdata.companyLocationsInfo[0]._id) })
+                                             .sort({updateAt:1})
+                                             .exec()
+                                             .then(fieldAgents=>{
+                                                console.log("fieldAgents ",fieldAgents);
+                                                if(fieldAgents.length > 0){
+                                                    //Sales agents found. Then find, to which SA, the last property was assigned
+                                                    Users.updateOne(
+                                                                { "_id" : fieldAgents[0]._id},
+                                                                {
+                                                                    $set : {
+                                                                        "updateAt"              : new Date(),
+                                                                        "profile.propertyCount" : fieldAgents[0].profile.propertyCount ? salesAgents[0].profile.propertyCount + 1 : 1
+                                                                    }
                                                                 }
-                                                            }
-                                                }
-                                    )
-                                        .then(data=>{
-                                                if(data.nModified == 1){
-                                                    res.status(200).json("Successfull");
+                                                            )
+                                                         .exec()
+                                                         .then(data=>{
+                                                            Properties.updateOne(
+                                                                            { _id : ObjectID(req.params.propertyID) },
+                                                                            { 
+                                                                                $push:{
+                                                                                    "fieldAgent" : {
+                                                                                                        "agentID"    : fieldAgents[0]._id,
+                                                                                                        "createdAt"  : new Date(),
+                                                                                                        "status"     : "Active"
+                                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        )
+                                                                      .exec()
+                                                                      .then(proUpdate=>{
+                                                                                if(proUpdate.nModified === 1){
+                                                                                    res.status(200).json({message:"Prpperty Updated"})
+                                                                                }else{
+                                                                                    res.status(200).json({message:"Prpperty Not Updated"})
+                                                                                }
+                                                                            })
+                                                                      .catch(err =>{
+                                                                            res.status(500).json({
+                                                                                error: err
+                                                                               });
+                                                                           });
+                                                         })
+                                                         .catch(err =>{
+                                                            res.status(500).json({
+                                                                error: err
+                                                               });
+                                                           });      
                                                 }else{
-                                                    res.status(401).json("Failed");
+                                                    Users.findOne({"roles" : "Field Manager"})
+                                                        .exec()
+                                                        .then(fieldAgents=>{
+                                                            Properties.updateOne(
+                                                                            { _id : ObjectID(req.params.propertyID) },
+                                                                            { 
+                                                                                $push:{
+                                                                                    "fieldAgent" : {
+                                                                                                        "agentID"    : fieldAgents[0]._id,
+                                                                                                        "createdAt"  : new Date(),
+                                                                                                        "status"     : "Active"
+                                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        )
+                                                                      .exec()
+                                                                      .then(proUpdate=>{
+                                                                                if(proUpdate.nModified === 1){
+                                                                                    res.status(200).json({message:"Prpperty Updated"})
+                                                                                }else{
+                                                                                    res.status(200).json({message:"Prpperty Not Updated"})
+                                                                                }
+                                                                            })
+                                                                      .catch(err =>{
+                                                                            res.status(500).json({
+                                                                                error: err
+                                                                               });
+                                                                           });
+                                                        })
+                                                       .catch(err =>{
+                                                        res.status(500).json({
+                                                            message : "Admin role user Not Found",
+                                                            error: err
+                                                           });
+                                                       });
                                                 }
-                                            })
-                                        .catch(err=>{
+                                             })
+                                            .catch(err =>{
+                                              console.log(err);
+                                                Users.findOne({"roles" : "Field Manager"})
+                                                .exec()
+                                                .then(fieldAgents=>{
+                                                    Properties.updateOne(
+                                                                { _id : ObjectID(req.params.propertyID) },
+                                                                { 
+                                                                    $push:{
+                                                                            "fieldAgent" : {
+                                                                                                "agentID"    : fieldAgents[0]._id,
+                                                                                                "createdAt"  : new Date(),
+                                                                                                "status"     : "Active"
+                                                                                            }
+                                                                        }
+                                                                }
+                                                            )
+                                                          .exec()
+                                                          .then(proUpdate=>{
+                                                                    if(proUpdate.nModified === 1){
+                                                                        res.status(200).json({message:"Prpperty Updated"})
+                                                                    }else{
+                                                                        res.status(200).json({message:"Prpperty Not Updated"})
+                                                                    }
+                                                                })
+                                                          .catch(err =>{
+                                                                res.status(500).json({
+                                                                    error: err
+                                                                   });
+                                                               });
+                                                })
+                                               .catch(err =>{
+                                                res.status(500).json({
+                                                    message : "Admin role user Not Found",
+                                                    error: err
+                                                   });
+                                               });
+                                            });
+                                    })
+                                    .catch(err =>{
+                                            console.log(err);
                                             res.status(500).json({
-                                                message : "Field Agent Not Found",
                                                 error: err
-                                           });
+                                            });
+                                        });
+                }else{
+                    res.status(200).json({message:"Property Not Found"});
+                }
+              })
+              .catch(err =>{
+                    console.log(err);
+                    res.status(500).json({
+                        error: err
+                    });
+                })
 
-                                        })
-                             })
-                             .catch(err =>{
-                                res.status(500).json({
-                                    message : "Admin role user Not Found",
-                                    error: err
-                                   });
-                               });      
-                    }else{
-                       //  Users.findOne({"roles" : "Technical Admin"})
-                       //  .exec()
-                       //  .then(admin=>{
-                       //      resolve(admin._id);
-                       //  })
-                       // .catch(err =>{
-                       //  res.status(500).json({
-                       //      message : "Admin role user Not Found",
-                       //      error: err
-                       //     });
-                       // });
-                    }
-                 })
-                .catch(err =>{
-                  console.log(err);
-                   //  Users.findOne({"roles" : "Technical Admin"})
-                   //  .exec()
-                   //  .then(admin=>{
-                   //      resolve(admin._id);
-                   //  })
-                   // .catch(err =>{
-                   //  res.status(500).json({
-                   //      message : "Admin role user Not Found",
-                   //      error: err
-                   //     });
-                   // });
-                });
-        // });
-    // }
 };
 
 // ---------------------------------API To get Field Agent List as per status----------------------------

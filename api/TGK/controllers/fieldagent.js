@@ -19,7 +19,7 @@ exports.list_Properties_fieldAgent_type = (req,res,next)=>{
                 .sort({"updatedAt":1})
                 .exec()
                 .then(data=>{
-                    if(data){
+                    if(data.length > 0){
                         res.status(200).json(data);
                     }else{
                         res.status(404).json('Properties Details not found');
