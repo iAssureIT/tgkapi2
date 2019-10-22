@@ -175,11 +175,15 @@ exports.searchProperties = (req,res,next)=>{
                 InterestedProps
                     .find({"buyer_id" : req.body.uid})
                     .then(iprops => {
+                      console.log("iprops",iprops);
                         if(iprops.length > 0){
                             for(var i=0; i<iprops.length; i++){
                                 for(let j=0; j<searchResults.length; j++){
                                     if(iprops[i].property_id === String(searchResults[j]._id) ){
+                                      console.log("in true loop-----------------------");
                                         searchResults[j] = {...searchResults[j], isInterested:true};
+
+                                         console.log(" searchResults[j]---------------------",searchResults[j]);
                                         break;
                                     }
 
@@ -187,6 +191,9 @@ exports.searchProperties = (req,res,next)=>{
 
                             }
                             if(i >= iprops.length){
+
+
+
                                 res.status(200).json(searchResults);
                             }       
                             }else{
@@ -200,6 +207,7 @@ exports.searchProperties = (req,res,next)=>{
                             });
                         });                        
                 }else{
+
                     res.status(200).json(searchResults);
                 }
           }else{
