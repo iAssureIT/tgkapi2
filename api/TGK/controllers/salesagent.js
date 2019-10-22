@@ -122,14 +122,12 @@ exports.update_approvedlist = (req,res,next)=>{
 }
 
 exports.property_sa_totaldisplaylist = (req,res,next)=>{
-    console.log("in count------------------",req.params.salesAgentID);
-    Properties.find({
-                        "salesAgent.agentID" : req.params.salesAgentID,
-                        "salesAgent.status"  : "Active",
-                    })        
+    // console.log("in count------------------",req.params.salesAgentID);
+    if(req.params.userRole=="admin"){
+        Properties.find()        
         .exec()
         .then(property=>{
-            console.log("property",property);
+            console.log("admin property",property);
             if(property){
                 var WIPData = property.filter((WIPdata)=>{return WIPdata.status==="WIP"});
                 var NEWData = property.filter((WIPdata)=>{return WIPdata.status==="New"});
@@ -155,6 +153,73 @@ exports.property_sa_totaldisplaylist = (req,res,next)=>{
                 error: err
             });
         });
+    }else if(req.params.userRole=="Sales Agent"){
+         Properties.find({
+                        "salesAgent.agentID" : req.params.salesAgentID,
+                        "salesAgent.status"  : "Active",
+                    })        
+        .exec()
+        .then(property=>{
+            console.log("sales agent property",property);
+            if(property){
+                var WIPData = property.filter((WIPdata)=>{return WIPdata.status==="WIP"});
+                var NEWData = property.filter((WIPdata)=>{return WIPdata.status==="New"});
+                var RELISTINGData = property.filter((WIPdata)=>{return WIPdata.status==="ReListing"});
+                var VERIFIEDData = property.filter((WIPdata)=>{return WIPdata.status==="Verified"});
+                var LISTEDData  = property.filter((WIPdata)=>{return WIPdata.status==="Listed"});
+
+                var WIPCount = WIPData.length;
+                var NEWCount = NEWData.length;
+                var RELISTINGCount = RELISTINGData.length;
+                var VERIFIEDCount = VERIFIEDData.length;
+                var LISTEDCount = LISTEDData.length;
+                // if(i<0){
+                  res.status(200).json({"WIPCount":WIPCount,"NEWCount":NEWCount,"RELISTINGCount":RELISTINGCount,"VERIFIEDCount":VERIFIEDCount,"LISTEDCount":LISTEDCount});
+                // }   
+            }else{
+                res.status(404).json('Properties Details not found');
+            }
+        })
+        .catch(err =>{
+            console.log(err);
+            res.status(500).json({
+                error: err
+            });
+        });
+
+    }else if(req.params.userRole=="Field Agent"){
+        Properties.find({
+                            "fieldAgent.agentID" : req.params.salesAgentID,
+                            "fieldAgent.status"  : "Active",
+                        })        
+            .exec()
+            .then(property=>{
+                if(property){
+                    var WIPData = property.filter((WIPdata)=>{return WIPdata.status==="WIP"});
+                    var NEWData = property.filter((WIPdata)=>{return WIPdata.status==="New"});
+                    var RELISTINGData = property.filter((WIPdata)=>{return WIPdata.status==="ReListing"});
+                    var VERIFIEDData = property.filter((WIPdata)=>{return WIPdata.status==="Verified"});
+                    var LISTEDData  = property.filter((WIPdata)=>{return WIPdata.status==="Listed"});
+
+                    var WIPCount = WIPData.length;
+                    var NEWCount = NEWData.length;
+                    var RELISTINGCount = RELISTINGData.length;
+                    var VERIFIEDCount = VERIFIEDData.length;
+                    var LISTEDCount = LISTEDData.length;
+                    // if(i<0){
+                      res.status(200).json({"WIPCount":WIPCount,"NEWCount":NEWCount,"RELISTINGCount":RELISTINGCount,"VERIFIEDCount":VERIFIEDCount,"LISTEDCount":LISTEDCount});
+                    // }   
+                }else{
+                    res.status(404).json('Properties Details not found');
+                }
+            })
+            .catch(err =>{
+                console.log(err);
+                res.status(500).json({
+                    error: err
+                });
+            });
+        }
     }
 
 

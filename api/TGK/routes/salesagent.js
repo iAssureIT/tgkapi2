@@ -7,7 +7,7 @@ router.patch('/patch/approvedlist',SAController.update_approvedlist);
 
 router.post('/post/displaylist',SAController.property_sa_displaylist);
 
-router.get('/get/gettotaldisplaylist/:salesAgentID',SAController.property_sa_totaldisplaylist);
+router.get('/get/gettotaldisplaylist/:salesAgentID/:userRole',SAController.property_sa_totaldisplaylist);
 
 
 
