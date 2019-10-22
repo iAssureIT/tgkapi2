@@ -158,6 +158,8 @@ exports.send_notifications = (req,res,next)=>{
             // toEmail = "lyvoapp@gmail.com"; 
         }else{
             userProfile = await getProfileByUserId(req.body.toUserId);
+
+            console.log("userProfile---------->",userProfile);
             if(userProfile && userProfile!== null & userProfile!==""){
                 // console.log("userProfile",userProfile);
                 toEmail = userProfile.profile.emailId;
@@ -227,7 +229,7 @@ function getProfileByUserId(toUserId){
     .findOne({"_id":toUserId})
     .exec()
         .then(data=>{
-            // console.log('data',data);
+            console.log('----------------------user data',data);
             resolve(data);          
         })
         .catch(err =>{
