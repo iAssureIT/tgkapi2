@@ -161,9 +161,9 @@ exports.send_notifications = (req,res,next)=>{
         }
         const templateDetailsEmail = await getTemplateDetailsEmail(req.body.templateName, req.body.variables);
         // const templateDetailsSMS = await getTemplateDetailsSMS(req.body.templateName, req.body.variables);
-
+        console.log("toEmail------------------------",toEmail,senderEmail);
         var mailOptions = {                
-            from        : '"TGK Admin" <'+senderEmail+'>', // sender address
+            from        : '"LYVO Admin" <'+senderEmail+'>', // sender address
             to          : toEmail , // list of receiver
             subject     : templateDetailsEmail.subject, // Subject line
             html        : templateDetailsEmail.content, // html body
