@@ -130,7 +130,7 @@ exports.property_sa_totaldisplaylist = (req,res,next)=>{
             if(property){
 
                 var selectedData = property.filter((element)=>{
-                    return element.salesAgent.agentID == ObjectID(req.params.salesAgentID)
+                    return element.salesAgent.agentID == req.params.salesAgentID
                 })
 
                  console.log("selectedData----------->",selectedData);
