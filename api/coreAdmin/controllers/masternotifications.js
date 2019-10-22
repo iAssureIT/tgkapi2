@@ -152,8 +152,9 @@ exports.send_notifications = (req,res,next)=>{
     main();
     async function main(){
         var userProfile = {};
+        var toEmail;
         if(req.body.toUserId === "admin"){
-            toEmail = "testtprm321@gmail.com"; 
+            toEmail = 'testtprm321@gmail.com'; 
             // toEmail = "lyvoapp@gmail.com"; 
         }else{
             userProfile = await getProfileByUserId(req.body.toUserId);
@@ -165,7 +166,7 @@ exports.send_notifications = (req,res,next)=>{
         }
         const templateDetailsEmail = await getTemplateDetailsEmail(req.body.templateName, req.body.variables);
         // const templateDetailsSMS = await getTemplateDetailsSMS(req.body.templateName, req.body.variables);
-        console.log("toEmail------------------------",toEmail,senderEmail);
+        console.log("toEmail------------------------",toEmail,senderEmail,senderEmailPwd);
         var mailOptions = {                
             from        : '"LYVO Admin" <'+senderEmail+'>', // sender address
             to          : toEmail , // list of receiver
