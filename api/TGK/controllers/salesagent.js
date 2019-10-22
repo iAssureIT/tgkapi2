@@ -126,8 +126,14 @@ exports.property_sa_totaldisplaylist = (req,res,next)=>{
     Properties.find()        
         .exec()
         .then(property=>{
-            console.log("property for count------------>",property);
+            // console.log("property for count------------>",property);
             if(property){
+
+                var selectedData = property.filter((element)=>{
+                    return element.salesAgent.agentID == ObjectID(req.params.salesAgentID)
+                })
+
+                 console.log("selectedData----------->",selectedData);
 
                 // {
                 //         "salesAgent.agentID" : ObjectID(req.params.salesAgentID),
