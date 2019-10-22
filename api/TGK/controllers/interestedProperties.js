@@ -6,7 +6,7 @@ const ObjectId = require('mongodb').ObjectID;
 
 function allocateTofieldAgent(propertyID){
     return new Promise(function(resolve,reject){
-        Properties.findOne({"_id" : ObjectID(propertyID)})
+        Properties.findOne({"_id" : propertyID})
                   .exec()
                   .then(property=>{
                     if(property){
@@ -25,7 +25,7 @@ function allocateTofieldAgent(propertyID){
                                             )
                                         .exec()
                                         .then(csdata=>{
-                                            Users.find({"roles" : "Field Agent","officeLocation" : ObjectID(csdata.companyLocationsInfo[0]._id) })
+                                            Users.find({"roles" : "Field Agent","officeLocation" : (csdata.companyLocationsInfo[0]._id) })
                                                  .sort({updateAt:1})
                                                  .exec()
                                                  .then(fieldAgents=>{
