@@ -47,9 +47,8 @@ function allocateTofieldAgent(propertyID){
                                                                 resolve(fieldAgents[0]._id)
                                                              })
                                                              .catch(err =>{
-                                                                res.status(500).json({
-                                                                    error: err
-                                                                   });
+                                                                    console.log(err);
+                                                                    reject(err);
                                                                });      
                                                     }else{
                                                         Users.findOne({"roles" : "Field Manager"})
@@ -59,10 +58,8 @@ function allocateTofieldAgent(propertyID){
                                                                 resolve(fieldAgents[0]._id);
                                                             })
                                                            .catch(err =>{
-                                                            res.status(500).json({
-                                                                message : "Admin role user Not Found",
-                                                                error: err
-                                                               });
+                                                                console.log(err);
+                                                                reject(err);
                                                            });
                                                     }
                                                  })
@@ -75,18 +72,14 @@ function allocateTofieldAgent(propertyID){
                                                         resolve(fieldAgents[0]._id);
                                                     })
                                                    .catch(err =>{
-                                                    res.status(500).json({
-                                                        message : "Admin role user Not Found",
-                                                        error: err
-                                                       });
+                                                        console.log(err);
+                                                        reject(err);
                                                    });
                                                 });
                                         })
                                         .catch(err =>{
                                                 console.log(err);
-                                                res.status(500).json({
-                                                    error: err
-                                                });
+                                                reject(err);
                                             });
                     }else{
                         reject({message:"Property Not Found"});
