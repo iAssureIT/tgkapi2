@@ -4,7 +4,7 @@ const InterestedProps = require('../models/interestedProperties');
 const Properties = require('../models/properties');
 const ObjectId = require('mongodb').ObjectID;
 
-function allocateTofieldAgent(propertyID)=>{
+function allocateTofieldAgent((propertyID)=>{
     return new Promise(function(resolve,reject){
         Properties.findOne({"_id" : ObjectID(propertyID)})
                   .exec()
@@ -96,8 +96,7 @@ function allocateTofieldAgent(propertyID)=>{
                         reject(err);
                     })
     });
-
-};
+});
 
 exports.create_interestedProps = (req,res,next)=>{ 
     main();
