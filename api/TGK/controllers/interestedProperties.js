@@ -4,7 +4,7 @@ const InterestedProps = require('../models/interestedProperties');
 const Properties = require('../models/properties');
 const ObjectId = require('mongodb').ObjectID;
 const CompanySettings = require('../../coreAdmin/models/tgkspecific/tgkSpecificcompanysettings.js');
-
+const Users             = require('../../coreAdmin/models/users');
 function allocateTofieldAgent(propertyID){
     return new Promise(function(resolve,reject){
         Properties.findOne({"_id" : propertyID})
