@@ -123,16 +123,17 @@ exports.update_approvedlist = (req,res,next)=>{
 }
 
 exports.property_sa_totaldisplaylist = (req,res,next)=>{
-     console.log("------property_sa_totaldisplaylist----------->",req.params);
-    Properties.find({
-                        "salesAgent.agentID" : ObjectID(req.params.salesAgentID),
-                        "salesAgent.status"  : "Active",
-                    })        
+    Properties.find()        
         .exec()
         .then(property=>{
+            console.log("property for count------------>",property);
             if(property){
 
-                console.log("property for count------------>",property);
+                // {
+                //         "salesAgent.agentID" : ObjectID(req.params.salesAgentID),
+                //         "salesAgent.status"  : "Active",
+                //     }
+
                 var WIPData = property.filter((WIPdata)=>{return WIPdata.status==="WIP"});
                 var NEWData = property.filter((WIPdata)=>{return WIPdata.status==="New"});
                 var RELISTINGData = property.filter((WIPdata)=>{return WIPdata.status==="ReListing"});
