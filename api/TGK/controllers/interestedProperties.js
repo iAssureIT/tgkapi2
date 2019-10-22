@@ -3,6 +3,7 @@ const mongoose	= require("mongoose");
 const InterestedProps = require('../models/interestedProperties');
 const Properties = require('../models/properties');
 const ObjectId = require('mongodb').ObjectID;
+const CompanySettings = require('../../coreAdmin/models/tgkspecific/tgkSpecificcompanysettings.js');
 
 function allocateTofieldAgent(propertyID){
     return new Promise(function(resolve,reject){
