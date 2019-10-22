@@ -87,7 +87,6 @@ exports.property_sa_displaylist = (req,res,next)=>{
 
 //----------------Rushikesh----------------------
 exports.update_approvedlist = (req,res,next)=>{
-    console.log("update_approvedlist",req.body);
     Properties.updateOne(
         { "_id" : req.body.property_id },
         {
@@ -123,23 +122,15 @@ exports.update_approvedlist = (req,res,next)=>{
 }
 
 exports.property_sa_totaldisplaylist = (req,res,next)=>{
-    Properties.find()        
+    console.log("in count------------------",req.params.salesAgentID);
+    Properties.find({
+                        "salesAgent.agentID" : req.params.salesAgentID,
+                        "salesAgent.status"  : "Active",
+                    })        
         .exec()
         .then(property=>{
-            // console.log("property for count------------>",property);
+            console.log("property",property);
             if(property){
-
-                var selectedData = property.filter((element)=>{
-                    return element.salesAgent.agentID == req.params.salesAgentID
-                })
-
-                 console.log("selectedData----------->",selectedData);
-
-                // {
-                //         "salesAgent.agentID" : ObjectID(req.params.salesAgentID),
-                //         "salesAgent.status"  : "Active",
-                //     }
-
                 var WIPData = property.filter((WIPdata)=>{return WIPdata.status==="WIP"});
                 var NEWData = property.filter((WIPdata)=>{return WIPdata.status==="New"});
                 var RELISTINGData = property.filter((WIPdata)=>{return WIPdata.status==="ReListing"});
