@@ -159,7 +159,7 @@ exports.send_notifications = (req,res,next)=>{
         }else{
             userProfile = await getProfileByUserId(req.body.toUserId);
 
-            console.log("userProfile---------->",userProfile);
+            // console.log("userProfile---------->",userProfile);
             if(userProfile && userProfile!== null & userProfile!==""){
                 // console.log("userProfile",userProfile);
                 toEmail = userProfile.profile.emailId;
@@ -168,7 +168,7 @@ exports.send_notifications = (req,res,next)=>{
         }
         const templateDetailsEmail = await getTemplateDetailsEmail(req.body.templateName, req.body.variables);
         // const templateDetailsSMS = await getTemplateDetailsSMS(req.body.templateName, req.body.variables);
-        console.log("toEmail------------------------",toEmail,senderEmail,senderEmailPwd);
+        // console.log("toEmail------------------------",toEmail,senderEmail,senderEmailPwd);
         var mailOptions = {                
             from        : '"LYVO Admin" <'+senderEmail+'>', // sender address
             to          : toEmail , // list of receiver
@@ -229,7 +229,7 @@ function getProfileByUserId(toUserId){
     .findOne({"_id":toUserId})
     .exec()
         .then(data=>{
-            console.log('----------------------user data',data);
+            // console.log('----------------------user data',data);
             resolve(data);          
         })
         .catch(err =>{
