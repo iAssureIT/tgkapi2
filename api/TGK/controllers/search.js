@@ -182,7 +182,7 @@ exports.searchProperties = (req,res,next)=>{
                                       console.log("iprops[i].property_id-----------------------",iprops[i].property_id);
                                       console.log("searchResults[j]._id-----------------------",searchResults[j]._id);
 
-                                    if(iprops[i].property_id === String(searchResults[j]._id) ){
+                                    if(iprops[i].property_id === searchResults[j]._id){
                                         searchResults[j] = {...searchResults[j], isInterested:true};
                                         break;
                                     }
