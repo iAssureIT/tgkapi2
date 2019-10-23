@@ -5,6 +5,7 @@ const plivo 		= require('plivo');
 const User 			= require('../models/users');
 const globalVariable 	= require('../../../nodemon.js');
 exports.user_signupadmin = (req,res,next)=>{
+	console.log("user_signupadmin ",req.body);
 	User.find()
 		.exec()
 		.then(user =>{
