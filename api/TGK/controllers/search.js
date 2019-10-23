@@ -179,11 +179,11 @@ exports.searchProperties = (req,res,next)=>{
                         if(iprops.length > 0){
                             for(var i=0; i<iprops.length; i++){
                                 for(let j=0; j<searchResults.length; j++){
-                                    if(iprops[i].property_id === String(searchResults[j]._id) ){
-                                      console.log("in true loop-----------------------");
-                                        searchResults[j] = {...searchResults[j], isInterested:true};
+                                      console.log("iprops[i].property_id-----------------------",iprops[i].property_id);
+                                      console.log("searchResults[j]._id-----------------------",searchResults[j]._id);
 
-                                         console.log(" searchResults[j]---------------------",searchResults[j]);
+                                    if(iprops[i].property_id === String(searchResults[j]._id) ){
+                                        searchResults[j] = {...searchResults[j], isInterested:true};
                                         break;
                                     }
 
