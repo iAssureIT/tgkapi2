@@ -11,7 +11,7 @@ var ObjectID = require('mongodb').ObjectID;
 exports.list_Properties_fieldAgent_type = (req,res,next)=>{
 
     Properties.find({
-                            "fieldAgent.agentID" : ObjectID(req.params.fieldAgentID),
+                            "fieldAgent.agentID" : (req.params.fieldAgentID),
                             "fieldAgent.status"  : "Active",
                             "status"                : req.params.status,
                             "createdAt"             : {$ne : new Date()}
@@ -31,6 +31,7 @@ exports.list_Properties_fieldAgent_type = (req,res,next)=>{
                         error: err
                     });
                 });
+
 }
 
 
