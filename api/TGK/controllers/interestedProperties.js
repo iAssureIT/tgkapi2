@@ -54,8 +54,14 @@ function allocateTofieldAgent(propertyID){
                                                         Users.findOne({"roles" : "Field Manager"})
                                                             .exec()
                                                             .then(fieldAgents=>{
-                                                                console.log("fieldAgents---in field agent----->",fieldAgents[0]._id); 
-                                                                resolve(fieldAgents[0]._id);
+                                                                if(fieldAgents.length > 0){
+                                                                    console.log("fieldAgents---in field agent----->",fieldAgents[0]._id); 
+                                                                    resolve(fieldAgents[0]._id);
+                                                                }else{
+                                                                    console.log(err);
+                                                                    reject("Field Manager not found.");
+                                                                }
+                                                                
                                                             })
                                                            .catch(err =>{
                                                                 console.log(err);
