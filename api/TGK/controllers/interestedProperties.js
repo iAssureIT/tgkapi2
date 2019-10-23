@@ -26,6 +26,9 @@ function allocateTofieldAgent(propertyID){
                                             )
                                         .exec()
                                         .then(csdata=>{
+
+                                            console.log("csdata ",csdata);
+                                            
                                             Users.find({"roles" : "Field Agent","officeLocation" : (csdata.companyLocationsInfo[0]._id) })
                                                  .sort({updateAt:1})
                                                  .exec()
@@ -54,8 +57,9 @@ function allocateTofieldAgent(propertyID){
                                                         Users.findOne({"roles" : "Field Manager"})
                                                             .exec()
                                                             .then(fieldAgents=>{
+                                                                console.log("fieldAgents---in field agent----->",fieldAgents[0]._id); 
                                                                 if(fieldAgents.length > 0){
-                                                                    console.log("fieldAgents---in field agent----->",fieldAgents[0]._id); 
+                                                                    
                                                                     resolve(fieldAgents[0]._id);
                                                                 }else{
                                                                     console.log(err);
