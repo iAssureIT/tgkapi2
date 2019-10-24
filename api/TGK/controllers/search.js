@@ -179,9 +179,9 @@ exports.searchProperties = (req,res,next)=>{
                         if(iprops.length > 0){
                             for(var i=0; i<iprops.length; i++){
                                 for(let j=0; j<searchResults.length; j++){
-                                      // console.log("iprops[i].property_id-----------------------",iprops[i].property_id);
-                                      // console.log("searchResults[j]._id-----------------------",searchResults[j]._id);
-                                      console.log("in search api---------------------------------------------------------------------------",iprops[i].property_id === searchResults[j]._id);
+                                      console.log("iprops[i].property_id-----------------------",typeof(iprops[i].property_id));
+                                      console.log("searchResults[j]._id-----------------------",typeof(searchResults[j]._id));
+                                      console.log("in search api---------------------------------------------------------------------------",iprops[i].property_id == searchResults[j]._id);
                                     if(iprops[i].property_id === searchResults[j]._id){
                                       console.log("condition status-------------------------------->");
                                         searchResults[j] = {...searchResults[j], isInterested:true};
