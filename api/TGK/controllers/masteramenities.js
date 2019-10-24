@@ -4,7 +4,6 @@ const Masteramenities = require('../models/masteramenities');
 
 exports.create_masteramenities = (req,res,next)=>{
     var masteramenitiesData = req.body.amenity;
-    // console.log('masteramenitiesData ',req.body.amenity);
 	Masteramenities.findOne({amenity:masteramenitiesData})
 		.exec()
 		.then(data =>{
@@ -18,7 +17,6 @@ exports.create_masteramenities = (req,res,next)=>{
                     amenity             : req.body.amenity,
                     createdAt           : new Date()
                 });
-                // console.log('amenity ',amenity);
                 amenity.save()
                     .then(data=>{
                         res.status(200).json("Master-Amenities-Added");
