@@ -178,14 +178,9 @@ exports.searchProperties = (req,res,next)=>{
                       // console.log("iprops",iprops);
                         if(iprops.length > 0){
                             for(var i=0; i<iprops.length; i++){
-                                for(let j=0; j<searchResults.length; j++){
-                                      console.log("iprops[i].property_id-----------------------",String(iprops[i].property_id));
-                                      console.log("searchResults[j]._id-----------------------",String(searchResults[j]._id));
-                                      console.log("in search api---------------------------------------------------------------------------",iprops[i].property_id == searchResults[j]._id);
+                                for(let j=0; j<searchResults.length; j++){                                      
                                     if(String(iprops[i].property_id) === String(searchResults[j]._id)){
-                                      console.log("condition status-------------------------------->");
                                         searchResults[j] = {...searchResults[j], isInterested:true};
-                                        console.log("searchResults[j]-------------------->",searchResults[j]);
                                         break;
                                     }
 
