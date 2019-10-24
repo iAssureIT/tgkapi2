@@ -41,7 +41,7 @@ function allocateTofieldAgent(propertyID){
                                                                     {
                                                                         $set : {
                                                                             "updateAt"              : new Date(),
-                                                                            "profile.propertyCount" : fieldAgents[0].profile.propertyCount ? salesAgents[0].profile.propertyCount + 1 : 1
+                                                                            "profile.propertyCount" : fieldAgents[0].profile.propertyCount ? fieldAgents[0].profile.propertyCount + 1 : 1
                                                                         }
                                                                     }
                                                                 )
