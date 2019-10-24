@@ -172,18 +172,19 @@ exports.searchProperties = (req,res,next)=>{
               }
 
             if(req.body.uid){
-                InterestedProps
+                InterestedProps  
                     .find({"buyer_id" : req.body.uid})
                     .then(iprops => {
-                      console.log("iprops",iprops);
+                      // console.log("iprops",iprops);
                         if(iprops.length > 0){
                             for(var i=0; i<iprops.length; i++){
                                 for(let j=0; j<searchResults.length; j++){
-                                      console.log("iprops[i].property_id-----------------------",iprops[i].property_id);
-                                      console.log("searchResults[j]._id-----------------------",searchResults[j]._id);
+                                      // console.log("iprops[i].property_id-----------------------",iprops[i].property_id);
+                                      // console.log("searchResults[j]._id-----------------------",searchResults[j]._id);
 
                                     if(iprops[i].property_id === searchResults[j]._id){
                                         searchResults[j] = {...searchResults[j], isInterested:true};
+                                        console.log("searchResults[j]",searchResults[j]);
                                         break;
                                     }
 

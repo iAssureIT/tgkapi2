@@ -117,7 +117,9 @@ exports.create_interestedProps = (req,res,next)=>{
                                                createdAt  : new Date(),
                                                status     : "Active",
                                                remark     : "New Interested Property"
-                                           }]
+                                           }],
+                                           
+
         });
 
         interestedProps.save()
