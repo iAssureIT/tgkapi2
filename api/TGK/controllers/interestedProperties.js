@@ -100,9 +100,7 @@ function allocateTofieldAgent(propertyID){
                         reject(err);
                     })
     });
-
 };
-
 exports.create_interestedProps = (req,res,next)=>{ 
     main();
     async function main(){
@@ -140,7 +138,6 @@ exports.create_interestedProps = (req,res,next)=>{
     		           
     }
 };
-
 exports.detail_interestedProps = (req, res, next)=>{
 	var id = req.params.sellResidentsID;
 	InterestedProps.findOne({_id:id})
@@ -156,7 +153,6 @@ exports.detail_interestedProps = (req, res, next)=>{
 			});
 		});
 }
-
 exports.list_myInterestedProps = (req,res,next)=>{
     // console.log('list');
     const buyer_id = req.params.user_id;
@@ -192,8 +188,6 @@ exports.list_myInterestedProps = (req,res,next)=>{
                         });
                     });
 }
-
-
 exports.delete_interestedProps = (req,res,next)=>{
     // console.log("uid=>",req.params.buyer_id,"property_id=>",req.params.property_id)
     InterestedProps.deleteOne({buyer_id:req.params.buyer_id,property_id:req.params.property_id})
@@ -208,7 +202,8 @@ exports.delete_interestedProps = (req,res,next)=>{
                 error: err
             });
         });
-}
+};
+
 
 
 

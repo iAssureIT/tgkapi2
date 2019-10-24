@@ -70,4 +70,5 @@ router.get('/get/locationWiseListCount', PropertiesController.locationWiseListCo
 router.post('/post/allocateTofieldAgent/:propertyID', checkAuth,PropertiesController.allocateTofieldAgent);
 
 
+
 module.exports = router;

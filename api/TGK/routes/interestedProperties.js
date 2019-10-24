@@ -13,5 +13,9 @@ router.delete('/:buyer_id/:property_id',checkAuth,InterestedPropsController.dele
 
 // router.delete('/',InterestedPropsController.deleteall_interestedProps);
 
+//Code By Anagha
+
+
+
 
 module.exports = router;

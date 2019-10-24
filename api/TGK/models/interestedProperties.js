@@ -12,8 +12,10 @@ const interestedPropsSchema = mongoose.Schema({
                                    remark 	  : String
                                }],
     meeting 				: [{
-    								meetingDate : Date,
-    								remark 		: String,
+    								meetingDate        : String, //YYYY-MM-DD
+                                    meetingTime        : String, //HH:MM AM 
+    								remark 		       : String,
+                                    meetingStatus      : String, //Scheduled, WIP, Completed, Cancalled   
     							}],
     query 					: [{
     								remark 		: String,
@@ -21,16 +23,18 @@ const interestedPropsSchema = mongoose.Schema({
     								agentRole	: { type: mongoose.Schema.Types.ObjectId, ref: 'roles' },
     								agentID 	: { type: mongoose.Schema.Types.ObjectId, ref: 'users' }
     							}],
-    status 					: String, // "Interested" , Meeting , Shown , Shortlisted, Token_Received, Contract_Due, Cancelled, Completed 
-    token_received 			: {
-    								amount 		: Number,
-    								receivedAt  : Date,
-    								remark		: String, 
-    							},
-    Contract_Due 			: {
-    								dueDate : String,
-    								remark  : String,
-    							}
+    status 					: String,  //New , MeetingSet ,Discarded, Shortlisted, TokenReceived, Contract_Due, Contract_Completed
+    tokenReceived 			: {
+    								tockenAmount 		: Number,
+    								tokenDate           : String,
+    								tokenremark	        : String, 
+    						  },
+    contractDue 			: {
+                                    contractDate        : String,
+    								contractRemark      : String,
+                                    contractTime        : String, //HH:MM AM/PM
+    						  },
+    
 
    
 });

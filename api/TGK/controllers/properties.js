@@ -953,6 +953,9 @@ exports.allocateTofieldAgent = (req,res,next)=>{
                                                                                                         "createdAt"  : new Date(),
                                                                                                         "status"     : "Active"
                                                                                                     }
+                                                                                },
+                                                                                $set : {
+                                                                                    "status"    : "VerifyPending"
                                                                                 }
                                                                             }
                                                                         )
@@ -988,6 +991,9 @@ exports.allocateTofieldAgent = (req,res,next)=>{
                                                                                                         "createdAt"  : new Date(),
                                                                                                         "status"     : "Active"
                                                                                                     }
+                                                                                },
+                                                                                $set : {
+                                                                                    "status"    : "VerifyPending"
                                                                                 }
                                                                             }
                                                                         )
@@ -1027,6 +1033,9 @@ exports.allocateTofieldAgent = (req,res,next)=>{
                                                                                                 "createdAt"  : new Date(),
                                                                                                 "status"     : "Active"
                                                                                             }
+                                                                        },
+                                                                        $set : {
+                                                                            "status"    : "VerifyPending"
                                                                         }
                                                                 }
                                                             )
