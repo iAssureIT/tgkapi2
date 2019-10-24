@@ -8,5 +8,4 @@ router.get('/get/type/:fieldAgentID/:status',checkAuth,PropertiesController.list
 
 
 
-
 module.exports = router;
