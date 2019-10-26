@@ -23,7 +23,7 @@ const interestedPropsSchema = mongoose.Schema({
     								agentRole	: { type: mongoose.Schema.Types.ObjectId, ref: 'roles' },
     								agentID 	: { type: mongoose.Schema.Types.ObjectId, ref: 'users' }
     							}],
-    status 					: String,  //New , MeetingSet ,Discarded, Shortlisted, TokenReceived, Contract_Due, Contract_Completed
+    status 					: String,  //New , MeetingSet ,Discarded, Shortlisted, TokenReceived, ContractDue, ContractCompleted
     tokenReceived 			: {
     								tockenAmount 		: Number,
     								tokenDate           : String,
