@@ -34,9 +34,7 @@ const interestedPropsSchema = mongoose.Schema({
     								contractRemark      : String,
                                     contractTime        : String, //HH:MM AM/PM
     						  },
-    
-
-   
+    updatedAt               : Date,
 });
 
 module.exports = mongoose.model('interestedProps',interestedPropsSchema);
