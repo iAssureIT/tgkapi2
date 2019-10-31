@@ -239,7 +239,7 @@ exports.list_myInterestedProps = (req,res,next)=>{
                                     });                        
                             }else{
 
-                                res.status(200).json(searchResults);
+                                res.status(200).json(properties);
                             }
                       }else{
                           res.status(404).json('Properties not found');
