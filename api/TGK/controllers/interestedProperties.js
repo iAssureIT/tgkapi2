@@ -153,6 +153,41 @@ exports.detail_interestedProps = (req, res, next)=>{
 			});
 		});
 }
+// exports.list_myInterestedProps = (req,res,next)=>{
+//     // console.log('list');
+//     const buyer_id = req.params.user_id;
+//     InterestedProps .find({"buyer_id" : buyer_id},{"property_id":1,"_id":0})
+//                     .sort({"createdAt":-1})
+//                     .exec()
+//                     .then(property_ids=>{
+//                         var propertyIds = property_ids.map((a)=>a.property_id)
+//                         // console.log("property_ids",propertyIds)
+//                         if(propertyIds){
+//                             Properties
+//                                 .find({_id : {$in:propertyIds}})
+//                                 .exec()
+//                                 .then(properties=>{
+//                                     // console.log(properties)
+//                                     res.status(200).json(properties);
+//                                 })
+//                                 .catch(err =>{
+//                                     console.log(err);
+//                                     res.status(500).json({
+//                                         error: err
+//                                     });
+//                                 });
+
+//                         }else{
+//                             res.status(200).json({"message" : 'Interested Properties not found'});
+//                         }
+//                     })
+//                     .catch(err =>{
+//                         console.log(err);
+//                         res.status(500).json({
+//                             error: err
+//                         });
+//                     });
+// }
 exports.list_myInterestedProps = (req,res,next)=>{
     // console.log('list');
     const buyer_id = req.params.user_id;
@@ -167,9 +202,48 @@ exports.list_myInterestedProps = (req,res,next)=>{
                                 .find({_id : {$in:propertyIds}})
                                 .exec()
                                 .then(properties=>{
-                                    // console.log(properties)
-                                    res.status(200).json(properties);
-                                })
+                                  if(properties){
+                                    for(var k=0; k<properties.length; k++){                    
+                                          properties[k] = {...properties[k]._doc, isInterested:false};
+                                      }
+
+                                    if(req.body.uid){
+                                        InterestedProps  
+                                            .find({"buyer_id" : req.params.user_id})
+                                            .then(iprops => {
+                                              // console.log("iprops",iprops);
+                                                if(iprops.length > 0){
+                                                    for(var i=0; i<iprops.length; i++){
+                                                        for(let j=0; j<properties.length; j++){                                      
+                                                            if(String(iprops[i].property_id) === String(properties[j]._id)){
+                                                                properties[j] = {...properties[j], isInterested:true};
+                                                                break;
+                                                            }
+
+                                                        }
+
+                                                    }
+                                                    if(i >= iprops.length){
+                                                        res.status(200).json(properties);
+                                                    }       
+                                                    }else{
+                                                        res.status(200).json(properties);
+                                                    }
+                                                })
+                                                .catch(err =>{
+                                                    console.log(err);
+                                                    res.status(500).json({
+                                                        error: err
+                                                    });
+                                                });                        
+                                        }else{
+
+                                            res.status(200).json(searchResults);
+                                        }
+                                  }else{
+                                      res.status(404).json('Properties not found');
+                                  }
+                              })
                                 .catch(err =>{
                                     console.log(err);
                                     res.status(500).json({
