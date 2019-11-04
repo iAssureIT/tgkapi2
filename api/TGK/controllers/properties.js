@@ -919,6 +919,7 @@ exports.locationWiseListCount = (req,res,next)=>{
 }
 
 exports.allocateTofieldAgent = (req,res,next)=>{
+    console.log("allocateTofieldAgent ",req.params);
     Properties.findOne({"_id" : ObjectID(req.params.propertyID)})
               .exec()
               .then(property=>{
@@ -938,6 +939,7 @@ exports.allocateTofieldAgent = (req,res,next)=>{
                                         )
                                     .exec()
                                     .then(csdata=>{
+                                        console.log("csdata ",csdata);
                                         Users.find({"roles" : "Field Agent","officeLocation" : ObjectID(csdata.companyLocationsInfo[0]._id) })
                                              .sort({updateAt:1})
                                              .exec()
@@ -956,6 +958,7 @@ exports.allocateTofieldAgent = (req,res,next)=>{
                                                             )
                                                          .exec()
                                                          .then(data=>{
+                                                            console.log("user data ",data);
                                                             Properties.updateOne(
                                                                             { _id : ObjectID(req.params.propertyID) },
                                                                             { 
@@ -973,10 +976,11 @@ exports.allocateTofieldAgent = (req,res,next)=>{
                                                                         )
                                                                       .exec()
                                                                       .then(proUpdate=>{
+                                                                            console.log("proUpdate ",proUpdate);
                                                                                 if(proUpdate.nModified === 1){
-                                                                                    res.status(200).json({message:"Prpperty Updated"})
+                                                                                    res.status(200).json({message:"Property Updated"})
                                                                                 }else{
-                                                                                    res.status(200).json({message:"Prpperty Not Updated"})
+                                                                                    res.status(200).json({message:"Property Not Updated"})
                                                                                 }
                                                                             })
                                                                       .catch(err =>{
@@ -993,13 +997,14 @@ exports.allocateTofieldAgent = (req,res,next)=>{
                                                 }else{
                                                     Users.findOne({"roles" : "Field Manager"})
                                                         .exec()
-                                                        .then(fieldAgents=>{
+                                                        .then(fieldManager=>{
+                                                            console.log("fieldManager ",fieldManager);
                                                             Properties.updateOne(
                                                                             { _id : ObjectID(req.params.propertyID) },
                                                                             { 
                                                                                 $push:{
                                                                                     "fieldAgent" : {
-                                                                                                        "agentID"    : fieldAgents[0]._id,
+                                                                                                        "agentID"    : fieldManager._id,
                                                                                                         "createdAt"  : new Date(),
                                                                                                         "status"     : "Active"
                                                                                                     }
@@ -1010,8 +1015,9 @@ exports.allocateTofieldAgent = (req,res,next)=>{
                                                                             }
                                                                         )
                                                                       .exec()
-                                                                      .then(proUpdate=>{
-                                                                                if(proUpdate.nModified === 1){
+                                                                      .then(proMgrUpdate=>{
+                                                                        console.log("fieldManager proMgrUpdate ",proMgrUpdate)
+                                                                                if(proMgrUpdate.nModified === 1){
                                                                                     res.status(200).json({message:"Prpperty Updated"})
                                                                                 }else{
                                                                                     res.status(200).json({message:"Prpperty Not Updated"})
@@ -1035,13 +1041,14 @@ exports.allocateTofieldAgent = (req,res,next)=>{
                                               console.log(err);
                                                 Users.findOne({"roles" : "Field Manager"})
                                                 .exec()
-                                                .then(fieldAgents=>{
+                                                .then(proMgrUpdate=>{
+                                                    console.log("catch Mgr ",proMgrUpdate)
                                                     Properties.updateOne(
                                                                 { _id : ObjectID(req.params.propertyID) },
                                                                 { 
                                                                     $push:{
                                                                             "fieldAgent" : {
-                                                                                                "agentID"    : fieldAgents[0]._id,
+                                                                                                "agentID"    : proMgrUpdate._id,
                                                                                                 "createdAt"  : new Date(),
                                                                                                 "status"     : "Active"
                                                                                             }
@@ -1053,6 +1060,7 @@ exports.allocateTofieldAgent = (req,res,next)=>{
                                                             )
                                                           .exec()
                                                           .then(proUpdate=>{
+                                                                console.log("catch proUpdate ",proUpdate);
                                                                     if(proUpdate.nModified === 1){
                                                                         res.status(200).json({message:"Prpperty Updated"})
                                                                     }else{
