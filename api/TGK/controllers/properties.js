@@ -643,7 +643,7 @@ exports.list_Properties_salesAgent = (req,res,next)=>{
 }
 
 exports.list_Properties_salesAgent_type = (req,res,next)=>{
-
+    console.log("list_Properties_salesAgent_type ",req.params);
     Properties.find({
                             "salesAgent.agentID" : ObjectID(req.params.salesAgentID),
                             "salesAgent.status"  : "Active",
