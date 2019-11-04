@@ -130,7 +130,7 @@ exports.property_sa_totaldisplaylist = (req,res,next)=>{
         Properties.find()        
         .exec()
         .then(property=>{
-            console.log("admin property",property);
+            // console.log("admin property",property);
             if(property){
                 var WIPData = property.filter((WIPdata)=>{return WIPdata.status==="WIP"});
                 var NEWData = property.filter((WIPdata)=>{return WIPdata.status==="New"});
@@ -164,7 +164,7 @@ exports.property_sa_totaldisplaylist = (req,res,next)=>{
                     })        
         .exec()
         .then(property=>{
-            console.log("sales agent property",property);
+            // console.log("sales agent property",property);
             if(property){
                 var WIPData = property.filter((WIPdata)=>{return WIPdata.status==="WIP"});
                 var NEWData = property.filter((WIPdata)=>{return WIPdata.status==="New"});
