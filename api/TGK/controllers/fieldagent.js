@@ -35,7 +35,7 @@ exports.list_Properties_fieldAgent_type = (req,res,next)=>{
 exports.list_InterestedProperties_FieldAgent_OuterStatus = (req,res,next)=>{
     console.log("list_InterestedProperties_FieldAgent_OuterStatus ",req.params);
     InterestedProps.find({
-                                "fieldAgent.agentID" : req.params.user_id,
+                                "fieldAgent.agentID" : ObjectID(req.params.user_id),
                                 "fieldAgent.status"  : "Active",
                                 "status"             : req.params.status
                     })
@@ -45,7 +45,7 @@ exports.list_InterestedProperties_FieldAgent_OuterStatus = (req,res,next)=>{
                         if(data.length > 0){
                             res.status(200).json(data);
                         }else{
-                            res.status(404).json('Properties Details not found');
+                            res.status(200).json('Properties Details not found');
                         }
                    })
                    .catch(err =>{
