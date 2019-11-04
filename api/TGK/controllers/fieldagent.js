@@ -33,6 +33,7 @@ exports.list_Properties_fieldAgent_type = (req,res,next)=>{
 //---- API To get InterestedProperties which are allocated to Field Agent with Mentioned Outer Status------------
 
 exports.list_InterestedProperties_FieldAgent_OuterStatus = (req,res,next)=>{
+    console.log("list_InterestedProperties_FieldAgent_OuterStatus ",req.params);
     InterestedProps.find({
                                 "fieldAgent.agentID" : req.params.user_id,
                                 "fieldAgent.status"  : "Active",
