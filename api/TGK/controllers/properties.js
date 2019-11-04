@@ -650,13 +650,15 @@ exports.list_Properties_salesAgent_type = (req,res,next)=>{
                     "status"                : req.params.status,
                 };
     if(req.params.status === 'WIP'){
-        var todayDate = moment(new Date()).format("YYYY-MM-DD");
-        console.log("todayDate ",todayDate);
+        var curr_year = moment(new Date()).format("YYYY");
+        var curr_month = moment(new Date()).format("MM");
+        var curr_day = moment(new Date()).format("DD");
+        console.log("todayDate ",curr_year,'-',curr_month,'-',curr_day);
         query = {
                     "salesAgent.agentID" : ObjectID(req.params.salesAgentID),
                     "salesAgent.status"  : "Active",
                     "status"                : req.params.status,
-                    "createdAt"             : {$ne : Date(todayDate)}
+                    "createdAt"             : {$ne : Date(curr_year,curr_month,curr_day)}
                 };
     }
     console.log("query ",query);
