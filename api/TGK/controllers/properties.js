@@ -63,6 +63,7 @@ exports.create_Properties = (req,res,next)=>{
                                           }                
                 },
                 createdAt               : new Date(),
+                createdAtStr               : moment(new Date()).format("YYYY-MM-DD"),
                 "Fcount1"                 : req.body.Fcount1?parseInt(req.body.Fcount1):0,                 
                 "setCount1"               : req.body.setCount1?parseInt(req.body.setCount1):0,                 
                 "formFillPercentage1"     : req.body.formFillPercentage1?req.body.formFillPercentage1:0, 
@@ -650,15 +651,13 @@ exports.list_Properties_salesAgent_type = (req,res,next)=>{
                     "status"                : req.params.status,
                 };
     if(req.params.status === 'WIP'){
-        var curr_year = moment(new Date()).format("YYYY");
-        var curr_month = moment(new Date()).format("MM");
-        var curr_day = moment(new Date()).format("DD");
-        console.log("todayDate ",curr_year,'-',curr_month,'-',curr_day);
+        var todayDate = moment(new Date()).format("YYYY-MM-DD");
+        console.log("todayDate ",todayDate);
         query = {
                     "salesAgent.agentID" : ObjectID(req.params.salesAgentID),
                     "salesAgent.status"  : "Active",
                     "status"                : req.params.status,
-                    "createdAt"             : {$ne : Date(curr_year,curr_month,curr_day)}
+                    "createdAt"             : {$ne : Date(todayDate)}
                 };
     }
     console.log("query ",query);
