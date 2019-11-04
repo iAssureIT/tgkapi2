@@ -11,7 +11,7 @@ exports.property_sa_displaylist = (req,res,next)=>{
     Properties.find(
             {
                 status              : req.body.status,
-                // propertyCreatedAt   : {$gt : moment(new Date()).formate("YYYY-MM-DD")}
+                createdAt           : {$gt : moment(new Date()).formate("YYYY-MM-DD")}
             }
         )
         .sort({"propertyCreatedAt" : 1})
