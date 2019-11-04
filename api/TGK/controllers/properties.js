@@ -656,8 +656,8 @@ exports.list_Properties_salesAgent_type = (req,res,next)=>{
         query = {
                     "salesAgent.agentID" : ObjectID(req.params.salesAgentID),
                     "salesAgent.status"  : "Active",
-                    "status"                : req.params.status,
-                    "createdAtStr"             : {$ne : Date(todayDate)}
+                    "status"             : req.params.status,
+                    "createdAtStr"       : {$ne : todayDate}
                 };
     }
     console.log("query ",query);
