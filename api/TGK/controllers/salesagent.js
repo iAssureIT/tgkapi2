@@ -170,7 +170,7 @@ exports.property_sa_totaldisplaylist = (req,res,next)=>{
                 var NEWData = property.filter((WIPdata)=>{return WIPdata.status==="New"});
                 var RELISTINGData = property.filter((WIPdata)=>{return WIPdata.status==="ReListing"});
                 var VERIFIEDData = property.filter((WIPdata)=>{return WIPdata.status==="Verified"});
-                // var VERIFYPENDINGData = property.filter((WIPdata)=>{return WIPdata.status==="VerifyPending"});
+                var VERIFYPENDINGData = property.filter((WIPdata)=>{return WIPdata.status==="VerifyPending"});
                 var LISTEDData  = property.filter((WIPdata)=>{return WIPdata.status==="Listed"});
 
                 var WIPCount = WIPData.length;
@@ -178,9 +178,9 @@ exports.property_sa_totaldisplaylist = (req,res,next)=>{
                 var RELISTINGCount = RELISTINGData.length;
                 var VERIFIEDCount = VERIFIEDData.length;
                 var LISTEDCount = LISTEDData.length;
-                // var VERIFYPENDINGCount = VERIFYPENDINGData.length;
+                var VERIFYPENDINGCount = VERIFYPENDINGData.length;
                 // if(i<0){
-                  res.status(200).json({"WIPCount":WIPCount,"NEWCount":NEWCount,"RELISTINGCount":RELISTINGCount,"VERIFIEDCount":VERIFIEDCount,"LISTEDCount":LISTEDCount,"VERIFYPENDINGCount":0});
+                  res.status(200).json({"WIPCount":WIPCount,"NEWCount":NEWCount,"RELISTINGCount":RELISTINGCount,"VERIFIEDCount":VERIFIEDCount,"LISTEDCount":LISTEDCount,"VERIFYPENDINGCount":VERIFYPENDINGCount});
                 // }   
             }else{
                 res.status(404).json('Properties Details not found');
@@ -206,14 +206,17 @@ exports.property_sa_totaldisplaylist = (req,res,next)=>{
                     var RELISTINGData = property.filter((WIPdata)=>{return WIPdata.status==="ReListing"});
                     var VERIFIEDData = property.filter((WIPdata)=>{return WIPdata.status==="Verified"});
                     var LISTEDData  = property.filter((WIPdata)=>{return WIPdata.status==="Listed"});
+                    var VERIFYPENDINGData = property.filter((WIPdata)=>{return WIPdata.status==="VerifyPending"});
 
                     var WIPCount = WIPData.length;
                     var NEWCount = NEWData.length;
                     var RELISTINGCount = RELISTINGData.length;
                     var VERIFIEDCount = VERIFIEDData.length;
                     var LISTEDCount = LISTEDData.length;
+                    var VERIFYPENDINGCount = VERIFYPENDINGData.length;
+
                     // if(i<0){
-                      res.status(200).json({"WIPCount":WIPCount,"NEWCount":NEWCount,"RELISTINGCount":RELISTINGCount,"VERIFIEDCount":VERIFIEDCount,"LISTEDCount":LISTEDCount});
+                      res.status(200).json({"WIPCount":WIPCount,"NEWCount":NEWCount,"RELISTINGCount":RELISTINGCount,"VERIFIEDCount":VERIFIEDCount,"LISTEDCount":LISTEDCount,"VERIFYPENDINGCount":VERIFYPENDINGCount});
                     // }   
                 }else{
                     res.status(404).json('Properties Details not found');
