@@ -16,7 +16,7 @@ exports.list_Properties_fieldAgent_type = (req,res,next)=>{
                 .sort({"updatedAt":1})
                 .exec()
                 .then(data=>{
-                    console.log("list_Properties_fieldAgent_type ",data.length);
+                    console.log("list_Properties_fieldAgent_type ",data);
                     if(data.length){
                         res.status(200).json(data);
                     }else{
