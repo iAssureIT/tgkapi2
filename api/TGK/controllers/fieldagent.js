@@ -11,7 +11,7 @@ var ObjectID = require('mongodb').ObjectID;
 exports.list_Properties_fieldAgent_type = (req,res,next)=>{
     console.log("list_Properties_fieldAgent_type ");
     Properties.find({
-                            "fieldAgent.agentID" : (req.params.fieldAgentID),
+                            "fieldAgent.agentID" : ObjectID(req.params.fieldAgentID),
                             "status"                : req.params.status,
                     })
                 .sort({"updatedAt":1})
@@ -47,7 +47,7 @@ exports.list_InterestedProperties_FieldAgent_OuterStatus = (req,res,next)=>{
                         if(data.length > 0){
                             res.status(200).json(data);
                         }else{
-                            res.status(200).json('Properties Details not found');
+                            res.status(200).json([]);
                         }
                    })
                    .catch(err =>{

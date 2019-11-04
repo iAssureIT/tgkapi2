@@ -1115,7 +1115,7 @@ exports.list_Properties_fieldAgent_type = (req,res,next)=>{
                     if(data.length > 0){
                         res.status(200).json(data);
                     }else{
-                        res.status(404).json('Properties Details not found');
+                        res.status(404).json([]);
                     }
                 })
                 .catch(err =>{
