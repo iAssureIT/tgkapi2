@@ -107,7 +107,8 @@ const propertiesSchema = mongoose.Schema({
                                }],
     perComplete             : Number,
     updatedAt               : Date,
-    createdAt               : Date
+    createdAt               : Date,
+    createdAtStr            : String,
 
 });
 

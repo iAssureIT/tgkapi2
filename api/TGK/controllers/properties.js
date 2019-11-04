@@ -1,5 +1,5 @@
 const mongoose	= require("mongoose");
-
+var moment              = require('moment');
 const Properties        = require('../models/properties');
 const Sellometers       = require('../models/sellometers');
 const MasterSellometers = require('../models/mastersellometer');
@@ -644,12 +644,20 @@ exports.list_Properties_salesAgent = (req,res,next)=>{
 
 exports.list_Properties_salesAgent_type = (req,res,next)=>{
     console.log("list_Properties_salesAgent_type ",req.params);
-    Properties.find({
-                            "salesAgent.agentID" : ObjectID(req.params.salesAgentID),
-                            "salesAgent.status"  : "Active",
-                            "status"                : req.params.status,
-                            "createdAt"             : {$ne : new Date()}
-                    })
+    var query = {
+                    "salesAgent.agentID" : ObjectID(req.params.salesAgentID),
+                    "salesAgent.status"  : "Active",
+                    "status"                : req.params.status,
+                };
+    if(req.params.status === 'WIP'){
+        query = {
+                    "salesAgent.agentID" : ObjectID(req.params.salesAgentID),
+                    "salesAgent.status"  : "Active",
+                    "status"                : req.params.status,
+                    "createdAt"             : {$ne : moment(new Date()).formate("YYYY-MM-DD")}
+                };
+    }
+    Properties.find(query)
                 .sort({"updatedAt":1})
                 .exec()
                 .then(data=>{
