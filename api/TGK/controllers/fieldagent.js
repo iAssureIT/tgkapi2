@@ -17,7 +17,7 @@ exports.list_Properties_fieldAgent_type = (req,res,next)=>{
                 .exec()
                 .then(data=>{
                     console.log("list_Properties_fieldAgent_type ",data);
-                    if(data.length){
+                    if(data.length > 0){
                         res.status(200).json(data);
                     }else{
                         res.status(200).json([]);
