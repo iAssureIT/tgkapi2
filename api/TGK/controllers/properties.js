@@ -648,7 +648,7 @@ exports.list_Properties_salesAgent_type = (req,res,next)=>{
                             "salesAgent.agentID" : ObjectID(req.params.salesAgentID),
                             "salesAgent.status"  : "Active",
                             "status"                : req.params.status,
-                            "createdAt"             : {$ne : moment(new Date()).format("YYYY-MM-DD")}
+                            "createdAt"             : {$ne : new Date()}
                     })
                 .sort({"updatedAt":1})
                 .exec()
