@@ -9,6 +9,7 @@ var ObjectID = require('mongodb').ObjectID;
 // ---------------------------------API To get Field Agent List as per status----------------------------
 
 exports.list_Properties_fieldAgent_type = (req,res,next)=>{
+    console.log("list_Properties_fieldAgent_type ");
     Properties.find({
                             "fieldAgent.agentID" : (req.params.fieldAgentID),
                             "status"                : req.params.status,
