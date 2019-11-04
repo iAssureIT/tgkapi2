@@ -657,6 +657,7 @@ exports.list_Properties_salesAgent_type = (req,res,next)=>{
                     "createdAt"             : {$ne : moment(new Date()).formate("YYYY-MM-DD")}
                 };
     }
+    console.log("query ",query);
     Properties.find(query)
                 .sort({"updatedAt":1})
                 .exec()
