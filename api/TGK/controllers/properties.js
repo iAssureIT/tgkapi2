@@ -650,11 +650,13 @@ exports.list_Properties_salesAgent_type = (req,res,next)=>{
                     "status"                : req.params.status,
                 };
     if(req.params.status === 'WIP'){
+        var todayDate = moment(new Date()).format("YYYY-MM-DD");
+        console.log("todayDate ",todayDate);
         query = {
                     "salesAgent.agentID" : ObjectID(req.params.salesAgentID),
                     "salesAgent.status"  : "Active",
                     "status"                : req.params.status,
-                    "createdAt"             : {$ne : moment(new Date()).format("YYYY-MM-DD")}
+                    "createdAt"             : {$ne : Date(todayDate)}
                 };
     }
     console.log("query ",query);
