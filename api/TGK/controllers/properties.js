@@ -939,116 +939,159 @@ exports.allocateTofieldAgent = (req,res,next)=>{
                                         )
                                     .exec()
                                     .then(csdata=>{
-                                        console.log("csdata ",csdata);
-                                        Users.find({"roles" : "Field Agent","officeLocation" : ObjectID(csdata.companyLocationsInfo[0]._id) })
-                                             .sort({updateAt:1})
-                                             .exec()
-                                             .then(fieldAgents=>{
-                                                console.log("fieldAgents ",fieldAgents);
-                                                if(fieldAgents.length > 0){
-                                                    //Sales agents found. Then find, to which SA, the last property was assigned
-                                                    Users.updateOne(
-                                                                { "_id" : fieldAgents[0]._id},
-                                                                {
-                                                                    $set : {
-                                                                        "updateAt"              : new Date(),
-                                                                        "profile.propertyCount" : fieldAgents[0].profile.propertyCount ? fieldAgents[0].profile.propertyCount + 1 : 1
+                                        if(csdata.length > 0){
+                                            console.log("csdata ",csdata);
+                                            Users.find({"roles" : "Field Agent","officeLocation" : ObjectID(csdata.companyLocationsInfo[0]._id) })
+                                                 .sort({updateAt:1})
+                                                 .exec()
+                                                 .then(fieldAgents=>{
+                                                    console.log("fieldAgents ",fieldAgents);
+                                                    if(fieldAgents.length > 0){
+                                                        //Sales agents found. Then find, to which SA, the last property was assigned
+                                                        Users.updateOne(
+                                                                    { "_id" : fieldAgents[0]._id},
+                                                                    {
+                                                                        $set : {
+                                                                            "updateAt"              : new Date(),
+                                                                            "profile.propertyCount" : fieldAgents[0].profile.propertyCount ? fieldAgents[0].profile.propertyCount + 1 : 1
+                                                                        }
                                                                     }
-                                                                }
-                                                            )
-                                                         .exec()
-                                                         .then(data=>{
-                                                            console.log("user data ",data);
-                                                            Properties.updateOne(
-                                                                            { _id : ObjectID(req.params.propertyID) },
-                                                                            { 
-                                                                                $push:{
-                                                                                    "fieldAgent" : {
-                                                                                                        "agentID"    : fieldAgents[0]._id,
-                                                                                                        "createdAt"  : new Date(),
-                                                                                                        "status"     : "Active"
-                                                                                                    }
-                                                                                },
-                                                                                $set : {
-                                                                                    "status"    : "VerifyPending"
+                                                                )
+                                                             .exec()
+                                                             .then(data=>{
+                                                                console.log("user data ",data);
+                                                                Properties.updateOne(
+                                                                                { _id : ObjectID(req.params.propertyID) },
+                                                                                { 
+                                                                                    $push:{
+                                                                                        "fieldAgent" : {
+                                                                                                            "agentID"    : fieldAgents[0]._id,
+                                                                                                            "createdAt"  : new Date(),
+                                                                                                            "status"     : "Active"
+                                                                                                        }
+                                                                                    },
+                                                                                    $set : {
+                                                                                        "status"    : "VerifyPending"
+                                                                                    }
                                                                                 }
-                                                                            }
-                                                                        )
-                                                                      .exec()
-                                                                      .then(proUpdate=>{
-                                                                            console.log("proUpdate ",proUpdate);
-                                                                                if(proUpdate.nModified === 1){
-                                                                                    res.status(200).json({message:"Property Updated"})
-                                                                                }else{
-                                                                                    res.status(200).json({message:"Property Not Updated"})
-                                                                                }
-                                                                            })
-                                                                      .catch(err =>{
-                                                                            res.status(500).json({
-                                                                                error: err
+                                                                            )
+                                                                          .exec()
+                                                                          .then(proUpdate=>{
+                                                                                console.log("proUpdate ",proUpdate);
+                                                                                    if(proUpdate.nModified === 1){
+                                                                                        res.status(200).json({message:"Property Updated"})
+                                                                                    }else{
+                                                                                        res.status(200).json({message:"Property Not Updated"})
+                                                                                    }
+                                                                                })
+                                                                          .catch(err =>{
+                                                                                res.status(500).json({
+                                                                                    error: err
+                                                                                   });
                                                                                });
-                                                                           });
-                                                         })
-                                                         .catch(err =>{
+                                                             })
+                                                             .catch(err =>{
+                                                                res.status(500).json({
+                                                                    error: err
+                                                                   });
+                                                               });      
+                                                    }else{
+                                                        Users.findOne({"roles" : "Field Manager"})
+                                                            .exec()
+                                                            .then(fieldManager=>{
+                                                                console.log("fieldManager ",fieldManager);
+                                                                Properties.updateOne(
+                                                                                { _id : ObjectID(req.params.propertyID) },
+                                                                                { 
+                                                                                    $push:{
+                                                                                        "fieldAgent" : {
+                                                                                                            "agentID"    : fieldManager._id,
+                                                                                                            "createdAt"  : new Date(),
+                                                                                                            "status"     : "Active"
+                                                                                                        }
+                                                                                    },
+                                                                                    $set : {
+                                                                                        "status"    : "VerifyPending"
+                                                                                    }
+                                                                                }
+                                                                            )
+                                                                          .exec()
+                                                                          .then(proMgrUpdate=>{
+                                                                            console.log("fieldManager proMgrUpdate ",proMgrUpdate)
+                                                                                    if(proMgrUpdate.nModified === 1){
+                                                                                        res.status(200).json({message:"Prpperty Updated"})
+                                                                                    }else{
+                                                                                        res.status(200).json({message:"Prpperty Not Updated"})
+                                                                                    }
+                                                                                })
+                                                                          .catch(err =>{
+                                                                                res.status(500).json({
+                                                                                    error: err
+                                                                                   });
+                                                                               });
+                                                            })
+                                                           .catch(err =>{
                                                             res.status(500).json({
+                                                                message : "Admin role user Not Found",
                                                                 error: err
                                                                });
-                                                           });      
-                                                }else{
-                                                    Users.findOne({"roles" : "Field Manager"})
-                                                        .exec()
-                                                        .then(fieldManager=>{
-                                                            console.log("fieldManager ",fieldManager);
-                                                            Properties.updateOne(
-                                                                            { _id : ObjectID(req.params.propertyID) },
-                                                                            { 
-                                                                                $push:{
-                                                                                    "fieldAgent" : {
-                                                                                                        "agentID"    : fieldManager._id,
-                                                                                                        "createdAt"  : new Date(),
-                                                                                                        "status"     : "Active"
-                                                                                                    }
-                                                                                },
-                                                                                $set : {
-                                                                                    "status"    : "VerifyPending"
-                                                                                }
-                                                                            }
-                                                                        )
-                                                                      .exec()
-                                                                      .then(proMgrUpdate=>{
-                                                                        console.log("fieldManager proMgrUpdate ",proMgrUpdate)
-                                                                                if(proMgrUpdate.nModified === 1){
-                                                                                    res.status(200).json({message:"Prpperty Updated"})
-                                                                                }else{
-                                                                                    res.status(200).json({message:"Prpperty Not Updated"})
-                                                                                }
-                                                                            })
-                                                                      .catch(err =>{
-                                                                            res.status(500).json({
-                                                                                error: err
-                                                                               });
-                                                                           });
-                                                        })
-                                                       .catch(err =>{
-                                                        res.status(500).json({
-                                                            message : "Admin role user Not Found",
-                                                            error: err
                                                            });
+                                                    }
+                                                 })
+                                                .catch(err =>{
+                                                  console.log(err);
+                                                    Users.findOne({"roles" : "Field Manager"})
+                                                    .exec()
+                                                    .then(proMgrUpdate=>{
+                                                        console.log("catch Mgr ",proMgrUpdate)
+                                                        Properties.updateOne(
+                                                                    { _id : ObjectID(req.params.propertyID) },
+                                                                    { 
+                                                                        $push:{
+                                                                                "fieldAgent" : {
+                                                                                                    "agentID"    : proMgrUpdate._id,
+                                                                                                    "createdAt"  : new Date(),
+                                                                                                    "status"     : "Active"
+                                                                                                }
+                                                                            },
+                                                                            $set : {
+                                                                                "status"    : "VerifyPending"
+                                                                            }
+                                                                    }
+                                                                )
+                                                              .exec()
+                                                              .then(proUpdate=>{
+                                                                    console.log("catch proUpdate ",proUpdate);
+                                                                        if(proUpdate.nModified === 1){
+                                                                            res.status(200).json({message:"Prpperty Updated"})
+                                                                        }else{
+                                                                            res.status(200).json({message:"Prpperty Not Updated"})
+                                                                        }
+                                                                    })
+                                                              .catch(err =>{
+                                                                    res.status(500).json({
+                                                                        error: err
+                                                                       });
+                                                                   });
+                                                    })
+                                                   .catch(err =>{
+                                                    res.status(500).json({
+                                                        message : "Admin role user Not Found",
+                                                        error: err
                                                        });
-                                                }
-                                             })
-                                            .catch(err =>{
-                                              console.log(err);
-                                                Users.findOne({"roles" : "Field Manager"})
+                                                   });
+                                                });
+                                        }else{
+                                            Users.findOne({"roles" : "Field Manager"})
                                                 .exec()
-                                                .then(proMgrUpdate=>{
-                                                    console.log("catch Mgr ",proMgrUpdate)
+                                                .then(fieldManager=>{
+                                                    console.log("fieldManager ",fieldManager);
                                                     Properties.updateOne(
-                                                                { _id : ObjectID(req.params.propertyID) },
-                                                                { 
-                                                                    $push:{
+                                                                    { _id : ObjectID(req.params.propertyID) },
+                                                                    { 
+                                                                        $push:{
                                                                             "fieldAgent" : {
-                                                                                                "agentID"    : proMgrUpdate._id,
+                                                                                                "agentID"    : fieldManager._id,
                                                                                                 "createdAt"  : new Date(),
                                                                                                 "status"     : "Active"
                                                                                             }
@@ -1056,22 +1099,22 @@ exports.allocateTofieldAgent = (req,res,next)=>{
                                                                         $set : {
                                                                             "status"    : "VerifyPending"
                                                                         }
-                                                                }
-                                                            )
-                                                          .exec()
-                                                          .then(proUpdate=>{
-                                                                console.log("catch proUpdate ",proUpdate);
-                                                                    if(proUpdate.nModified === 1){
-                                                                        res.status(200).json({message:"Prpperty Updated"})
-                                                                    }else{
-                                                                        res.status(200).json({message:"Prpperty Not Updated"})
                                                                     }
-                                                                })
-                                                          .catch(err =>{
-                                                                res.status(500).json({
-                                                                    error: err
+                                                                )
+                                                              .exec()
+                                                              .then(proMgrUpdate=>{
+                                                                console.log("fieldManager proMgrUpdate ",proMgrUpdate)
+                                                                        if(proMgrUpdate.nModified === 1){
+                                                                            res.status(200).json({message:"Prpperty Updated"})
+                                                                        }else{
+                                                                            res.status(200).json({message:"Prpperty Not Updated"})
+                                                                        }
+                                                                    })
+                                                              .catch(err =>{
+                                                                    res.status(500).json({
+                                                                        error: err
+                                                                       });
                                                                    });
-                                                               });
                                                 })
                                                .catch(err =>{
                                                 res.status(500).json({
@@ -1079,7 +1122,7 @@ exports.allocateTofieldAgent = (req,res,next)=>{
                                                     error: err
                                                    });
                                                });
-                                            });
+                                        }
                                     })
                                     .catch(err =>{
                                             console.log(err);

@@ -1,0 +1,415 @@
+{
+	"_id" : "5hpFaSPJ944mT76YK",
+	"level" : "2",
+	"roles" : [
+		"client",
+		"admin"
+	],
+	"systemMessage" : "message",
+	"action1" : "Approve",
+	"action1NextLevel" : "3",
+	"action1Status" : "Client Approved",
+	"action1Notification" : [
+		null,
+		null,
+		null
+	],
+	"action2" : "Decline",
+	"action2NextLevel" : "0",
+	"action2Status" : "Client Declined",
+	"action2Notification" : [
+		null,
+		null,
+		null
+	],
+	"updatedBy" : "hB8RtYEtT7rgsJBZL",
+	"updatedAt" : ISODate("2019-05-09T12:20:17.960Z"),
+	"updateDetails" : [
+		{
+			"level" : "2",
+			"roles" : [
+				"client",
+				"admin"
+			],
+			"systemMessage" : "message",
+			"action1" : "Approve",
+			"action1NextLevel" : "3",
+			"action1Status" : "Client Approved",
+			"action1Notification" : [
+				null,
+				null,
+				null
+			],
+			"action2" : "Decline",
+			"action2NextLevel" : "0",
+			"action2Status" : "Client Declined",
+			"action2Notification" : [
+				null,
+				null,
+				null
+			],
+			"updatedBy" : "hB8RtYEtT7rgsJBZL",
+			"updatedAt" : ISODate("2019-05-09T12:20:17.960Z")
+		}
+	]
+}
+{
+	"_id" : "HjmtDPKWkvHwLAZeW",
+	"level" : "4",
+	"roles" : [
+		"technician"
+	],
+	"systemMessage" : "message",
+	"action1" : "Accept",
+	"action1NextLevel" : "5",
+	"action1Status" : "Accepted",
+	"action1Notification" : [
+		"manager"
+	],
+	"action2" : "Request to Transfer",
+	"action2NextLevel" : "3",
+	"action2Status" : "Transferred",
+	"action2Notification" : [
+		"manager"
+	]
+}
+{
+	"_id" : "euoy6FyM3JwgEpukW",
+	"level" : "7",
+	"roles" : [
+		"admin",
+		"client"
+	],
+	"systemMessage" : "message",
+	"action1" : "Close",
+	"action1NextLevel" : "0",
+	"action1Status" : "Closed",
+	"action1Notification" : [
+		null,
+		null,
+		null
+	],
+	"action2" : "Reopen",
+	"action2NextLevel" : "3",
+	"action2Status" : "Reopened",
+	"action2Notification" : [
+		null,
+		null,
+		null
+	],
+	"updatedBy" : "hB8RtYEtT7rgsJBZL",
+	"updatedAt" : ISODate("2019-05-09T12:22:18.247Z"),
+	"updateDetails" : [
+		{
+			"level" : "7",
+			"roles" : [
+				"admin",
+				"client"
+			],
+			"systemMessage" : "message",
+			"action1" : "Close",
+			"action1NextLevel" : "0",
+			"action1Status" : "Closed",
+			"action1Notification" : [
+				null,
+				null,
+				null
+			],
+			"action2" : "Reopen",
+			"action2NextLevel" : "3",
+			"action2Status" : "Reopened",
+			"action2Notification" : [
+				null,
+				null,
+				null
+			],
+			"updatedBy" : "hB8RtYEtT7rgsJBZL",
+			"updatedAt" : ISODate("2019-05-09T12:22:18.247Z")
+		}
+	]
+}
+{
+	"_id" : "iHB7PrCJCvpvcnpNS",
+	"level" : "0",
+	"roles" : [
+		"client"
+	],
+	"systemMessage" : "message",
+	"action1" : "Submit",
+	"action1NextLevel" : "1",
+	"action1Status" : "New",
+	"action1Notification" : [
+		"admin",
+		"client",
+		"manager"
+	],
+	"action2" : "",
+	"action2NextLevel" : "",
+	"action2Status" : ""
+}
+{
+	"_id" : "tu2niQ4EZLMztk5sh",
+	"level" : "3",
+	"roles" : [
+		"manager"
+	],
+	"systemMessage" : "message",
+	"action1" : "Allocate",
+	"action1NextLevel" : "4",
+	"action1Status" : "Allocated",
+	"action1Notification" : [
+		"client",
+		"admin"
+	],
+	"action2" : "",
+	"action2NextLevel" : "",
+	"action2Status" : "",
+	"action2Notification" : [ ]
+}
+{
+	"_id" : "Q5wMWBhYdjHKQBssh",
+	"level" : "5",
+	"roles" : [
+		"technician"
+	],
+	"systemMessage" : "message",
+	"action1" : "Start",
+	"action1NextLevel" : "6",
+	"action1Status" : "Started",
+	"action1Notification" : [
+		"admin",
+		"client"
+	],
+	"action2" : "",
+	"action2NextLevel" : "",
+	"action2Status" : "",
+	"action2Notification" : [ ],
+	"updatedBy" : "hB8RtYEtT7rgsJBZL",
+	"updatedAt" : ISODate("2019-07-01T07:06:13.804Z"),
+	"updateDetails" : [
+		{
+			"level" : "5",
+			"roles" : [
+				"technician"
+			],
+			"systemMessage" : "message",
+			"action1" : "Start",
+			"action1NextLevel" : "6",
+			"action1Status" : "Started",
+			"action1Notification" : [
+				"admin",
+				"client"
+			],
+			"action2" : "",
+			"action2NextLevel" : "",
+			"action2Status" : "",
+			"action2Notification" : [ ],
+			"updatedBy" : "hB8RtYEtT7rgsJBZL",
+			"updatedAt" : ISODate("2019-07-01T07:06:13.804Z")
+		}
+	]
+}
+{
+	"_id" : "GFGaxTmtJYprv8ZqJ",
+	"level" : "8",
+	"roles" : [
+		"technician"
+	],
+	"systemMessage" : "",
+	"action1" : "Restart",
+	"action1NextLevel" : "6",
+	"action1Status" : "Restart",
+	"action2" : "",
+	"action2NextLevel" : "",
+	"action2Status" : ""
+}
+{
+	"_id" : "H4ziQ75Kh9HDL5ifM",
+	"level" : "6",
+	"roles" : [
+		"technician"
+	],
+	"systemMessage" : "message",
+	"action1" : "Completed",
+	"action1NextLevel" : "7",
+	"action1Status" : "Completed",
+	"action1Notification" : [ ],
+	"action2" : "Pause",
+	"action2NextLevel" : "8",
+	"action2Status" : "Pause",
+	"action2Notification" : [ ],
+	"updatedBy" : "hB8RtYEtT7rgsJBZL",
+	"updatedAt" : ISODate("2019-07-11T11:39:59.135Z"),
+	"updateDetails" : [
+		{
+			"level" : "6",
+			"roles" : [
+				null
+			],
+			"systemMessage" : "message",
+			"action1" : "Completed",
+			"action1NextLevel" : "7",
+			"action1Status" : "Completed",
+			"action1Notification" : [
+				null,
+				null,
+				null
+			],
+			"action2" : "Pause",
+			"action2NextLevel" : "5",
+			"action2Status" : "WIP",
+			"action2Notification" : [
+				null,
+				null
+			],
+			"updatedBy" : "hB8RtYEtT7rgsJBZL",
+			"updatedAt" : ISODate("2019-07-01T06:57:19.844Z")
+		},
+		{
+			"level" : "6",
+			"roles" : [
+				"technician"
+			],
+			"systemMessage" : "message",
+			"action1" : "Completed",
+			"action1NextLevel" : "7",
+			"action1Status" : "Completed",
+			"action1Notification" : [
+				"admin",
+				"client",
+				"manager"
+			],
+			"action2" : "WIP",
+			"action2NextLevel" : "5",
+			"action2Status" : "WIP",
+			"action2Notification" : [
+				"admin",
+				"client",
+				"manager"
+			],
+			"updatedBy" : "hB8RtYEtT7rgsJBZL",
+			"updatedAt" : ISODate("2019-07-01T07:05:27.771Z")
+		},
+		{
+			"level" : "6",
+			"roles" : [
+				"technician"
+			],
+			"systemMessage" : "message",
+			"action1" : "Completed",
+			"action1NextLevel" : "7",
+			"action1Status" : "Completed",
+			"action1Notification" : [ ],
+			"action2" : "Pause",
+			"action2NextLevel" : "8",
+			"action2Status" : "Pause",
+			"action2Notification" : [ ],
+			"updatedBy" : "hB8RtYEtT7rgsJBZL",
+			"updatedAt" : ISODate("2019-07-11T11:39:59.123Z")
+		},
+		{
+			"level" : "6",
+			"roles" : [
+				"technician"
+			],
+			"systemMessage" : "message",
+			"action1" : "Completed",
+			"action1NextLevel" : "7",
+			"action1Status" : "Completed",
+			"action1Notification" : [ ],
+			"action2" : "Pause",
+			"action2NextLevel" : "8",
+			"action2Status" : "Pause",
+			"action2Notification" : [ ],
+			"updatedBy" : "hB8RtYEtT7rgsJBZL",
+			"updatedAt" : ISODate("2019-07-11T11:39:59.135Z")
+		}
+	]
+}
+{
+	"_id" : "YCaftgXW3uprc2LLa",
+	"level" : "1",
+	"roles" : [
+		"manager"
+	],
+	"systemMessage" : "message",
+	"action1" : "Acknowledge-Free",
+	"action1NextLevel" : "3",
+	"action1Status" : "Acknowledged as Free",
+	"action1Notification" : [ ],
+	"action2" : "Acknowledge-Paid",
+	"action2NextLevel" : "2",
+	"action2Status" : "Acknowledged as Paid",
+	"action2Notification" : [ ],
+	"updatedBy" : "hB8RtYEtT7rgsJBZL",
+	"updatedAt" : ISODate("2019-07-25T11:23:02.027Z"),
+	"updateDetails" : [
+		{
+			"level" : "1",
+			"roles" : [
+				"admin",
+				"manager"
+			],
+			"systemMessage" : "message",
+			"action1" : "Acknowledge-Free",
+			"action1NextLevel" : "3",
+			"action1Status" : "Acknowledged As Free",
+			"action1Notification" : [
+				null,
+				null
+			],
+			"action2" : "Acknowledge-Paid",
+			"action2NextLevel" : "2",
+			"action2Status" : "Acknowledged As Paid",
+			"action2Notification" : [
+				null,
+				null
+			],
+			"updatedBy" : "hB8RtYEtT7rgsJBZL",
+			"updatedAt" : ISODate("2019-05-21T08:45:29.232Z")
+		},
+		{
+			"level" : "1",
+			"roles" : [
+				"admin",
+				"manager"
+			],
+			"systemMessage" : "message",
+			"action1" : "Acknowledge-Free",
+			"action1NextLevel" : "3",
+			"action1Status" : "Acknowledged as Free",
+			"action1Notification" : [
+				"admin",
+				"client",
+				"manager"
+			],
+			"action2" : "Acknowledge-Paid",
+			"action2NextLevel" : "2",
+			"action2Status" : "Acknowledged as Paid",
+			"action2Notification" : [
+				"admin",
+				"client",
+				"manager"
+			],
+			"updatedBy" : "hB8RtYEtT7rgsJBZL",
+			"updatedAt" : ISODate("2019-07-19T08:35:32.475Z")
+		},
+		{
+			"level" : "1",
+			"roles" : [
+				"manager"
+			],
+			"systemMessage" : "message",
+			"action1" : "Acknowledge-Free",
+			"action1NextLevel" : "3",
+			"action1Status" : "Acknowledged as Free",
+			"action1Notification" : [ ],
+			"action2" : "Acknowledge-Paid",
+			"action2NextLevel" : "2",
+			"action2Status" : "Acknowledged as Paid",
+			"action2Notification" : [ ],
+			"updatedBy" : "hB8RtYEtT7rgsJBZL",
+			"updatedAt" : ISODate("2019-07-25T11:23:02.027Z")
+		}
+	]
+}
