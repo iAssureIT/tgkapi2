@@ -877,7 +877,8 @@ exports.update_listing = (req,res,next)=>{
         {
             $set:{
                     "listing"  : req.body.listing,
-                    "updatedAt": new Date()
+                    "updatedAt": new Date(),
+                    "status"   : req.body.status,
             }
         }
         )

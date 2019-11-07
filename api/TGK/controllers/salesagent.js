@@ -102,6 +102,7 @@ exports.update_approvedlist = (req,res,next)=>{
                             }],
                 },
             $set:{
+                "listing"  : req.body.listing,
                 "status" : req.body.status,
                 "updateAt" : new Date(), 
             }   

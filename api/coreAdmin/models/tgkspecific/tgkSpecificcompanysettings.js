@@ -33,7 +33,7 @@ const tgkSpecificcompanysettingsSchema = mongoose.Schema({
                                     companyState     : String,
                                     companyCountry   : String,
                                     companytaluka    : String,
-                                    pincodesCovered   : Array,
+                                    pincodesCovered  : Array,
                                     officeLocationid : String,
                                 }
                             ],
