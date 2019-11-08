@@ -116,6 +116,7 @@ exports.create_interestedProps = (req,res,next)=>{
                                                status     : "Active",
                                                remark     : "New Interested Property"
                                            }],
+                status                  : "New",
                                            
 
         });
