@@ -41,6 +41,7 @@ exports.list_InterestedProperties_FieldAgent_OuterStatus = (req,res,next)=>{
                                 "fieldAgent.status"  : "Active",
                                 "status"             : req.params.status
                     })
+                   .populate('property_id')
                    .sort({updatedAt:1})
                    .exec()
                    .then(data=>{
