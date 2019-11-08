@@ -405,6 +405,7 @@ exports.update_firstpage = (req,res,next)=>{
 
 exports.update_financials = (req,res,next)=>{
     // var roleData = req.body.role;
+    console.log("update_financials ",update_financials);
     Properties.updateOne(
         { "_id" : req.body.property_id },                        
         {
