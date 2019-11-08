@@ -45,10 +45,13 @@ exports.list_InterestedProperties_FieldAgent_OuterStatus = (req,res,next)=>{
                    .sort({updatedAt:1})
                    .exec()
                    .then(data=>{
-                        if(data.length > 0){
-                            res.status(200).json(data);
-                        }else{
-                            res.status(200).json([]);
+                        var k = 0 ;
+                        var returnData = [];
+                        for(k = 0 ; k < data.length ; k++){
+                            returnData.push(data[k].property_id)
+                        }
+                        if(k >= data.length){
+                            res.status(200).json(returnData);
                         }
                    })
                    .catch(err =>{
