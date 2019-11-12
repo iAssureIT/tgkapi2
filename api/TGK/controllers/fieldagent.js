@@ -48,10 +48,14 @@ exports.list_InterestedProperties_FieldAgent_OuterStatus = (req,res,next)=>{
                         var k = 0 ;
                         var returnData = [];
                         for(k = 0 ; k < data.length ; k++){
-                            returnData.push({
-                                                "interestedProperties_id" : data[k]._id,
-                                                "property" : data[k].property_id
-                                            })
+                            data[k].property_id.interestedProperties_id = data[k]._id;
+                            // returnData.push({
+                            //                     "interestedProperties_id" : data[k]._id,
+                            //                     "property" : data[k].property_id
+                            //                 })
+                            if(data[k].property_id.interestedProperties_id){
+                                returnData.push(data[k].property_id);
+                            }
                         }
                         if(k >= data.length){
                             res.status(200).json(returnData);
