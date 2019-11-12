@@ -1157,9 +1157,18 @@ exports.list_Properties_fieldAgent_type = (req,res,next)=>{
                 .sort({"updatedAt":1})
                 .exec()
                 .then(data=>{
-
                     if(data.length > 0){
-                        res.status(200).json(data);
+                        var returnData = [];
+                        var i = 0;
+                        for(i = 0 ; i < data.length ; i++){
+                            returnData.push({
+                                                "interestedProperties_id" : data[i]._id,
+                                                "property" : data[i]
+                                            }); 
+                        }
+                        if( i >= data.length){
+                            res.status(200).json(returnData);
+                        }
                     }else{
                         res.status(200).json([]);
                     }
