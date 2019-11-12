@@ -49,7 +49,7 @@ exports.list_InterestedProperties_FieldAgent_OuterStatus = (req,res,next)=>{
                         var returnData = [];
                         for(k = 0 ; k < data.length ; k++){
                             returnData.push({
-                                                "interestedProperties_id" : _id,
+                                                "interestedProperties_id" : data[k]._id,
                                                 "property" : data[k].property_id
                                             })
                         }
