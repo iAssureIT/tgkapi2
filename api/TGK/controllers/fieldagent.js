@@ -48,7 +48,10 @@ exports.list_InterestedProperties_FieldAgent_OuterStatus = (req,res,next)=>{
                         var k = 0 ;
                         var returnData = [];
                         for(k = 0 ; k < data.length ; k++){
-                            returnData.push(data[k].property_id)
+                            returnData.push({
+                                                "interestedProperties_id" : _id,
+                                                "property" : data[k].property_id
+                                            })
                         }
                         if(k >= data.length){
                             res.status(200).json(returnData);
