@@ -65,7 +65,7 @@ exports.list_InterestedProperties_FieldAgent_OuterStatus = (req,res,next)=>{
 //---- API To set new meeting request
 exports.patch_setUpMeeting = (req,res,next)=>{
     console.log("patch_setUpMeeting ",req.body);
-    FAController.update(
+    InterestedProps.update(
                             { _id : req.body.interestedProperties_id},
                             {
                                 $push : {
@@ -100,7 +100,7 @@ exports.patch_setUpMeeting = (req,res,next)=>{
 
 //---- API To update the status of the Meeting
 exports.patch_updateMeeting = (req,res,next)=>{
-    FAController.update(
+    InterestedProps.update(
                             { 
                                 "_id"           : req.body.interestedProperties_id,
                                 "meeting._id"   : req.body.meeting_id
@@ -131,7 +131,7 @@ exports.patch_updateMeeting = (req,res,next)=>{
 exports.patch_transaction_status_Update = (req,res,next)=>{
     switch(req.body.rootStatus){
         case 'TokenReceived' :
-                FAController.update(
+                InterestedProps.update(
                             { 
                                 "_id"           : req.body.interestedProperties_id,
                             },
@@ -161,7 +161,7 @@ exports.patch_transaction_status_Update = (req,res,next)=>{
                     });
             break;
         case 'ContractDue'   :
-                FAController.update(
+                InterestedProps.update(
                                 { 
                                     "_id"           : req.body.interestedProperties_id,
                                 },
@@ -190,7 +190,7 @@ exports.patch_transaction_status_Update = (req,res,next)=>{
                         });
             break;
         default              :
-                FAController.update(
+                InterestedProps.update(
                                 { 
                                     "_id"           : req.body.interestedProperties_id,
                                 },
