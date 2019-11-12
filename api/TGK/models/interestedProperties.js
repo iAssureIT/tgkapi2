@@ -15,7 +15,7 @@ const interestedPropsSchema = mongoose.Schema({
     								meetingDate        : String, //YYYY-MM-DD
                                     meetingTime        : String, //HH:MM AM 
     								remark 		       : String,
-                                    meetingStatus      : String, //Scheduled, WIP, Completed, Cancalled   
+                                    meetingStatus      : String, //Scheduled, WIP, Completed, Cancelled   
     							}],
     query 					: [{
     								remark 		: String,

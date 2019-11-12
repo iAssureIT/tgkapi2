@@ -90,7 +90,7 @@ exports.patch_setUpMeeting = (req,res,next)=>{
                                         meetingDate        : req.body.meetingDate, //YYYY-MM-DD
                                         meetingTime        : req.body.meetingStartTime, //HH:MM AM 
                                         remark             : req.body.remark,
-                                        meetingStatus      : "scheduled", 
+                                        meetingStatus      : "Scheduled", 
                                     }
                                 },
                                 $set : {
@@ -119,8 +119,8 @@ exports.patch_setUpMeeting = (req,res,next)=>{
 exports.patch_updateMeeting = (req,res,next)=>{
     InterestedProps.update(
                             { 
-                                "_id"           : req.body.interestedProperties_id,
-                                "meeting._id"   : req.body.meeting_id
+                                "_id"                     : req.body.interestedProperties_id,
+                                "meeting.meetingStatus"   : { $elemMatch: { meetingStatus: { $nin: ["Completed", "Cancelled"] } } }
                             },
                             {
                                 $set : {
