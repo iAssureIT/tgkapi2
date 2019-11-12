@@ -64,6 +64,7 @@ exports.list_InterestedProperties_FieldAgent_OuterStatus = (req,res,next)=>{
 
 //---- API To set new meeting request
 exports.patch_setUpMeeting = (req,res,next)=>{
+    console.log("patch_setUpMeeting ",req.body);
     FAController.update(
                             { _id : req.body.interestedProperties_id},
                             {
