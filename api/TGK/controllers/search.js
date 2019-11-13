@@ -58,7 +58,9 @@ exports.searchProperties = (req,res,next)=>{
     if(req.body.floor === ">10" ){
         var floorSelector = [];
         for(var i=0; i<=10; i++){
-          floorSelector.push({"propertyDetails.floor" : {$ne : String(i)}} );
+          // floorSelector.push({"propertyDetails.floor" : {$ne : String(i)}} );
+          // "propertyDetails.floor" : {$ne : String(i)}
+          floorSelector.push({$and : ["propertyDetails.floor" : {$ne : String(i)}, "propertyDetails.floor" : {$ne : "Ground"}]} );
         }
         if(i >= 10 && floorSelector.length>0){
           selector.push({"$and" : floorSelector });
