@@ -80,47 +80,6 @@ exports.list_InterestedProperties_FieldAgent_OuterStatus = (req,res,next)=>{
                     });
 };
 
-// exports.list_InterestedProperties_FieldAgent_OuterStatus = (req,res,next)=>{
-//     console.log("list_InterestedProperties_FieldAgent_OuterStatus ",req.params);
-//     InterestedProps.aggregate([
-//                                 {
-//                                     $match : {
-//                                                 "fieldAgent.agentID" : req.params.user_id,
-//                                                 "fieldAgent.status"  : "Active",
-//                                                 "status"             : req.params.status
-//                                             }
-//                                 },
-//                                 // { 
-//                                 //     $project : { 
-//                                 //                   interestedProperties_id   : "$_id", 
-//                                 //                   // meeting_id                : { 
-//                                 //                   //                               $slice: [ "$meeting", -1 ] 
-//                                 //                   //                             } 
-//                                 //                } 
-//                                 // },
-//                                 // {
-//                                 //     $lookup : {
-//                                 //                     from: "properties",
-//                                 //                     localField: "property_id",
-//                                 //                     foreignField: "_id",
-//                                 //                     as: "property"            
-//                                 //     }
-//                                 // }
-//                              ])
-//                    // .populate('property_id')
-//                    .sort({updatedAt:1})
-//                    .exec()
-//                    .then(data=>{
-//                         res.status(200).json(data);
-//                    })
-//                    .catch(err =>{
-//                         console.log(err);
-//                         res.status(500).json({
-//                             error: err
-//                         });
-//                     });
-// };
-
 //---- API To set new meeting request
 exports.patch_setUpMeeting = (req,res,next)=>{
     console.log("patch_setUpMeeting ",req.body);
@@ -163,9 +122,7 @@ exports.patch_updateMeeting = (req,res,next)=>{
     InterestedProps.update(
                             { 
                                 "_id"                     : req.body.interestedProperties_id,
-                                "meeting.meetingStatus"   : { $elemMatch: { meetingStatus: { $ne: "Completed",$ne: "Cancelled" } } }
-                                // $and : [{"meeting.meetingStatus" : {$ne : "Completed"}},{ "meeting.meetingStatus" : {$ne : "Cancelled"}}]
-
+                                "meeting._id"             : req.body.meeting_id,
                             },
                             {
                                 $set : {
