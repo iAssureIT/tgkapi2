@@ -44,73 +44,33 @@ exports.list_Properties_fieldAgent_type = (req,res,next)=>{
 
 //---- API To get InterestedProperties which are allocated to Field Agent with Mentioned Outer Status------------
 
-// exports.list_InterestedProperties_FieldAgent_OuterStatus = (req,res,next)=>{
-//     console.log("list_InterestedProperties_FieldAgent_OuterStatus ",req.params);
-//     InterestedProps.find({
-//                                 "fieldAgent.agentID" : req.params.user_id,
-//                                 "fieldAgent.status"  : "Active",
-//                                 "status"             : req.params.status
-//                     })
-//                    .populate('property_id')
-//                    .sort({updatedAt:1})
-//                    .exec()
-//                    .then(data=>{
-//                         var k = 0 ;
-//                         var returnData = [];
-//                         for(k = 0 ; k < data.length ; k++){
-//                             // data[k].property_id.interestedProperties_id = data[k]._id;
-//                             returnData.push({
-//                                                 "interestedProperties_id" : data[k]._id,
-//                                                 "property" : data[k].property_id
-//                                             })
-//                             // if(data[k].property_id.interestedProperties_id){
-//                             //     returnData.push(data[k].property_id);
-//                             // }
-//                         }
-//                         if(k >= data.length){
-//                             res.status(200).json(returnData);
-//                         }
-//                    })
-//                    .catch(err =>{
-//                         console.log(err);
-//                         res.status(500).json({
-//                             error: err
-//                         });
-//                     });
-// };
-
 exports.list_InterestedProperties_FieldAgent_OuterStatus = (req,res,next)=>{
     console.log("list_InterestedProperties_FieldAgent_OuterStatus ",req.params);
-    InterestedProps.aggregate([
-                                {
-                                    $match : {
-                                                "fieldAgent.agentID" : req.params.user_id,
-                                                "fieldAgent.status"  : "Active",
-                                                "status"             : req.params.status
-                                            }
-                                },
-                                // { 
-                                //     $project : { 
-                                //                   interestedProperties_id   : "$_id", 
-                                //                   // meeting_id                : { 
-                                //                   //                               $slice: [ "$meeting", -1 ] 
-                                //                   //                             } 
-                                //                } 
-                                // },
-                                // {
-                                //     $lookup : {
-                                //                     from: "properties",
-                                //                     localField: "property_id",
-                                //                     foreignField: "_id",
-                                //                     as: "property"            
-                                //     }
-                                // }
-                             ])
-                   // .populate('property_id')
+    InterestedProps.find({
+                                "fieldAgent.agentID" : req.params.user_id,
+                                "fieldAgent.status"  : "Active",
+                                "status"             : req.params.status
+                    })
+                   .populate('property_id')
                    .sort({updatedAt:1})
                    .exec()
                    .then(data=>{
-                        res.status(200).json(data);
+                        var k = 0 ;
+                        var returnData = [];
+                        for(k = 0 ; k < data.length ; k++){
+                            // data[k].property_id.interestedProperties_id = data[k]._id;
+                            returnData.push({
+                                                "interestedProperties_id" : data[k]._id,
+                                                "meeting_id"              : data[k].meeting[data[k].meeting.length -1]._id,
+                                                "property"                : data[k].property_id
+                                            })
+                            // if(data[k].property_id.interestedProperties_id){
+                            //     returnData.push(data[k].property_id);
+                            // }
+                        }
+                        if(k >= data.length){
+                            res.status(200).json(returnData);
+                        }
                    })
                    .catch(err =>{
                         console.log(err);
@@ -119,6 +79,47 @@ exports.list_InterestedProperties_FieldAgent_OuterStatus = (req,res,next)=>{
                         });
                     });
 };
+
+// exports.list_InterestedProperties_FieldAgent_OuterStatus = (req,res,next)=>{
+//     console.log("list_InterestedProperties_FieldAgent_OuterStatus ",req.params);
+//     InterestedProps.aggregate([
+//                                 {
+//                                     $match : {
+//                                                 "fieldAgent.agentID" : req.params.user_id,
+//                                                 "fieldAgent.status"  : "Active",
+//                                                 "status"             : req.params.status
+//                                             }
+//                                 },
+//                                 // { 
+//                                 //     $project : { 
+//                                 //                   interestedProperties_id   : "$_id", 
+//                                 //                   // meeting_id                : { 
+//                                 //                   //                               $slice: [ "$meeting", -1 ] 
+//                                 //                   //                             } 
+//                                 //                } 
+//                                 // },
+//                                 // {
+//                                 //     $lookup : {
+//                                 //                     from: "properties",
+//                                 //                     localField: "property_id",
+//                                 //                     foreignField: "_id",
+//                                 //                     as: "property"            
+//                                 //     }
+//                                 // }
+//                              ])
+//                    // .populate('property_id')
+//                    .sort({updatedAt:1})
+//                    .exec()
+//                    .then(data=>{
+//                         res.status(200).json(data);
+//                    })
+//                    .catch(err =>{
+//                         console.log(err);
+//                         res.status(500).json({
+//                             error: err
+//                         });
+//                     });
+// };
 
 //---- API To set new meeting request
 exports.patch_setUpMeeting = (req,res,next)=>{
