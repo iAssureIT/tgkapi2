@@ -117,6 +117,7 @@ exports.patch_setUpMeeting = (req,res,next)=>{
 
 //---- API To update the status of the Meeting
 exports.patch_updateMeeting = (req,res,next)=>{
+    console.log("patch_updateMeeting ",req.body);
     InterestedProps.update(
                             { 
                                 "_id"                     : req.body.interestedProperties_id,
