@@ -121,8 +121,9 @@ exports.patch_updateMeeting = (req,res,next)=>{
     InterestedProps.update(
                             { 
                                 "_id"                     : req.body.interestedProperties_id,
-                                // "meeting.meetingStatus"   : { $elemMatch: { meetingStatus: { $nin: ["Completed", "Cancelled"] } } }
-                                $and : [{"meeting.meetingStatus" : {$ne : "Completed"}},{ "meeting.meetingStatus" : {$ne : "Cancelled"}}]
+                                "meeting.meetingStatus"   : { $elemMatch: { meetingStatus: { $ne: "Completed",$ne: "Cancelled" } } }
+                                // $and : [{"meeting.meetingStatus" : {$ne : "Completed"}},{ "meeting.meetingStatus" : {$ne : "Cancelled"}}]
+
                             },
                             {
                                 $set : {
