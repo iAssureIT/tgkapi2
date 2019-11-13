@@ -134,7 +134,35 @@ exports.patch_updateMeeting = (req,res,next)=>{
                 .exec()
                 .then(data=>{
                     if(data.nModified === 1){
-                        res.status(200).json("New Meeting Status Set")
+                        if(req.body.meetingStatus === 'Completed'){
+                            InterestedProps.update(
+                                                        { 
+                                                            "_id"           : req.body.interestedProperties_id,
+                                                        },
+                                                        {
+                                                            $set : {
+                                                                "status"                    : "Shown", 
+                                                                "updatedAt"                 : new Date()
+                                                            }
+                                                        }
+                                            )
+                                            .exec()
+                                            .then(data=>{
+                                                if(data.nModified === 1){
+                                                    res.status(200).json("Outer Status Set")
+                                                }else{
+                                                    res.status(200).json("Outer Status Not Set")
+                                                }
+                                            })
+                                            .catch(err =>{
+                                                    console.log(err);
+                                                    res.status(500).json({
+                                                        error: err
+                                                    });
+                                                });
+                        }else{
+                            res.status(200).json("New Meeting Status Set")
+                        }
                     }else{
                         res.status(200).json("Meeting Status Not Set")
                     }
