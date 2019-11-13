@@ -184,7 +184,7 @@ exports.patch_transaction_status_Update = (req,res,next)=>{
                             },
                             {
                                 $set : {
-                                    "status"                        : req.body.rootStatus, 
+                                    "status"                        : req.body.status, 
                                     "tokenReceived.tokenAmount"     : req.body.tokenAmount,
                                     "tokenReceived.tokenDate"       : req.body.tokenDate,
                                     "tokenReceived.tokenRemark"     : req.body.tokenRemark,
@@ -214,7 +214,7 @@ exports.patch_transaction_status_Update = (req,res,next)=>{
                                 },
                                 {
                                     $set : {
-                                        "status"                    : req.body.rootStatus, 
+                                        "status"                    : req.body.status, 
                                         "contractDue.contractDate"  : req.body.contractDate,
                                         "contractDue.contactTime"   : req.body.contactTime,
                                         "contractDue.contractRemark": req.body.contractRemark,
@@ -243,7 +243,7 @@ exports.patch_transaction_status_Update = (req,res,next)=>{
                                 },
                                 {
                                     $set : {
-                                        "status"                    : req.body.rootStatus, 
+                                        "status"                    : req.body.status, 
                                         "updatedAt"                 : new Date()
                                     }
                                 }
