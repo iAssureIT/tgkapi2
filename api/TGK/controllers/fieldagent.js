@@ -97,14 +97,14 @@ exports.list_InterestedProperties_FieldAgent_OuterStatus = (req,res,next)=>{
                                                                               } 
                                                } 
                                 },
-                                {
-                                    $lookup : {
-                                                    from: "properties",
-                                                    localField: "property_id",
-                                                    foreignField: "_id",
-                                                    as: "property"            
-                                    }
-                                }
+                                // {
+                                //     $lookup : {
+                                //                     from: "properties",
+                                //                     localField: "property_id",
+                                //                     foreignField: "_id",
+                                //                     as: "property"            
+                                //     }
+                                // }
                              ])
                    // .populate('property_id')
                    .sort({updatedAt:1})
