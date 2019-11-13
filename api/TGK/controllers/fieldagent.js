@@ -89,14 +89,14 @@ exports.list_InterestedProperties_FieldAgent_OuterStatus = (req,res,next)=>{
                                                 "status"             : req.params.status
                                             }
                                 },
-                                { 
-                                    $project : { 
-                                                  interestedProperties_id   : "$_id", 
-                                                  // meeting_id                : { 
-                                                  //                               $slice: [ "$meeting", -1 ] 
-                                                  //                             } 
-                                               } 
-                                },
+                                // { 
+                                //     $project : { 
+                                //                   interestedProperties_id   : "$_id", 
+                                //                   // meeting_id                : { 
+                                //                   //                               $slice: [ "$meeting", -1 ] 
+                                //                   //                             } 
+                                //                } 
+                                // },
                                 // {
                                 //     $lookup : {
                                 //                     from: "properties",
