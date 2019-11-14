@@ -5,11 +5,6 @@
 	const mongoose 						= require ('mongoose');
 	var nodeMailer   					= require('nodemailer');
 	const globalVariable 				= require('./nodemon.js');
-	//const dbname = "qatgk";
-	// const dbname = "uattgk";
-	// global.JWT_KEY = "secret";
-
-
 
 	mongoose.connect('mongodb://localhost/'+globalVariable.dbname,{
 		useNewUrlParser: true
@@ -59,7 +54,6 @@
 	app.post('/send-email', (req, res)=> {
 		console.log('send mail');
 		let transporter = nodeMailer.createTransport({
-			
 			host: 'smtp.gmail.com',
 			port: 465,
 			auth: {
