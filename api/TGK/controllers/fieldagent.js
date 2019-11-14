@@ -61,7 +61,7 @@ exports.list_InterestedProperties_FieldAgent_OuterStatus = (req,res,next)=>{
                             // data[k].property_id.interestedProperties_id = data[k]._id;
                             returnData.push({
                                                 "interestedProperties_id" : data[k]._id,
-                                                "meeting_id"              : data[k].meeting[data[k].meeting.length -1]._id,
+                                                "meeting_id"              : data[k].meeting && data[k].meeting.length > 0 ? data[k].meeting[data[k].meeting.length -1]._id : "",
                                                 "property"                : data[k].property_id
                                             })
                             // if(data[k].property_id.interestedProperties_id){
