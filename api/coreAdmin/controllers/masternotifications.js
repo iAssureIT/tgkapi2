@@ -135,7 +135,7 @@ exports.update_notifications = (req,res,next)=>{
 //send Mail Notification -Rushikesh Salunkhe
 exports.send_notifications = (req,res,next)=>{
     // console.log('req',req.body);
-    const senderEmail = 'lyvoapp@gmail.com';
+    const senderEmail = 'lyvoapp1@gmail.com';
     const senderEmailPwd = 'Lyvo@123';
 
     // const senderEmail = 'testtprm321@gmail.com';
@@ -155,7 +155,7 @@ exports.send_notifications = (req,res,next)=>{
         var toEmail;
         if(req.body.toUserId === "admin"){
             // toEmail = 'testtprm321@gmail.com'; 
-            toEmail = "lyvoapp@gmail.com"; 
+            toEmail = "lyvoapp1@gmail.com"; 
         }else{
             userProfile = await getProfileByUserId(req.body.toUserId);
 
