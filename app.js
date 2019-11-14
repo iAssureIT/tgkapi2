@@ -55,7 +55,7 @@
 		console.log('send mail');
 		let transporter = nodeMailer.createTransport({
 			host: 'smtp.gmail.com',
-			port: 465,
+			port: 587,
 			auth: {
 				user: 'lyvoapp1@gmail.com',
 				pass: 'Lyvo@123'
