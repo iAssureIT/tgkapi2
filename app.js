@@ -61,7 +61,7 @@
 		let transporter = nodeMailer.createTransport({
 			
 			host: 'smtp.gmail.com',
-			port: 587,
+			port: 465,
 			auth: {
 				user: 'lyvoapp1@gmail.com',
 				pass: 'Lyvo@123'
