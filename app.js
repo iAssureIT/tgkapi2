@@ -63,7 +63,7 @@
 			host: 'smtp.gmail.com',
 			port: 587,
 			auth: {
-				user: 'testtprm321@gmail.com',
+				user: 'lyvoapp1@gmail.com',
 				pass: 'Lyvo@123'
 			}
 		});
@@ -71,7 +71,7 @@
 		console.log('after transport');
 		let mailOptions = {
 			
-			from   : '"LYVO" <testtprm321@gmail.com>', // sender address
+			from   : '"LYVO" <lyvoapp1@gmail.com>', // sender address
 			to     : req.body.email, // list of receivers
 			subject: req.body.subject, // Subject line
 			text   : req.body.text, // plain text body
