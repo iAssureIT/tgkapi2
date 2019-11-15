@@ -683,7 +683,6 @@ exports.list_Properties_salesAgent_type = (req,res,next)=>{
         }
         console.log("query ",query);
         Properties.find(query)
-    }
                 .sort({"updatedAt":1})
                 .exec()
                 .then(data=>{
@@ -699,6 +698,7 @@ exports.list_Properties_salesAgent_type = (req,res,next)=>{
                         error: err
                     });
                 });
+    }
 }
 
 exports.property_list = (req,res,next)=>{
