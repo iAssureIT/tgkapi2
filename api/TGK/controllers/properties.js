@@ -631,20 +631,19 @@ exports.list_Properties_salesAgent_type = (req,res,next)=>{
         date.setDate(date.getDate()+30);
         //need to check for leap year
         var reNewDate = moment(date).format("YYYY-MM-DD");
-        Properties      .aggregate([{
+        Properties      .aggregate([
+                                    {
                                         "transactionType"           : "Rent",
                                         "salesAgent.agentID"        : ObjectID(req.params.salesAgentID),
                                         "salesAgent.status"         : "Active",
                                     },
                                     {
-                                        
                                         $lookup : {
                                                 from: "interestedProps",
                                                 localField: "_id",
                                                 foreignField: "property_id",
                                                 as: "property"
                                             }
-                                               
                                     },
                                     {
                                         $unwind : "$property"
@@ -655,7 +654,7 @@ exports.list_Properties_salesAgent_type = (req,res,next)=>{
                                             "property.contractDue.contractEndDate"  : {$eq : reNewDate}
                                         }
                                     }
-                        ])
+                            ])
                        .exec()
                        .then(data=>{
                             res.status(200).json(data);
@@ -664,7 +663,8 @@ exports.list_Properties_salesAgent_type = (req,res,next)=>{
                             console.log(err);
                             res.status(500).json({
                                 error: err
-                            })
+                            });
+                        });
     }else{
         var query = {
                         "salesAgent.agentID" : ObjectID(req.params.salesAgentID),
