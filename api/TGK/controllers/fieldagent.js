@@ -178,7 +178,7 @@ exports.patch_updateMeeting = (req,res,next)=>{
 }
 //---- API To update the Outer status
 exports.patch_transaction_status_Update = (req,res,next)=>{
-    switch(req.body.rootStatus){
+    switch(req.body.status){
         case 'TokenReceived' :
                 InterestedProps.update(
                             { 

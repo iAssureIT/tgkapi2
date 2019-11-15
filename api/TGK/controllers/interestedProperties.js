@@ -57,7 +57,7 @@ function allocateTofieldAgent(propertyID){
                                                         Users.findOne({"roles" : "Field Manager"})
                                                             .exec()
                                                             .then(fieldAgents=>{
-                                                                console.log("fieldAgents---in field agent----->",fieldAgents[0]._id); 
+                                                                // console.log("fieldAgents---in field agent----->",fieldAgents[0]._id); 
                                                                 if(fieldAgents.length > 0){
                                                                     
                                                                     resolve(fieldAgents[0]._id);
@@ -117,14 +117,9 @@ exports.create_interestedProps = (req,res,next)=>{
                                                remark     : "New Interested Property"
                                            }],
                 status                  : "New",
-                                           
-
         });
-
         interestedProps.save()
             .then(data=>{ 
-
-            console.log("saved interest property----------->",data);       
                 res.status(200).json({
                     "message" : 'Property Interest from this Buyer is Saved',
                 });
@@ -266,18 +261,44 @@ exports.list_myInterestedProps = (req,res,next)=>{
 }
 exports.delete_interestedProps = (req,res,next)=>{
     // console.log("uid=>",req.params.buyer_id,"property_id=>",req.params.property_id)
-    InterestedProps.deleteOne({buyer_id:req.params.buyer_id,property_id:req.params.property_id})
-        .exec()
-        .then(data=>{
-            // console.log("data",data);
-            res.status(200).json("Interested Property deleted");
-        })
-        .catch(err =>{
-            console.log(err);
-            res.status(500).json({
-                error: err
-            });
-        });
+    // InterestedProps.deleteOne({buyer_id:req.params.buyer_id,property_id:req.params.property_id})
+    //     .exec()
+    //     .then(data=>{
+    //         // console.log("data",data);
+    //         res.status(200).json("Interested Property deleted");
+    //     })
+    //     .catch(err =>{
+    //         console.log(err);
+    //         res.status(500).json({
+    //             error: err
+    //         });
+    //     });
+    InterestedProps.update(
+                                { 
+                                    buyer_id            : req.params.buyer_id,
+                                    property_id         : req.params.property_id,
+                                },
+                                {
+                                    $set : {
+                                        "status"                    : "Discarded", 
+                                        "updatedAt"                 : new Date()
+                                    }
+                                }
+                    )
+                    .exec()
+                    .then(data=>{
+                        if(data.nModified === 1){
+                            res.status(200).json("Outer Status Set")
+                        }else{
+                            res.status(200).json("Outer Status Not Set")
+                        }
+                    })
+                    .catch(err =>{
+                            console.log(err);
+                            res.status(500).json({
+                                error: err
+                            });
+                        });
 };
 
 
