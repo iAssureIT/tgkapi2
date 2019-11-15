@@ -46,40 +46,51 @@ exports.list_Properties_fieldAgent_type = (req,res,next)=>{
 
 exports.list_InterestedProperties_FieldAgent_OuterStatus = (req,res,next)=>{
     console.log("list_InterestedProperties_FieldAgent_OuterStatus ",req.params);
-    InterestedProps.find({
-                                "fieldAgent.agentID" : req.params.user_id,
-                                "fieldAgent.status"  : "Active",
-                                "status"             : req.params.status
-                    })
-                   .populate('property_id')
-                   .sort({updatedAt:1})
-                   .exec()
-                   .then(data=>{
-                        var k = 0 ;
-                        var returnData = [];
-                        for(k = 0 ; k < data.length ; k++){
-                            // data[k].property_id.interestedProperties_id = data[k]._id;
-                            returnData.push({
-                                                "interestedProperties_id" : data[k]._id,
-                                                "buyer_id"                : data[k].buyer_id,
-                                                "createdAt"               : data[k].createdAt,
-                                                "meeting_id"              : data[k].meeting && data[k].meeting.length > 0 ? data[k].meeting[data[k].meeting.length -1]._id : "",
-                                                "property"                : data[k].property_id
-                                            })
-                            // if(data[k].property_id.interestedProperties_id){
-                            //     returnData.push(data[k].property_id);
-                            // }
-                        }
-                        if(k >= data.length){
-                            res.status(200).json(returnData);
-                        }
-                   })
-                   .catch(err =>{
-                        console.log(err);
-                        res.status(500).json({
-                            error: err
+    var query = "1";
+    if(req.params.user_id === 'all'){
+        query = {
+                    "fieldAgent.status"  : "Active",
+                    "status"             : req.params.status
+                };
+    }else{
+        query = {
+                    "fieldAgent.agentID" : req.params.user_id,
+                    "fieldAgent.status"  : "Active",
+                    "status"             : req.params.status
+                };
+    }
+    if(query != "1"){
+        InterestedProps.find(query)
+                       .populate('property_id')
+                       .sort({updatedAt:1})
+                       .exec()
+                       .then(data=>{
+                            var k = 0 ;
+                            var returnData = [];
+                            for(k = 0 ; k < data.length ; k++){
+                                // data[k].property_id.interestedProperties_id = data[k]._id;
+                                returnData.push({
+                                                    "interestedProperties_id" : data[k]._id,
+                                                    "buyer_id"                : data[k].buyer_id,
+                                                    "createdAt"               : data[k].createdAt,
+                                                    "meeting_id"              : data[k].meeting && data[k].meeting.length > 0 ? data[k].meeting[data[k].meeting.length -1]._id : "",
+                                                    "property"                : data[k].property_id
+                                                })
+                                // if(data[k].property_id.interestedProperties_id){
+                                //     returnData.push(data[k].property_id);
+                                // }
+                            }
+                            if(k >= data.length){
+                                res.status(200).json(returnData);
+                            }
+                       })
+                       .catch(err =>{
+                            console.log(err);
+                            res.status(500).json({
+                                error: err
+                            });
                         });
-                    });
+    }
 };
 
 //---- API To set new meeting request
