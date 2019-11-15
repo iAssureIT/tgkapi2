@@ -200,7 +200,6 @@ exports.create_Properties = (req,res,next)=>{
         });
     }
 };
-
 function getOwnerData(owner_id){
     return new Promise(function(resolve,reject){
         Users.find({"_id" : owner_id})
@@ -215,8 +214,7 @@ function getOwnerData(owner_id){
                    });
             });
     });
-}
-
+};
 function getPropertyCode(){
     return new Promise(function(resolve,reject){
         Properties.find({}).count()
@@ -231,11 +229,7 @@ function getPropertyCode(){
                    });
             });
     });
-}
-
-//////////////////
-
-
+};
 exports.find_PropertyIndexPer = (req,res,next)=>{
     // var roleData = req.body.role;
     Sellometers.findOne({index : req.body.index})
@@ -276,11 +270,7 @@ exports.find_PropertyIndexPer = (req,res,next)=>{
                error: err
             });
         });
-}
-
-//////////////////
-
-
+};
 exports.update_PropertyDetails = (req,res,next)=>{
     // var roleData = req.body.role;
     Properties.updateOne(
@@ -328,9 +318,7 @@ exports.update_PropertyDetails = (req,res,next)=>{
                 error: err
             });
         });
-}
-
-
+};
 exports.update_amenities = (req,res,next)=>{
     // var roleData = req.body.role;
     Properties.updateOne(
@@ -355,8 +343,7 @@ exports.update_amenities = (req,res,next)=>{
                 error: err
             });
         });
-}
-
+};
 exports.update_firstpage = (req,res,next)=>{
     // var roleData = req.body.role;
     Properties.updateOne(
@@ -400,9 +387,7 @@ exports.update_firstpage = (req,res,next)=>{
                 error: err
             });
         });
-}
-
-
+};
 exports.update_financials = (req,res,next)=>{
     // var roleData = req.body.role;
     console.log("update_financials ",req.body);
@@ -448,10 +433,7 @@ exports.update_financials = (req,res,next)=>{
                 error: err
             });
         });
-}
-
-
-
+};
 exports.update_availabilityPlan = (req,res,next)=>{
     // var roleData = req.body.role;
      Properties.findOne({"_id":req.body.property_id})
@@ -509,8 +491,6 @@ exports.update_availabilityPlan = (req,res,next)=>{
                 error   : err
             });
         });
-
-
 }
 
 exports.detail_Properties = (req, res, next)=>{
@@ -646,23 +626,64 @@ exports.list_Properties_salesAgent = (req,res,next)=>{
 
 exports.list_Properties_salesAgent_type = (req,res,next)=>{
     console.log("list_Properties_salesAgent_type ",req.params);
-    var query = {
-                    "salesAgent.agentID" : ObjectID(req.params.salesAgentID),
-                    "salesAgent.status"  : "Active",
-                    "status"                : req.params.status,
-                };
-    if(req.params.status === 'WIP'){
-        var todayDate = moment(new Date()).format("YYYY-MM-DD");
-        console.log("todayDate ",todayDate);
-        query = {
-                    "salesAgent.agentID" : ObjectID(req.params.salesAgentID),
-                    "salesAgent.status"  : "Active",
-                    "status"             : req.params.status,
-                    "createdAtStr"       : {$ne : todayDate}
-                };
+    if(req.params.status === 'ReListing'){
+        var date = new Date();
+        date.setDate(date.getDate()+30);
+        //need to check for leap year
+        var reNewDate = moment(date).format("YYYY-MM-DD");
+        Properties      .aggregate([{
+                                        "transactionType"           : "Rent",
+                                        "salesAgent.agentID"        : ObjectID(req.params.salesAgentID),
+                                        "salesAgent.status"         : "Active",
+                                    },
+                                    {
+                                        
+                                        $lookup : {
+                                                from: "interestedProps",
+                                                localField: "_id",
+                                                foreignField: "property_id",
+                                                as: "property"
+                                            }
+                                               
+                                    },
+                                    {
+                                        $unwind : "$property"
+                                    },
+                                    {
+                                        $match : {
+                                            "property.status"                       : "ContractCompleted",
+                                            "property.contractDue.contractEndDate"  : {$eq : reNewDate}
+                                        }
+                                    }
+                        ])
+                       .exec()
+                       .then(data=>{
+                            res.status(200).json(data);
+                       })
+                       .catch(err =>{
+                            console.log(err);
+                            res.status(500).json({
+                                error: err
+                            })
+    }else{
+        var query = {
+                        "salesAgent.agentID" : ObjectID(req.params.salesAgentID),
+                        "salesAgent.status"  : "Active",
+                        "status"                : req.params.status,
+                    };
+        if(req.params.status === 'WIP'){
+            var todayDate = moment(new Date()).format("YYYY-MM-DD");
+            console.log("todayDate ",todayDate);
+            query = {
+                        "salesAgent.agentID" : ObjectID(req.params.salesAgentID),
+                        "salesAgent.status"  : "Active",
+                        "status"             : req.params.status,
+                        "createdAtStr"       : {$ne : todayDate}
+                    };
+        }
+        console.log("query ",query);
+        Properties.find(query)
     }
-    console.log("query ",query);
-    Properties.find(query)
                 .sort({"updatedAt":1})
                 .exec()
                 .then(data=>{

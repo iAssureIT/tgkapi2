@@ -227,10 +227,11 @@ exports.patch_transaction_status_Update = (req,res,next)=>{
                                 },
                                 {
                                     $set : {
-                                        "status"                    : req.body.status, 
-                                        "contractDue.contractDate"  : req.body.contractDate,
-                                        "contractDue.contactTime"   : req.body.contactTime,
-                                        "contractDue.contractRemark": req.body.contractRemark,
+                                        "status"                        : req.body.status, 
+                                        "contractDue.contractDate"      : req.body.contractDate,
+                                        "contractDue.contactTime"       : req.body.contactTime,
+                                        "contractDue.contractRemark"    : req.body.contractRemark,
+                                        "contractDue.contractEndDate"   : req.body.contractEndDate,
                                     }
                                 }
                     )
@@ -277,5 +278,4 @@ exports.patch_transaction_status_Update = (req,res,next)=>{
                         });
             break;
     }
-    
 }

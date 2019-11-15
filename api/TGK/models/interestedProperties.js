@@ -31,6 +31,7 @@ const interestedPropsSchema = mongoose.Schema({
     						  },
     contractDue 			: {
                                     contractDate        : String, //YYYY-MM-DD
+                                    contractEndDate     : String, //YYYY-MM-DD
     								contractRemark      : String,
                                     contractTime        : String, //HH:MM AM/PM
     						  },
