@@ -640,17 +640,17 @@ exports.list_Properties_salesAgent_type = (req,res,next)=>{
                                                     "salesAgent.status"         : "Active",
                                                 }
                                     },
-                                    {
-                                        $lookup : {
-                                                from: "interestedProps",
-                                                localField: "_id",
-                                                foreignField: "property_id",
-                                                as: "property"
-                                            }
-                                    },
-                                    {
-                                        $unwind : "$property"
-                                    },
+                                    // {
+                                    //     $lookup : {
+                                    //             from: "interestedProps",
+                                    //             localField: "_id",
+                                    //             foreignField: "property_id",
+                                    //             as: "property"
+                                    //         }
+                                    // },
+                                    // {
+                                    //     $unwind : "$property"
+                                    // },
                                     // {
                                     //     $match : {
                                     //         "property.status"                       : "ContractCompleted",
