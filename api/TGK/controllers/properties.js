@@ -634,9 +634,11 @@ exports.list_Properties_salesAgent_type = (req,res,next)=>{
         console.log("reNewDate ",reNewDate);
         Properties      .aggregate([
                                     {
-                                        "transactionType"           : "Rent",
-                                        "salesAgent.agentID"        : ObjectID(req.params.salesAgentID),
-                                        "salesAgent.status"         : "Active",
+                                        $match : {
+                                                    "transactionType"           : "Rent",
+                                                    "salesAgent.agentID"        : ObjectID(req.params.salesAgentID),
+                                                    "salesAgent.status"         : "Active",
+                                                }
                                     },
                                     {
                                         $lookup : {
