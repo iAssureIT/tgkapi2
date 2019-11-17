@@ -651,12 +651,12 @@ exports.list_Properties_salesAgent_type = (req,res,next)=>{
                                     {
                                         $unwind : "$property"
                                     },
-                                    {
-                                        $match : {
-                                            "property.status"                       : "ContractCompleted",
-                                            // "property.contractDue.contractEndDate"  : {$eq : reNewDate}
-                                        }
-                                    }
+                                    // {
+                                    //     $match : {
+                                    //         "property.status"                       : "ContractCompleted",
+                                    //         // "property.contractDue.contractEndDate"  : {$eq : reNewDate}
+                                    //     }
+                                    // }
                             ])
                        .exec()
                        .then(data=>{
