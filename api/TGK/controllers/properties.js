@@ -642,7 +642,7 @@ exports.list_Properties_salesAgent_type = (req,res,next)=>{
                                     },
                                     {
                                         $lookup : {
-                                                from: "interestedProps",
+                                                from: "interestedprops",
                                                 localField: "_id",
                                                 foreignField: "property_id",
                                                 as: "property"
