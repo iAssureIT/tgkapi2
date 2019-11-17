@@ -631,6 +631,7 @@ exports.list_Properties_salesAgent_type = (req,res,next)=>{
         date.setDate(date.getDate()+30);
         //need to check for leap year
         var reNewDate = moment(date).format("YYYY-MM-DD");
+        console.log("reNewDate ",reNewDate);
         Properties      .aggregate([
                                     {
                                         "transactionType"           : "Rent",
