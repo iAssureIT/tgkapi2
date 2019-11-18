@@ -62,9 +62,11 @@ exports.list_InterestedProperties_FieldAgent_OuterStatus = (req,res,next)=>{
     if(query != "1"){
         InterestedProps.find(query)
                        .populate('property_id')
+                       .populate('buyer_id')
                        .sort({updatedAt:1})
                        .exec()
                        .then(data=>{
+                            console.log("data",data);
                             var k = 0 ;
                             var returnData = [];
                             for(k = 0 ; k < data.length ; k++){
