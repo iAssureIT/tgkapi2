@@ -654,7 +654,7 @@ exports.list_Properties_salesAgent_type = (req,res,next)=>{
                                     {
                                         $match : {
                                             "property.status"                       : "ContractCompleted",
-                                            // "property.contractDue.contractEndDate"  : {$eq : reNewDate}
+                                            "property.contractDue.contractEndDate"  : {$gte : reNewDate}
                                         }
                                     }
                             ])
