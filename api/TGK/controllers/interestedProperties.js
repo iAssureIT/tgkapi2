@@ -279,10 +279,11 @@ exports.delete_interestedProps = (req,res,next)=>{
     //             error: err
     //         });
     //     });
-    InterestedProps.update(
+    InterestedProps.updateOne(
                                 { 
                                     buyer_id            : req.params.buyer_id,
                                     property_id         : req.params.property_id,
+                                    status              : {$ne : "Delete"} 
                                 },
                                 {
                                     $set : {
