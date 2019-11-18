@@ -172,10 +172,12 @@ exports.searchProperties = (req,res,next)=>{
             for(var k=0; k<searchResults.length; k++){                    
                   searchResults[k] = {...searchResults[k]._doc, isInterested:false};
               }
-
             if(req.body.uid){
                 InterestedProps  
-                    .find({"buyer_id" : req.body.uid})
+                    .find({
+                            "buyer_id" : req.body.uid,
+                            "status"   : {$ne : "Discarded"}
+                          })
                     .then(iprops => {
                       // console.log("iprops",iprops);
                         if(iprops.length > 0){
@@ -185,14 +187,9 @@ exports.searchProperties = (req,res,next)=>{
                                         searchResults[j] = {...searchResults[j], isInterested:true};
                                         break;
                                     }
-
                                 }
-
                             }
                             if(i >= iprops.length){
-
-
-
                                 res.status(200).json(searchResults);
                             }       
                             }else{
