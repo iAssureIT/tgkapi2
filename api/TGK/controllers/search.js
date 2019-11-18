@@ -176,7 +176,7 @@ exports.searchProperties = (req,res,next)=>{
                 InterestedProps  
                     .find({
                             "buyer_id" : req.body.uid,
-                            "status"   : {$ne : "Discarded"}
+                            "status"   : {$ne : "Delete"}
                           })
                     .then(iprops => {
                       // console.log("iprops",iprops);

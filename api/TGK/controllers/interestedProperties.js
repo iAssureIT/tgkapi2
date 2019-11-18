@@ -188,7 +188,13 @@ exports.list_myInterestedProps = (req,res,next)=>{
     // console.log('list');
     const buyer_id = req.params.user_id;
     InterestedProps 
-        .find({"buyer_id" : buyer_id},{"property_id":1,"_id":0})
+        .find({
+                    "buyer_id" : buyer_id,
+                    "status"   : {$ne : "Delete"}
+                },
+                {
+                    "property_id":1,"_id":0
+                })
         .sort({"createdAt":-1})
         .exec()
         .then(property_ids=>{
@@ -280,7 +286,7 @@ exports.delete_interestedProps = (req,res,next)=>{
                                 },
                                 {
                                     $set : {
-                                        "status"                    : "Discarded", 
+                                        "status"                    : "Delete", 
                                         "updatedAt"                 : new Date()
                                     }
                                 }
