@@ -66,14 +66,16 @@ exports.list_InterestedProperties_FieldAgent_OuterStatus = (req,res,next)=>{
                        .sort({updatedAt:1})
                        .exec()
                        .then(data=>{
-                            console.log("data",data);
                             var k = 0 ;
                             var returnData = [];
                             for(k = 0 ; k < data.length ; k++){
                                 // data[k].property_id.interestedProperties_id = data[k]._id;
                                 returnData.push({
                                                     "interestedProperties_id" : data[k]._id,
-                                                    "buyer_id"                : data[k].buyer_id,
+                                                    "buyer_id"                : data[k].buyer_id._id,
+                                                    "buyer_Name"              : data[k].buyer_id.profile.fullName,
+                                                    "buyer_email"             : data[k].buyer_id.profile.emailId,
+                                                    "buyer_Mobile"            : data[k].buyer_id.profile.mobileNumber,
                                                     "createdAt"               : data[k].createdAt,
                                                     "meeting_id"              : data[k].meeting && data[k].meeting.length > 0 ? data[k].meeting[data[k].meeting.length -1]._id : "",
                                                     "property"                : data[k].property_id
