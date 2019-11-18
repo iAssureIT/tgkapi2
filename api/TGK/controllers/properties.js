@@ -631,7 +631,9 @@ exports.list_Properties_salesAgent_type = (req,res,next)=>{
         date.setDate(date.getDate()+30);
         //need to check for leap year
         var reNewDate = moment(date).format("YYYY-MM-DD");
+        var strReNewDate = reNewDate.toString(); 
         console.log("reNewDate ",reNewDate);
+        console.log("strReNewDate ",strReNewDate);
         Properties      .aggregate([
                                     {
                                         $match : {
@@ -654,7 +656,7 @@ exports.list_Properties_salesAgent_type = (req,res,next)=>{
                                     {
                                         $match : {
                                             "property.status"                       : "ContractCompleted",
-                                            "property.contractDue.contractEndDate"  : reNewDate.toString()
+                                            "property.contractDue.contractEndDate"  : {$eq : strReNewDate}
                                         }
                                     }
                             ])
