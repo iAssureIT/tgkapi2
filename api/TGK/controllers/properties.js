@@ -792,7 +792,10 @@ exports.postList = (req,res,next)=>{
 
                 if(req.body.uid){
                     InterestedProps
-                        .find({"buyer_id" : req.body.uid})
+                        .find({
+                                        "buyer_id" : req.body.uid,
+                                        "status"   : {$ne : "Delete"}
+                            })
                         .then(iprops => {
                             if(iprops.length > 0){
                                 for(var i=0; i<iprops.length; i++){
