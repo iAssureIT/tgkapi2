@@ -9,37 +9,48 @@ var ObjectID = require('mongodb').ObjectID;
 // ---------------------------------API To get Field Agent List as per status----------------------------
 
 exports.list_Properties_fieldAgent_type = (req,res,next)=>{
-    console.log("list_Properties_fieldAgent_type ");
-    Properties.find({
-                            "fieldAgent.agentID" : ObjectID(req.params.fieldAgentID),
-                            "status"                : req.params.status,
+    var query = "1";
+    if(req.params.fieldAgentID === 'all'){
+        query = {
+                    // "fieldAgent.agentID" : ObjectID(req.params.fieldAgentID),
+                    "status"                : req.params.status,
+                };
+    }else{
+        query = {
+                    "fieldAgent.agentID" : ObjectID(req.params.fieldAgentID),
+                    "status"                : req.params.status,
+                };
+    }
+    if(query != "1"){
+        console.log("list_Properties_fieldAgent_type ");
+        Properties.find(query)
+                    .sort({"updatedAt":1})
+                    .exec()
+                    .then(data=>{
+                        console.log("list_Properties_fieldAgent_type ",data);
+                        if(data.length > 0){
+                            var returnData = [];
+                            var i = 0;
+                            for(i = 0 ; i < data.length ; i++){
+                                returnData.push({
+                                                    "interestedProperties_id" : data[i]._id,
+                                                    "property" : data[i]
+                                                }); 
+                            }
+                            if( i >= data.length){
+                                res.status(200).json(returnData);
+                            }
+                        }else{
+                            res.status(200).json([]);
+                        }
                     })
-                .sort({"updatedAt":1})
-                .exec()
-                .then(data=>{
-                    console.log("list_Properties_fieldAgent_type ",data);
-                    if(data.length > 0){
-                        var returnData = [];
-                        var i = 0;
-                        for(i = 0 ; i < data.length ; i++){
-                            returnData.push({
-                                                "interestedProperties_id" : data[i]._id,
-                                                "property" : data[i]
-                                            }); 
-                        }
-                        if( i >= data.length){
-                            res.status(200).json(returnData);
-                        }
-                    }else{
-                        res.status(200).json([]);
-                    }
-                })
-                .catch(err =>{
-                    console.log(err);
-                    res.status(500).json({
-                        error: err
+                    .catch(err =>{
+                        console.log(err);
+                        res.status(500).json({
+                            error: err
+                        });
                     });
-                });
+    }
 }
 
 //---- API To get InterestedProperties which are allocated to Field Agent with Mentioned Outer Status------------
