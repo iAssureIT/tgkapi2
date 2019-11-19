@@ -33,7 +33,7 @@ exports.count_properties = (req,res,next) =>{
                                                 "tokenReceivedCount"      : insProperties.filter((data)=>{return data.status === "TokenReceived"}),
                                                 "contractDueCount"        : insProperties.filter((data)=>{return data.status === "ContractDue"}),
                                                 "contractCompletedCount"  : insProperties.filter((data)=>{return data.status === "ContractCompleted"}),
-                                                "deletedCount"            : insProperties.filter((data)=>{return data.status === "Delete"}) 
+                                                "deletedCount"            : insProperties.filter((data)=>{return data.status === "Delete"}), 
                                                 "discardedCount"          : insProperties.filter((data)=>{return data.status === "Discarded"}),
                                             });
                                         })
