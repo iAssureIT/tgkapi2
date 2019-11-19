@@ -1190,7 +1190,7 @@ exports.list_Properties_fieldAgent_type = (req,res,next)=>{
                 };
     }
     if(query != "1"){
-        Properties.find()
+        Properties.find(query)
                     .sort({"updatedAt":1})
                     .exec()
                     .then(data=>{
