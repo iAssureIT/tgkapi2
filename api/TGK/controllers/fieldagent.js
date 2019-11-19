@@ -17,6 +17,7 @@ exports.count_properties = (req,res,next) =>{
                 };
     }
     if(query != "1"){
+        console.log("query ",query);
         InterestedProps.find(query)
                        .exec()
                        .then(insProperties=>{
