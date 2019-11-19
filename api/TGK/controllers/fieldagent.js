@@ -4,7 +4,7 @@ const Sellometers = require('../models/sellometers');
 const MasterSellometers = require('../models/mastersellometer');
 const Users             = require('../../coreAdmin/models/users');
 const InterestedProps   = require('../models/interestedProperties');
-const Properties        = require('../models/properties')
+// const Properties        = require('../models/properties')
 var ObjectID = require('mongodb').ObjectID;
 
 exports.count_properties = (req,res,next) =>{
