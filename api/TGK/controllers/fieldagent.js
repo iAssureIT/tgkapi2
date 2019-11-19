@@ -26,8 +26,9 @@ exports.count_properties = (req,res,next) =>{
                                       .then(properties=>{
                                             //New , MeetingSet ,Discarded, Shortlisted, TokenReceived, ContractDue, ContractCompleted, Delete
                                             res.status(200).json({
-                                                "newClientCount"          : properties.filter((data)=>{return data.status === "VerifyPending"}).length,
-                                                "newSACount"              : insProperties.filter((data)=>{return data.status === "New"}).length,
+                                                "newSACount"              : properties.filter((data)=>{return data.status === "VerifyPending"}).length,
+                                                "newClientCount"          : insProperties.filter((data)=>{return data.status === "New"}).length,
+                                                // "newSACount"              : insProperties.filter((data)=>{return data.status === "New"}).length,
                                                 "meetingCount"            : insProperties.filter((data)=>{return data.status === "meetingSet"}).length,
                                                 "shownCount"              : insProperties.filter((data)=>{return data.status === "Shown"}).length,
                                                 "shortlistedCount"        : insProperties.filter((data)=>{return data.status === "Shortlisted"}).length,
