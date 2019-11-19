@@ -25,16 +25,16 @@ exports.count_properties = (req,res,next) =>{
                                       .then(properties=>{
                                             //New , MeetingSet ,Discarded, Shortlisted, TokenReceived, ContractDue, ContractCompleted, Delete
                                             res.status(200).json({
-                                                "newClientCount"          : properties.filter((data)=>{return data.status === "VerifyPending"}),
-                                                "newSACount"              : insProperties.filter((data)=>{return data.status === "New"}),
-                                                "meetingCount"            : insProperties.filter((data)=>{return data.status === "meetingSet"}),
-                                                "shownCount"              : insProperties.filter((data)=>{return data.status === "Shown"}),
-                                                "shortlistedCount"        : insProperties.filter((data)=>{return data.status === "Shortlisted"}),
-                                                "tokenReceivedCount"      : insProperties.filter((data)=>{return data.status === "TokenReceived"}),
-                                                "contractDueCount"        : insProperties.filter((data)=>{return data.status === "ContractDue"}),
-                                                "contractCompletedCount"  : insProperties.filter((data)=>{return data.status === "ContractCompleted"}),
-                                                "deletedCount"            : insProperties.filter((data)=>{return data.status === "Delete"}), 
-                                                "discardedCount"          : insProperties.filter((data)=>{return data.status === "Discarded"}),
+                                                "newClientCount"          : properties.filter((data)=>{return data.status === "VerifyPending"}).length,
+                                                "newSACount"              : insProperties.filter((data)=>{return data.status === "New"}).length,
+                                                "meetingCount"            : insProperties.filter((data)=>{return data.status === "meetingSet"}).length,
+                                                "shownCount"              : insProperties.filter((data)=>{return data.status === "Shown"}).length,
+                                                "shortlistedCount"        : insProperties.filter((data)=>{return data.status === "Shortlisted"}).length,
+                                                "tokenReceivedCount"      : insProperties.filter((data)=>{return data.status === "TokenReceived"}).length,
+                                                "contractDueCount"        : insProperties.filter((data)=>{return data.status === "ContractDue"}).length,
+                                                "contractCompletedCount"  : insProperties.filter((data)=>{return data.status === "ContractCompleted"}).length,
+                                                "deletedCount"            : insProperties.filter((data)=>{return data.status === "Delete"}).length, 
+                                                "discardedCount"          : insProperties.filter((data)=>{return data.status === "Discarded"}).length,
                                             });
                                         })
                                       .catch(err =>{
