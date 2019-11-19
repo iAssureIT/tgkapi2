@@ -55,6 +55,7 @@ exports.count_properties = (req,res,next) =>{
 // ---------------------------------API To get Field Agent List as per status----------------------------
 
 exports.list_Properties_fieldAgent_type = (req,res,next)=>{
+    console.log("list_Properties_fieldAgent_type ",req.params);
     var query = "1";
     if(req.params.fieldAgentID === 'all'){
         query = {
@@ -68,7 +69,7 @@ exports.list_Properties_fieldAgent_type = (req,res,next)=>{
                 };
     }
     if(query != "1"){
-        console.log("list_Properties_fieldAgent_type ");
+        console.log("list_Properties_fieldAgent_type query ",query);
         Properties.find(query)
                     .sort({"updatedAt":1})
                     .exec()
