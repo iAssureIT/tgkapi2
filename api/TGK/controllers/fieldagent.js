@@ -3,9 +3,55 @@ const Properties        = require('../models/properties');
 const Sellometers = require('../models/sellometers');
 const MasterSellometers = require('../models/mastersellometer');
 const Users             = require('../../coreAdmin/models/users');
-const InterestedProps = require('../models/interestedProperties');
+const InterestedProps   = require('../models/interestedProperties');
+const Properties        = require('../models/properties')
 var ObjectID = require('mongodb').ObjectID;
 
+exports.count_properties = (req,res,next) =>{
+    var query = "1";
+    if(req.params.fieldAgentID === 'all'){
+        query = {};
+    }else{
+        query = {
+                    "fieldAgent.agentID" : ObjectID(req.params.fieldAgentID)
+                };
+    }
+    if(query != "1"){
+        InterestedProps.find(query)
+                       .exec()
+                       .then(insProperties=>{
+                            Properties.find(query)
+                                      .exec()
+                                      .then(properties=>{
+                                            //New , MeetingSet ,Discarded, Shortlisted, TokenReceived, ContractDue, ContractCompleted, Delete
+                                            res.status(200).json({
+                                                "newClientCount"          : properties.filter((data)=>{return data.status === "VerifyPending"}),
+                                                "newSACount"              : insProperties.filter((data)=>{return data.status === "New"}),
+                                                "meetingCount"            : insProperties.filter((data)=>{return data.status === "meetingSet"}),
+                                                "shownCount"              : insProperties.filter((data)=>{return data.status === "Shown"}),
+                                                "shortlistedCount"        : insProperties.filter((data)=>{return data.status === "Shortlisted"}),
+                                                "tokenReceivedCount"      : insProperties.filter((data)=>{return data.status === "TokenReceived"}),
+                                                "contractDueCount"        : insProperties.filter((data)=>{return data.status === "ContractDue"}),
+                                                "contractCompletedCount"  : insProperties.filter((data)=>{return data.status === "ContractCompleted"}),
+                                                "deletedCount"            : insProperties.filter((data)=>{return data.status === "Delete"}) 
+                                                "discardedCount"          : insProperties.filter((data)=>{return data.status === "Discarded"}),
+                                            });
+                                        })
+                                      .catch(err =>{
+                                            console.log(err);
+                                            res.status(500).json({
+                                                error: err
+                                            });
+                                        });
+                       })
+                       .catch(err =>{
+                            console.log(err);
+                            res.status(500).json({
+                                error: err
+                            });
+                        });
+    }
+};
 // ---------------------------------API To get Field Agent List as per status----------------------------
 
 exports.list_Properties_fieldAgent_type = (req,res,next)=>{
