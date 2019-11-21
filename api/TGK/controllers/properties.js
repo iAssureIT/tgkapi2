@@ -970,8 +970,9 @@ exports.allocateTofieldAgent = (req,res,next)=>{
                                         )
                                     .exec()
                                     .then(csdata=>{
+                                        console.log("outer csdata ",csdata);
                                         if(csdata.length > 0){
-                                            console.log("csdata ",csdata);
+                                            console.log("if csdata ",csdata);
                                             Users.find({"roles" : "Field Agent","officeLocation" : ObjectID(csdata.companyLocationsInfo[0]._id) })
                                                  .sort({updateAt:1})
                                                  .exec()
@@ -1113,6 +1114,7 @@ exports.allocateTofieldAgent = (req,res,next)=>{
                                                    });
                                                 });
                                         }else{
+                                            console.log("else csdata ",csdata);
                                             Users.findOne({"roles" : "Field Manager"})
                                                 .exec()
                                                 .then(fieldManager=>{
