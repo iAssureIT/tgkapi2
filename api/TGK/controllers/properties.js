@@ -971,7 +971,7 @@ exports.allocateTofieldAgent = (req,res,next)=>{
                                     .exec()
                                     .then(csdata=>{
                                         console.log("outer csdata ",csdata);
-                                        if(csdata.length > 0){
+                                        if(csdata){
                                             console.log("if csdata ",csdata);
                                             Users.find({"roles" : "Field Agent","officeLocation" : ObjectID(csdata.companyLocationsInfo[0]._id) })
                                                  .sort({updateAt:1})
