@@ -281,7 +281,7 @@ exports.users_fetch = (req,res,next)=>{
 exports.user_details = (req, res, next)=>{
 	var id = req.params.userID;
 	User.findOne({_id:id})
-		.populate("officeLocation")
+		// .populate("officeLocation")
 		// .select("profile")
 		.exec()
 		.then(users =>{
