@@ -39,6 +39,7 @@ router.patch('/patch/:rolestatus',UserController.user_change_role);
 // router.get('/verify_mobile/',UserController.users_verify_mobile); 
 
 router.get('/get/one/:userID',UserController.user_details); 
+router.get('/get/userwithlocname/:userID',UserController.user_details_withLocName); 
 
 router.put('/put/one/resetpwd/:userID',UserController.update_user_resetpassword);  
 

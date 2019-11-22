@@ -4,6 +4,8 @@ const jwt			= require("jsonwebtoken");
 const plivo 		= require('plivo');
 const User 			= require('../models/users');
 const globalVariable 	= require('../../../nodemon.js');
+var ObjectID = require('mongodb').ObjectID;
+
 exports.user_signupadmin = (req,res,next)=>{
 	console.log("user_signupadmin ",req.body);
 	User.find()
@@ -68,10 +70,6 @@ exports.user_signupadmin = (req,res,next)=>{
 			});
 		});
 };
-
-
-
-
 exports.update_user_resetpassword = (req,res,next)=>{
 	// var roleData = req.body.role;
 	bcrypt.hash(req.body.pwd,10,(err,hash)=>{
@@ -109,9 +107,6 @@ exports.update_user_resetpassword = (req,res,next)=>{
 		});
 	});
 }
-
-
-
 exports.user_login = (req,res,next)=>{
     // console.log('login');
     User.findOne({emails:{$elemMatch:{address:req.body.email}}})
@@ -186,7 +181,6 @@ exports.user_login = (req,res,next)=>{
             });
         });
 };
-
 exports.users_list = (req,res,next)=>{
 	User.find({roles : {$ne : "admin"} })
 		.exec()
@@ -200,12 +194,10 @@ exports.users_list = (req,res,next)=>{
 				error: err
 			});
 		});
-	
 }
 exports.users_directlist = (req,res,next)=>{
 	User.find({roles : {$ne : "admin"} })
 	.select("_id username roles createdAt profile.firstName profile.lastName profile.mobNumber profile.fullname profile.emailId profile.status")
-		
 	   .exec()
 	   .then(users =>{
 			// console.log("List of Users", users);
@@ -310,7 +302,6 @@ exports.delete_user = function (req, res,next) {
         });
     });
 };
-
 exports.deleteall_user = function (req, res,next) {
     User.deleteMany({
        
@@ -326,10 +317,6 @@ exports.deleteall_user = function (req, res,next) {
         });
     });
 };
-
-
-
-
 exports.update_user = (req,res,next)=>{
 	// var roleData = req.body.role;
 	// console.log("req.params.userID",req.params.userID);
@@ -369,7 +356,6 @@ exports.update_user = (req,res,next)=>{
             });
         });
 }
-
 exports.user_change_role = (req,res,next)=>{
 	User.findOne({_id:req.params.userID})
 		.exec()
@@ -426,12 +412,7 @@ exports.user_change_role = (req,res,next)=>{
 			});
 		});
 }
-
 //=============================
-
-
-
-
 exports.account_status= (req,res,next)=>{
 
 	User.updateOne(
@@ -498,10 +479,7 @@ exports.account_role_add= (req,res,next)=>{
 		});
 	});
 }
-
-
 exports.account_role_remove= (req,res,next)=>{
-
 	User.updateOne(
 		{'_id': req.body.userID },
 		{
@@ -531,8 +509,6 @@ exports.account_role_remove= (req,res,next)=>{
 		});
 	});
 }
-
-
 exports.user_search = (req,res,next)=>{
 	// console.log("req.body.searchText",req.body.searchText);
 
@@ -604,8 +580,6 @@ exports.search_user_office = (req,res,next)=>{
 		});
 	});
 }
-
-
 exports.users_count = (req,res,next)=>{
 	User.find().count()
 	// .countDocuments()
@@ -631,7 +605,6 @@ exports.users_count = (req,res,next)=>{
 		});
 	});
 }
-
 ///////////////////////Anagha's Code//////////////////////////////////////
 exports.user_login_role = (req,res,next)=>{
     // console.log('login');
@@ -707,4 +680,70 @@ exports.user_login_role = (req,res,next)=>{
                 error: err
             });
         });
+};
+exports.user_details_withLocName = (req,res,next)=>{
+	var id = req.params.userID;
+	User.aggregate([
+						{
+							$match : {
+										_id : ObjectID(id)
+									}
+						},
+						{
+							$lookup : {
+											from: "tgkspecificcompanysettings",
+									       	localField: "officeLocation",
+									       	foreignField: "companyLocationsInfo._id",
+									       	as: "csdata"	
+									}
+						},
+						{
+							$unwind : "$csdata"
+						},
+						{
+							$unwind : "$csdata.companyLocationsInfo"
+						},
+						{
+							$project : {
+										"_id" 				: 1,
+										"services"			: 1,
+										"roles"				: 1,
+										"createdAt"			: 1,
+										"countryCode"		: 1,
+										"mobileNumber"		: 1,
+										"emails"			: 1,
+										"profile"			: 1,
+										"officeLocation"	: {$toString: "$officeLocation"},
+										"officeLocationID"	: {$toString : "$csdata.companyLocationsInfo._id"},
+										"officeName"	: "$csdata.companyLocationsInfo.officeLocationid"
+									}
+						},
+						// {
+						// 	$match : {
+						// 				"officeLocation" : "$officeLocationID"
+						// 			}
+						// }
+					])
+		.exec()
+		.then(users =>{
+			for(j = 0 ; j < users.length ; j++){
+				console.log("j ",j);
+				// console.log("users[j].officeLocation ",users[j].officeLocation);
+				// console.log("users[j].csdata.companyLocationsInfo._id ",users[j].csdata.companyLocationsInfo._id);
+
+				if(String(users[j].officeLocation) == String(users[j].officeLocationID)){
+					res.status(200).json(users[j]);
+				// 	// break;
+				}
+			}
+			// if(j >= users.length){
+				// res.status(200).json(users);
+			// }
+		})
+		.catch(err =>{
+			console.log(err);
+			res.status(500).json({
+				error: err
+			});
+		});
 };
