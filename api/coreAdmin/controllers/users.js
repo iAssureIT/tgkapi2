@@ -713,8 +713,8 @@ exports.user_details_withLocName = (req,res,next)=>{
 										"mobileNumber"		: 1,
 										"emails"			: 1,
 										"profile"			: 1,
-										"officeLocation"	: {$toString: "$officeLocation"},
-										"officeLocationID"	: {$toString : "$csdata.companyLocationsInfo._id"},
+										"officeLocation"	: 1,
+										"officeLocationID"	: "$csdata.companyLocationsInfo._id",
 										"officeName"	: "$csdata.companyLocationsInfo.officeLocationid"
 									}
 						},
