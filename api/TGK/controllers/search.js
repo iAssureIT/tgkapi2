@@ -25,12 +25,38 @@ exports.searchProperties = (req,res,next)=>{
 
     if(loc.indexOf(',') > -1){
       var loc = req.body.location.split(',');
-      locArray.push({$and : [{"propertyLocation.area" : loc[0].trim()},{"propertyLocation.city" : loc[1].trim()}] } );
-      locArray.push({$and : [{"propertyLocation.subArea" : loc[0].trim()},{"propertyLocation.city" : loc[1].trim()}] } );
+      if(loc.length == 4){
+        //e.g.   Jasmenium,Magarpatta City,Hadapsar,Pune
+        locArray.push({$and : [
+                                {"propertyLocation.society" : loc[0].trim()}, 
+                                {"propertyLocation.subArea" : loc[1].trim()}, 
+                                {"propertyLocation.area"    : loc[2].trim()},
+                                {"propertyLocation.city"    : loc[3].trim()}
+                              ] 
+                       });
+
+      }else if(loc.length == 3){
+        //e.g.   Magarpatta City,Hadapsar,Pune
+        locArray.push({$and : [
+                                {"propertyLocation.subArea" : loc[0].trim()},
+                                {"propertyLocation.area"    : loc[1].trim()},
+                                {"propertyLocation.city"    : loc[2].trim()}
+                               ] 
+                       });
+
+      }else if(loc.length == 2){
+        //e.g.   Hadapsar,Pune
+        locArray.push({$and : [
+                                {"propertyLocation.area" : loc[0].trim()},
+                                {"propertyLocation.city" : loc[1].trim()}
+                              ] 
+                      });
+      }
     }else{
+      locArray.push({"propertyLocation.society" : loc.trim()});      
       locArray.push({"propertyLocation.subArea" : loc.trim()});      
-      locArray.push({"propertyLocation.area" : loc.trim()});
-      locArray.push({"propertyLocation.city" : loc.trim()});
+      locArray.push({"propertyLocation.area"    : loc.trim()});
+      locArray.push({"propertyLocation.city"    : loc.trim()});
     }
 
     selector.push({$or : locArray });
