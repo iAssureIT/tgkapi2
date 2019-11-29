@@ -191,7 +191,7 @@ exports.users_verify_mobile = (req,res,next)=>{
 
 exports.verify_user = (req,res,next)=>{
     console.log("body data ",req.body);
-    User.findOne({_id:req.body.userId},{'profile.fullName':1,'profile.emailId':1,"profile.otp":1,"profile.mobileNo":1,"services.resume.loginTokens.hashedToken":1})
+    User.findOne({_id:req.body.userId},{'profile.fullName':1,'profile.emailId':1,"profile.otp":1,"profile.mobileNo":1,"services.resume.loginTokens":1})
         .exec()
         .then(user =>{
             // console.log("user",user)
@@ -206,7 +206,7 @@ exports.verify_user = (req,res,next)=>{
                         "fullName"          : user.profile.fullName ? user.profile.fullName : "",
                         "emailId"           : user.profile.emailId ? user.profile.emailId : "",
                         "mobileNo"          : user.profile.mobileNo ? user.profile.mobileNo : "",
-                        "token"             : user.services.resume.loginTokens.hashedToken,
+                        "token"             : user.services.resume.loginTokens[0].hashedToken,
                     }); 
                 }else{
                     res.status(200).json({
