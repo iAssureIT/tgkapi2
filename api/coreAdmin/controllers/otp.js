@@ -191,7 +191,7 @@ exports.users_verify_mobile = (req,res,next)=>{
 
 exports.verify_user = (req,res,next)=>{
     console.log("body data ",req.body);
-    User.findOne({_id:req.body.userId},{'profile.fullName':1,'profile.emailId':1,"profile.otp":1,"profile.mobileNo":1,"services.resume.loginTokens":1})
+    User.findOne({_id:req.body.userId},{'profile.fullName':1,'profile.emailId':1,"profile.otp":1,"profile.mobileNumber":1,"services.resume.loginTokens":1})
         .exec()
         .then(user =>{
             // console.log("user",user)
@@ -200,6 +200,7 @@ exports.verify_user = (req,res,next)=>{
                 console.log("otp",user.profile.otp);
                 console.log("fullName",user.profile.fullName);
                 console.log("emailId",user.profile.emailId);
+                console.log("mobileNumber",user.profile.mobileNumber);
                     if(user.profile.otp===req.body.otp){
                         res.status(200).json({
                         "message"           : "USER-VERIFIED",
