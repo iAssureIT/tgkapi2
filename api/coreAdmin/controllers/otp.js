@@ -207,7 +207,7 @@ exports.verify_user = (req,res,next)=>{
                         "count"             : 1,
                         "fullName"          : user.profile.fullName ? user.profile.fullName : "",
                         "emailId"           : user.profile.emailId ? user.profile.emailId : "",
-                        "mobileNo"          : user.profile.mobileNo ? user.profile.mobileNo : "",
+                        "mobileNo"          : user.profile.mobileNumber ? user.profile.mobileNumber : "",
                         "token"             : user.services.resume.loginTokens[0].hashedToken,
                     }); 
                 }else{
