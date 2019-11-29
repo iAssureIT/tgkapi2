@@ -197,7 +197,9 @@ exports.verify_user = (req,res,next)=>{
             // console.log("user",user)
             if(user){
                 console.log("user",user);
-                console.log("user",user.profile.otp);
+                console.log("otp",user.profile.otp);
+                console.log("fullName",user.profile.fullName);
+                console.log("emailId",user.profile.emailId);
                     if(user.profile.otp===req.body.otp){
                         res.status(200).json({
                         "message"           : "USER-VERIFIED",
