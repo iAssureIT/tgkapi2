@@ -205,10 +205,14 @@ exports.verify_user = (req,res,next)=>{
                         "mobileNo"          : user.profile.mobileNo ? user.profile.mobileNo : "",
                         "token"             : user.services.resume.loginTokens.hashedToken,
                     }); 
+                }else{
+                    res.status(200).json({
+                        "message"           : "USER-NOT-VERIFIED",
+                    }); 
                 }
             }else{
                 res.status(200).json({
-                    "message"           : "USER-NOT-VERIFIED",
+                    "message"           : "USER-NOT-FOUND",
                 }); 
             }
          })   
