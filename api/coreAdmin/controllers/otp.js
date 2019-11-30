@@ -79,7 +79,7 @@ function updateOTP(user_ID,otp){
                     { _id: user_ID},  
                     {
                         $set:{
-                            "profile.otp" : otp,
+                            "otp" : otp,
                         }
                     })
                 .exec()
@@ -151,15 +151,21 @@ exports.users_verify_mobile = (req,res,next)=>{
                                                 res.status(200).json({
                                                     "message"           : msg,
                                                     "user_id"           : user._id,
+                                                    "otp"               : OTP,
                                                     "count"             : 1,
                                                     "fullName"          : user.profile.fullName ? user.profile.fullName : "",
+                                                    "token"               : token,
+                                                    "userProfileImg"      : user.profile.userProfile,
                                                 }); 
                                             }else{
                                                 res.status(200).json({
                                                     "message"           : msg + 'OTP Not Updated',
                                                     "user_id"           : user._id,
+                                                    "otp"               : OTP,
                                                     "count"             : 1,
                                                     "fullName"          : user.profile.fullName ? user.profile.fullName : "",
+                                                    token               : token,
+                                                    userProfileImg      : user.profile.userProfile,
                                                 });
                                             }
                                         }
@@ -186,49 +192,6 @@ exports.users_verify_mobile = (req,res,next)=>{
 				error: err,
 			});
 		});
-};
-
-
-exports.verify_user = (req,res,next)=>{
-    console.log("body data ",req.body);
-    User.findOne({_id:req.body.userId},{'profile.fullName':1,'profile.emailId':1,"profile.otp":1,"profile.mobileNumber":1,"services.resume.loginTokens":1})
-        .exec()
-        .then(user =>{
-            // console.log("user",user)
-            if(user){
-                console.log("user",user);
-                console.log("otp",user.profile.otp);
-                console.log("fullName",user.profile.fullName);
-                console.log("emailId",user.profile.emailId);
-                console.log("mobileNumber",user.profile.mobileNumber);
-                    if(user.profile.otp===req.body.otp){
-                        res.status(200).json({
-                        "message"           : "USER-VERIFIED",
-                        "user_id"           : user._id,
-                        "count"             : 1,
-                        "fullName"          : user.profile.fullName ? user.profile.fullName : "",
-                        "emailId"           : user.profile.emailId ? user.profile.emailId : "",
-                        "mobileNo"          : user.profile.mobileNumber ? user.profile.mobileNumber : "",
-                        "token"             : user.services.resume.loginTokens[0].hashedToken,
-                    }); 
-                }else{
-                    res.status(200).json({
-                        "message"           : "USER-NOT-VERIFIED",
-                    }); 
-                }
-            }else{
-                res.status(200).json({
-                    "message"           : "USER-NOT-FOUND",
-                }); 
-            }
-         })   
-        .catch(err =>{
-            console.log(err);
-            res.status(200).json({
-                message:"MOBILE-NUMBER-NOT-FOUND", 
-                error: err,
-            });
-        });
 };
 
 

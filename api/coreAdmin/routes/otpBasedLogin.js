@@ -13,8 +13,6 @@ const OTPController = require('../controllers/otp');
 
 router.post('/verify_mobile', OTPController.users_verify_mobile); 
 
-router.post('/verifyuser', OTPController.verify_user); 
-
 // router.post('/otpverified', OTPController.login_otp_verifications);
 
 
