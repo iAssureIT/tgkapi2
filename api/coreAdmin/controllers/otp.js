@@ -164,8 +164,8 @@ exports.users_verify_mobile = (req,res,next)=>{
                                                     "otp"               : OTP,
                                                     "count"             : 1,
                                                     "fullName"          : user.profile.fullName ? user.profile.fullName : "",
-                                                    token               : token,
-                                                    userProfileImg      : user.profile.userProfile,
+                                                    'token'             : token,
+                                                    "userProfileImg"    : user.profile.userProfile,
                                                 });
                                             }
                                         }
