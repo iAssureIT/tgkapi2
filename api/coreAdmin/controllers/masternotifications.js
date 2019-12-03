@@ -291,11 +291,11 @@ function getTemplateDetailsEmail(templateName,variables){
                         if(i >= wordsplit.length){
                             var numOfVar = Object.keys(variables).length;
                             var j = 0;
-                            for(j=0; j<numOfVar; j++){
+                            for(j=0; j<numOfVar && tokens.length > 0; j++){
                                 var tokVar = tokens[j].substr(1,tokens[j].length-2);
                                 content = content.replace(tokens[j],variables[tokens[j]]);
                             }
-                            if(j >= numOfVar){
+                            if(j >= numOfVar || tokens.length > 0){
                                 content = content.split("[").join("'");
                                 content = content.split("]").join("'");
                                 // console.log("content = ",content);
