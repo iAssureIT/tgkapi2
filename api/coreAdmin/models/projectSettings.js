@@ -9,7 +9,9 @@ const projectSettingsSchema = mongoose.Schema({
     region      : String,
     authID		: String,
     authToken	: String,
-    sourceMobile: String
+    sourceMobile: String,
 });
 
 module.exports = mongoose.model('projectSettings',projectSettingsSchema);
+
+

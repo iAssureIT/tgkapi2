@@ -125,9 +125,10 @@ exports.update_approvedlist = (req,res,next)=>{
 }
 
 exports.property_sa_totaldisplaylist = (req,res,next)=>{
-    // console.log("in count------------------",req.params.salesAgentID);
+    console.log("in count------------------",req.params);
     var todayDate = moment(new Date()).format("YYYY-MM-DD");
     if(req.params.userRole=="admin"){
+        console.log("admin");
         Properties.find()        
         .exec()
         .then(property=>{
@@ -158,7 +159,8 @@ exports.property_sa_totaldisplaylist = (req,res,next)=>{
             });
         });
     }else if(req.params.userRole=="Sales Agent"){
-         Properties.find({
+        console.log("admin");
+        Properties.find({
                         "salesAgent.agentID" : req.params.salesAgentID,
                         "salesAgent.status"  : "Active",
                         "createdAtStr"       : {$ne : todayDate}
@@ -193,7 +195,6 @@ exports.property_sa_totaldisplaylist = (req,res,next)=>{
                 error: err
             });
         });
-
     }else if(req.params.userRole=="Field Agent"){
         Properties.find({
                             "fieldAgent.agentID" : req.params.salesAgentID,
@@ -229,7 +230,7 @@ exports.property_sa_totaldisplaylist = (req,res,next)=>{
                     error: err
                 });
             });
-        }
     }
+}
 
 

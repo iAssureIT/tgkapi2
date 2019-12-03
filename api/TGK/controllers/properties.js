@@ -36,8 +36,8 @@ exports.create_Properties = (req,res,next)=>{
                                             ],
                 ownerDetails            : 
                                             {
-                                               "userName"     : ownerData[0].profile.fullName ? ownerData[0].profile.fullName : "--NA--",
-                                               "emailId"      : ownerData[0].profile.emailId ? ownerData[0].profile.emailId :  "dummy@dummy.com",
+                                               "userName"     : (ownerData[0].profile && ownerData[0].profile.fullName) ? ownerData[0].profile.fullName : "--NA--",
+                                               "emailId"      : (ownerData[0].profile && ownerData[0].profile.emailId) ? ownerData[0].profile.emailId :  "dummy@dummy.com",
                                                "mobileNumber" : ownerData[0].mobileNumber
                                             }, 
                 propertyLocation        : 
