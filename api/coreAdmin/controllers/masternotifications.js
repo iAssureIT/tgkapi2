@@ -273,12 +273,14 @@ function getTemplateDetailsEmail(templateName,variables){
                     // console.log('serverside NotificationData: ', NotificationData);
                     if(NotificationData){
                         var content = NotificationData.content;
+                        var wordsplit = [];
                         if(content.indexOf('[') > -1 ){
-                            var wordsplit = content.split('[');
+                            wordsplit = content.split('[');
                         }
 
                         var tokens = [];
                         var n = 0;
+                        var  i = 0;
                         for(i=0;i<wordsplit.length;i++){
                             if(wordsplit[i].indexOf(']') > -1 ){
                                 tokensArr = wordsplit[i].split(']');
@@ -286,22 +288,25 @@ function getTemplateDetailsEmail(templateName,variables){
                                 n++;
                             }
                         }
-                        var numOfVar = Object.keys(variables).length;
-
-                        for(i=0; i<numOfVar; i++){
-                            var tokVar = tokens[i].substr(1,tokens[i].length-2);
-                            content = content.replace(tokens[i],variables[tokens[i]]);
+                        if(i >= wordsplit.length){
+                            var numOfVar = Object.keys(variables).length;
+                            var j = 0;
+                            for(j=0; j<numOfVar; j++){
+                                var tokVar = tokens[j].substr(1,tokens[j].length-2);
+                                content = content.replace(tokens[j],variables[tokens[j]]);
+                            }
+                            if(j >= numOfVar){
+                                content = content.split("[").join("'");
+                                content = content.split("]").join("'");
+                                // console.log("content = ",content);
+                                var tData={
+                                    content:content,
+                                    subject:NotificationData.subject
+                                }
+                                resolve(tData);          
+                            }
                         }
-                        content = content.split("[").join("'");
-                        content = content.split("]").join("'");
-                        // console.log("content = ",content);
-                        var tData={
-                            content:content,
-                            subject:NotificationData.subject
-                        }
-                        resolve(tData);          
-                    }//NotificationData
-                    
+                    }//NotificationData                    
             })
             .catch(err =>{
                 console.log(err);

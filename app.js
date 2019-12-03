@@ -89,10 +89,8 @@
 					
 					message: "Success",
 					// return "Success",
-
 				});
 			}
-	
 			res.render('index');
 		});
 	});
