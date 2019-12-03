@@ -167,7 +167,7 @@ exports.send_notifications = (req,res,next)=>{
             }
         }
         const templateDetailsEmail = await getTemplateDetailsEmail(req.body.templateName, req.body.variables);
-        const templateDetailsSMS = await getTemplateDetailsSMS(req.body.templateName, req.body.variables);
+        // const templateDetailsSMS = await getTemplateDetailsSMS(req.body.templateName, req.body.variables);
         // console.log("toEmail------------------------",toEmail,senderEmail,senderEmailPwd);
         if(templateDetailsEmail){
             var mailOptions = {                
