@@ -134,7 +134,7 @@ exports.update_notifications = (req,res,next)=>{
 
 //send Mail Notification -Rushikesh Salunkhe
 exports.send_notifications = (req,res,next)=>{
-    // console.log('req',req.body);
+    console.log('req',req.body);
     const senderEmail = 'lyvoapp1@gmail.com';
     const senderEmailPwd = 'Lyvo@123';
 
@@ -159,16 +159,16 @@ exports.send_notifications = (req,res,next)=>{
         }else{
             userProfile = await getProfileByUserId(req.body.toUserId);
 
-            // console.log("userProfile---------->",userProfile);
+            console.log("userProfile---------->",userProfile);
             if(userProfile && userProfile!== null & userProfile!==""){
-                // console.log("userProfile",userProfile);
+                console.log("userProfile",userProfile);
                 toEmail = userProfile.profile.emailId;
-                // toMobile = userProfile.profile.mobileNumber;
+                toMobile = userProfile.profile.mobileNumber;
             }
         }
         const templateDetailsEmail = await getTemplateDetailsEmail(req.body.templateName, req.body.variables);
-        // const templateDetailsSMS = await getTemplateDetailsSMS(req.body.templateName, req.body.variables);
-        // console.log("toEmail------------------------",toEmail,senderEmail,senderEmailPwd);
+        const templateDetailsSMS = await getTemplateDetailsSMS(req.body.templateName, req.body.variables);
+        console.log("toEmail------------------------",toEmail,senderEmail,senderEmailPwd);
         var mailOptions = {                
             from        : '"LYVO Admin" <'+senderEmail+'>', // sender address
             to          : toEmail , // list of receiver
