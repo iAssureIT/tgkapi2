@@ -276,11 +276,12 @@ function getProfileByUserId(toUserId){
 function getTemplateDetailsEmail(templateName,variables){
     return new Promise(function(resolve,reject){
         Masternotifications
-        .findOne({"templateName":templateName})
+        .findOne({"templateName":templateName,"templateType":"Email"})
         .exec()
         .then(NotificationData=>{
-                    // console.log('serverside NotificationData: ', NotificationData);
+                    console.log('serverside NotificationData: ', NotificationData);
                     if(NotificationData){
+                        console.log("if NotificationData");
                         var content = NotificationData.content;
                         var wordsplit = [];
                         if(content.indexOf('[') > -1 ){
@@ -312,10 +313,14 @@ function getTemplateDetailsEmail(templateName,variables){
                                     content:content,
                                     subject:NotificationData.subject
                                 }
+                                console.log("tData ",tData);
                                 resolve(tData);          
                             }
                         }
-                    }//NotificationData                    
+                    }//NotificationData  
+                    else{
+                        resolve("");
+                    }                  
             })
             .catch(err =>{
                 console.log(err);
