@@ -310,6 +310,8 @@ function getTemplateDetailsEmail(templateName,variables){
                                 content = content.replace(tokens[j],variables[tokens[j]]);
                             }
                             console.log("tokens ",tokens);
+                            console.log("j ",j);
+                            console.log("numOfVar ",numOfVar);
                             if(j >= numOfVar || tokens.length > 0){
                                 content = content.split("[").join("'");
                                 content = content.split("]").join("'");
@@ -317,7 +319,7 @@ function getTemplateDetailsEmail(templateName,variables){
                                 var tData={
                                     content:content,
                                     subject:NotificationData.subject
-                                }
+                                };
                                 console.log("tData ",tData);
                                 resolve(tData);          
                             }
