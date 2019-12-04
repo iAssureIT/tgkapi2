@@ -287,6 +287,7 @@ function getTemplateDetailsEmail(templateName,variables){
                         if(content.indexOf('[') > -1 ){
                             wordsplit = content.split('[');
                         }
+                        console.log("wordsplit ",wordsplit);
 
                         var tokens = [];
                         var n = 0;
@@ -298,17 +299,21 @@ function getTemplateDetailsEmail(templateName,variables){
                                 n++;
                             }
                         }
+                        console.log("tokens ",tokens);
                         if(i >= wordsplit.length){
+                            console.log("wordsplit ",wordsplit);
+
                             var numOfVar = Object.keys(variables).length;
                             var j = 0;
                             for(j=0; j<numOfVar && tokens.length > 0; j++){
                                 var tokVar = tokens[j].substr(1,tokens[j].length-2);
                                 content = content.replace(tokens[j],variables[tokens[j]]);
                             }
+                            console.log("token ",token);
                             if(j >= numOfVar || tokens.length > 0){
                                 content = content.split("[").join("'");
                                 content = content.split("]").join("'");
-                                // console.log("content = ",content);
+                                console.log("content = ",content);
                                 var tData={
                                     content:content,
                                     subject:NotificationData.subject
