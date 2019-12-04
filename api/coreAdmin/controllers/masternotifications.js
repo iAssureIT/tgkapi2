@@ -151,26 +151,29 @@ exports.send_notifications = (req,res,next)=>{
     });
     main();
     async function main(){
+        console.log("In async function");
         var userProfile = {};
         var toEmail = "1";
         if(req.body.toUserId === "admin"){
+            console.log("admin ");
             // toEmail = 'testtprm321@gmail.com'; 
             toEmail = "lyvoapp1@gmail.com"; 
         }else{
+            console.log("auser ");
             userProfile = await getProfileByUserId(req.body.toUserId);
 
             console.log("userProfile---------->",userProfile);
             if(userProfile && userProfile!== null & userProfile!==""){
-                // console.log("userProfile",userProfile);
+                console.log("In userProfile",userProfile);
                 toMobile = userProfile.profile.mobileNumber;
                 toEmail = userProfile.profile.emailId;
             }
         }
         if(toEmail != "1"){
-
+            console.log("toEmail ",toEmail);
             const templateDetailsEmail = await getTemplateDetailsEmail(req.body.templateName, req.body.variables);
             // const templateDetailsSMS = await getTemplateDetailsSMS(req.body.templateName, req.body.variables);
-            // console.log("toEmail------------------------",toEmail,senderEmail,senderEmailPwd);
+            console.log("toEmail------------------------",templateDetailsEmail);
             if(templateDetailsEmail){
                 var mailOptions = {                
                     from        : '"LYVO Admin" <'+senderEmail+'>', // sender address
@@ -178,6 +181,7 @@ exports.send_notifications = (req,res,next)=>{
                     subject     : templateDetailsEmail.subject, // Subject line
                     html        : templateDetailsEmail.content, // html body
                 };
+                console.log("mailOptions")
                 transporter.sendMail(mailOptions, (error, info) => {
                     if (error) {                    
                         console.log("send mail error",error);
