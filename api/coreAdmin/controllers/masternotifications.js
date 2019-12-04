@@ -137,10 +137,6 @@ exports.send_notifications = (req,res,next)=>{
     console.log('req',req.body);
     const senderEmail = 'lyvoapp1@gmail.com';
     const senderEmailPwd = 'Lyvo@123';
-
-    // const senderEmail = 'testtprm321@gmail.com';
-    // const senderEmailPwd = 'tprm1234';
-
     let transporter = nodeMailer.createTransport({                
         host: 'smtp.gmail.com',
         port: 587,
@@ -151,29 +147,19 @@ exports.send_notifications = (req,res,next)=>{
     });
     main();
     async function main(){
-        console.log("In async function");
         var userProfile = {};
         var toEmail = "1";
         if(req.body.toUserId === "admin"){
-            console.log("admin ");
-            // toEmail = 'testtprm321@gmail.com'; 
             toEmail = "lyvoapp1@gmail.com"; 
         }else{
-            console.log("auser ");
             userProfile = await getProfileByUserId(req.body.toUserId);
-
-            console.log("userProfile---------->",userProfile);
             if(userProfile && userProfile!== null & userProfile!==""){
-                console.log("In userProfile",userProfile);
                 toMobile = userProfile.profile.mobileNumber;
                 toEmail = userProfile.profile.emailId;
             }
         }
         if(toEmail != "1"){
-            console.log("toEmail ",toEmail);
             const templateDetailsEmail = await getTemplateDetailsEmail(req.body.templateName, req.body.variables);
-            // const templateDetailsSMS = await getTemplateDetailsSMS(req.body.templateName, req.body.variables);
-            console.log("toEmail------------------------",templateDetailsEmail);
             if(templateDetailsEmail){
                 var mailOptions = {                
                     from        : '"LYVO Admin" <'+senderEmail+'>', // sender address
@@ -181,10 +167,8 @@ exports.send_notifications = (req,res,next)=>{
                     subject     : templateDetailsEmail.subject, // Subject line
                     html        : templateDetailsEmail.content, // html body
                 };
-                console.log("mailOptions")
                 transporter.sendMail(mailOptions, (error, info) => {
                     if (error) {                    
-                        console.log("send mail error",error);
                         res.status(500).json({              
                             message: "Send Email Failed",
                         });
@@ -198,36 +182,7 @@ exports.send_notifications = (req,res,next)=>{
                 });
             }
         }
-
-        // onsole.log('Plivo Client =======+> ',toMobile);
-        // const client = new plivo.Client('MAMZU2MWNHNGYWY2I2MZ', 'MWM1MDc4NzVkYzA0ZmE0NzRjMzU2ZTRkNTRjOTcz');
-        // // const client = new plivo.Client('MANJFLZDG4MDEWNDBIND', 'NGExNzQ3ZjFmZDM4ZmVmMjBjNmY4ZjM0M2VmMWIw');   // Vowels LLP
-
-        // const sourceMobile = "+919923393733";
-        // var text = templateDetailsSMS.content;
-        
-        // client.messages.create(
-        //     src=sourceMobile,
-        //     dst=toMobile,
-        //     text=text
-        // ).then((result)=> {
-        //     // console.log("src = ",src," | DST = ", dst, " | result = ", result);
-        //     // return res.status(200).json("OTP "+OTP+" Sent Successfully ");
-        //     return res.status(200).json({
-        //         "message" : 'SMS-SEND-SUCCESSFULLY',
-                
-        //     });         
-        // })
-        // .catch(otpError=>{
-        //     return res.status(501).json({
-        //         message: "Some Error Occurred in SMS Send Function",
-        //         error: otpError
-        //     });
-        // });
-
-
     }
-    
 }
 
 //get getEmailByUserId - Rushikesh Salunkhe
@@ -279,16 +234,12 @@ function getTemplateDetailsEmail(templateName,variables){
         .findOne({"templateName":templateName,"templateType":"Email"})
         .exec()
         .then(NotificationData=>{
-                    console.log('serverside NotificationData: ', NotificationData);
                     if(NotificationData){
-                        console.log("if NotificationData");
                         var content = NotificationData.content;
                         var wordsplit = [];
                         if(content.indexOf('[') > -1 ){
                             wordsplit = content.split('[');
                         }
-                        console.log("wordsplit ",wordsplit);
-
                         var tokens = [];
                         var n = 0;
                         var  i = 0;
@@ -299,29 +250,23 @@ function getTemplateDetailsEmail(templateName,variables){
                                 n++;
                             }
                         }
-                        console.log("tokens ",tokens);
                         if(i >= wordsplit.length){
-                            console.log("wordsplit ",wordsplit);
-
                             var numOfVar = Object.keys(variables).length;
                             var j = 0;
                             for(j=0; j<numOfVar && tokens.length > 0; j++){
                                 var tokVar = tokens[j].substr(1,tokens[j].length-2);
                                 content = content.replace(tokens[j],variables[tokens[j]]);
                             }
-                            console.log("tokens ",tokens);
-                            console.log("j ",j);
-                            console.log("numOfVar ",numOfVar);
                             if(j >= numOfVar || tokens.length == 0){
                                 content = content.split("[").join("'");
                                 content = content.split("]").join("'");
-                                console.log("content = ",content);
                                 var tData={
                                     content:content,
                                     subject:NotificationData.subject
                                 };
-                                console.log("tData ",tData);
-                                resolve(tData);          
+                                if(tData){
+                                    resolve(tData);          
+                                }
                             }
                         }
                     }//NotificationData  
