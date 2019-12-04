@@ -309,7 +309,7 @@ function getTemplateDetailsEmail(templateName,variables){
                                 var tokVar = tokens[j].substr(1,tokens[j].length-2);
                                 content = content.replace(tokens[j],variables[tokens[j]]);
                             }
-                            console.log("token ",token);
+                            console.log("tokens ",tokens);
                             if(j >= numOfVar || tokens.length > 0){
                                 content = content.split("[").join("'");
                                 content = content.split("]").join("'");
