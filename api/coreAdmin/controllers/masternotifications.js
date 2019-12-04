@@ -312,7 +312,7 @@ function getTemplateDetailsEmail(templateName,variables){
                             console.log("tokens ",tokens);
                             console.log("j ",j);
                             console.log("numOfVar ",numOfVar);
-                            if(j >= numOfVar || tokens.length > 0){
+                            if(j >= numOfVar || tokens.length == 0){
                                 content = content.split("[").join("'");
                                 content = content.split("]").join("'");
                                 console.log("content = ",content);
