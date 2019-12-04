@@ -134,7 +134,7 @@ exports.update_notifications = (req,res,next)=>{
 
 //send Mail Notification -Rushikesh Salunkhe
 exports.send_notifications = (req,res,next)=>{
-    // console.log('req',req.body);
+    console.log('req',req.body);
     const senderEmail = 'lyvoapp1@gmail.com';
     const senderEmailPwd = 'Lyvo@123';
 
@@ -152,44 +152,47 @@ exports.send_notifications = (req,res,next)=>{
     main();
     async function main(){
         var userProfile = {};
-        var toEmail;
+        var toEmail = "1";
         if(req.body.toUserId === "admin"){
             // toEmail = 'testtprm321@gmail.com'; 
             toEmail = "lyvoapp1@gmail.com"; 
         }else{
             userProfile = await getProfileByUserId(req.body.toUserId);
 
-            // console.log("userProfile---------->",userProfile);
+            console.log("userProfile---------->",userProfile);
             if(userProfile && userProfile!== null & userProfile!==""){
                 // console.log("userProfile",userProfile);
-                toEmail = userProfile.profile.emailId;
                 toMobile = userProfile.profile.mobileNumber;
+                toEmail = userProfile.profile.emailId;
             }
         }
-        const templateDetailsEmail = await getTemplateDetailsEmail(req.body.templateName, req.body.variables);
-        // const templateDetailsSMS = await getTemplateDetailsSMS(req.body.templateName, req.body.variables);
-        // console.log("toEmail------------------------",toEmail,senderEmail,senderEmailPwd);
-        if(templateDetailsEmail){
-            var mailOptions = {                
-                from        : '"LYVO Admin" <'+senderEmail+'>', // sender address
-                to          : toEmail , // list of receiver
-                subject     : templateDetailsEmail.subject, // Subject line
-                html        : templateDetailsEmail.content, // html body
-            };
-            transporter.sendMail(mailOptions, (error, info) => {
-                if (error) {                    
-                    console.log("send mail error",error);
-                    res.status(500).json({              
-                        message: "Send Email Failed",
-                    });
-                }
-                if(info){
-                    res.status(200).json({              
-                        message: "Mail Sent Successfully",
-                    });
-                }
-                res.render('index');
-            });
+        if(toEmail != "1"){
+
+            const templateDetailsEmail = await getTemplateDetailsEmail(req.body.templateName, req.body.variables);
+            // const templateDetailsSMS = await getTemplateDetailsSMS(req.body.templateName, req.body.variables);
+            // console.log("toEmail------------------------",toEmail,senderEmail,senderEmailPwd);
+            if(templateDetailsEmail){
+                var mailOptions = {                
+                    from        : '"LYVO Admin" <'+senderEmail+'>', // sender address
+                    to          : toEmail , // list of receiver
+                    subject     : templateDetailsEmail.subject, // Subject line
+                    html        : templateDetailsEmail.content, // html body
+                };
+                transporter.sendMail(mailOptions, (error, info) => {
+                    if (error) {                    
+                        console.log("send mail error",error);
+                        res.status(500).json({              
+                            message: "Send Email Failed",
+                        });
+                    }
+                    if(info){
+                        res.status(200).json({              
+                            message: "Mail Sent Successfully",
+                        });
+                    }
+                    res.render('index');
+                });
+            }
         }
 
         // onsole.log('Plivo Client =======+> ',toMobile);
