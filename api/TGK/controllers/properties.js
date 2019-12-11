@@ -445,6 +445,7 @@ exports.update_financials = (req,res,next)=>{
 };
 exports.update_availabilityPlan = (req,res,next)=>{
     // var roleData = req.body.role;
+    console.log("update_availabilityPlan=>",req.body);
      Properties.findOne({"_id":req.body.property_id})
     .exec()
     .then(toUser_id => { 
