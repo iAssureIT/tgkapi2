@@ -53,6 +53,10 @@ exports.create_Properties = (req,res,next)=>{
                     "state"               : req.body.stateCode,
                     "country"             : req.body.countryCode,
                     "pincode"             : req.body.pincode,
+                    "coordinates"         : {
+                                                "latitude"  : req.body.latitude,
+                                                "longitude" : req.body.longitude,
+                                            },
                 },
                 index                  : req.body.index,    
                 $push : {

@@ -46,6 +46,10 @@ const propertiesSchema = mongoose.Schema({
                                     state               : String,
                                     country             : String,
                                     pincode             : String,
+                                    coordinates         : {
+                                        latitude  : Number,
+                                        longitude : Number,
+                                    },
                                 },
                             
     propertyDetails         :   {
