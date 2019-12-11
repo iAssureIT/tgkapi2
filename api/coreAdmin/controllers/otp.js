@@ -148,6 +148,7 @@ exports.users_verify_mobile = (req,res,next)=>{
                                         async function setotp(){
                                             var uotp = await updateOTP(user._id,OTP);
                                             if(uotp){
+                                                console.log("token=>",token);
                                                 res.status(200).json({
                                                     "message"           : msg,
                                                     "user_id"           : user._id,
