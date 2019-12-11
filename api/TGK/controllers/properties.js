@@ -11,6 +11,7 @@ var ObjectID = require('mongodb').ObjectID;
 
 // ===================== round robin ================
 exports.create_Properties = (req,res,next)=>{
+    console.log("create_Properties=>",req.body);
     main();
     async function main(){
         var allocatedToUserId = await getAllocatedToUserID(); 
