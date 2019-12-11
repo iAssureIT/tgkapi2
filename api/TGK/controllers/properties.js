@@ -474,7 +474,7 @@ exports.update_availabilityPlan = (req,res,next)=>{
                         "statusArray" :  {
                                         "statusVal"   : req.body.status, 
                                         "createdAt"   : new Date(),
-                                        "allocatedTo" : toUser_id.status[0].allocatedTo,
+                                        "allocatedTo" : toUser_id.statusArray.length > 0 ? toUser_id.statusArray[0].allocatedTo : "" ,
                                     },                
                     }
                 }
