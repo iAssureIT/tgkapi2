@@ -5,8 +5,8 @@ const Users 			= require('../models/users.js');
 const auth = (req, res, next) => {
 	if(req.headers.authorization){
 	    const token = req.headers.authorization.split(" ")[1];
-	    console.log("token ",token);
-	    console.log("lobalVariable.JWT_KEY ",lobalVariable.JWT_KEY);
+	    console.log("anagha token===> ",token);
+	    console.log("globalVariable.JWT_KEY ",globalVariable.JWT_KEY);
 	    const data = jwt.verify(token, globalVariable.JWT_KEY,(err,decode)=>{
 	    	if(err){
 	    		console.log("err verify ",err);
