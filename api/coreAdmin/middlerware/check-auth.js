@@ -32,6 +32,8 @@ const auth = (req, res, next) => {
 			    		next();
 	    			}
 	    		}catch(error){
+		    		console.log("auth try catch ",error);
+
 	    			res.status(401).send({ error: 'NOT_AUTHORIZED' })
 	    		}
 	    	}

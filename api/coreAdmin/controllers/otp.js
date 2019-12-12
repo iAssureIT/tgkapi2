@@ -123,9 +123,9 @@ exports.users_verify_mobile = (req,res,next)=>{
                             mobile   : req.body.mobileNumber,
                             // userId   : mongoose.Types.ObjectId(user._id) ,
                             userId  : user._id ,
-                        },"secret",
+                        },globalVariable.JWT_KEY,
                         {
-                            expiresIn: "24h"
+                            expiresIn: "365d"
                         }
                         );
                     // console.log("otp ",OTP);
