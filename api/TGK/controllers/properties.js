@@ -420,11 +420,6 @@ exports.update_financials = (req,res,next)=>{
                 "Fcount3"                 : req.body.Fcount3?parseInt(req.body.Fcount3):0,                 
                 "setCount3"               : req.body.setCount3?parseInt(req.body.setCount3):0,                 
                 "formFillPercentage3"     : req.body.formFillPercentage3?req.body.formFillPercentage3:0,
-
-
-
-
-
             }
         }
         )
