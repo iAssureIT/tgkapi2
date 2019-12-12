@@ -129,9 +129,6 @@ exports.update_notifications = (req,res,next)=>{
         });
 }
 
-
-
-
 //send Mail Notification -Rushikesh Salunkhe
 exports.send_notifications = (req,res,next)=>{
     console.log('req',req.body);
