@@ -1228,4 +1228,33 @@ exports.list_Properties_fieldAgent_type = (req,res,next)=>{
     }
 }
 
+// ---------------------------------Find Properties for societies and subareas----------------------------
+
+exports.list_Properties_societies_subareas = (req,res,next)=>{
+    console.log("req body=>",req.body);
+    Properties.find({ 
+        "propertyLocation.society" : req.body.societyName,
+        "propertyLocation.subArea" : req.body.subareaName,
+    })
+    .sort({"propertyCreatedAt":-1})
+    .exec()
+    .then(data=>{
+        if(data){
+            res.status(200).json(data);
+
+        }else{
+            res.status(404).json('Property Details not found');
+        }
+    })
+    .catch(err =>{
+        console.log(err);
+        res.status(500).json({
+            error: err
+        });
+    });
+    
+}
+
+
+
 

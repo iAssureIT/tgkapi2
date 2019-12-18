@@ -255,8 +255,8 @@ function getTemplateDetailsEmail(templateName,variables){
                                 content = content.replace(tokens[j],variables[tokens[j]]);
                             }
                             if(j >= numOfVar || tokens.length == 0){
-                                content = content.split("[").join("'");
-                                content = content.split("]").join("'");
+                                content = content.split("[").join("");
+                                content = content.split("]").join("");
                                 var tData={
                                     content:content,
                                     subject:NotificationData.subject

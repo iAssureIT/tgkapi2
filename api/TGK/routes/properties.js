@@ -69,6 +69,8 @@ router.get('/get/locationWiseListCount', PropertiesController.locationWiseListCo
 
 router.post('/post/allocateTofieldAgent/:propertyID', checkAuth,PropertiesController.allocateTofieldAgent);
 
+///////////////////list_Properties_societies_subareas--------------------
 
+router.post('/post/locationProperties',PropertiesController.list_Properties_societies_subareas);
 
 module.exports = router;
