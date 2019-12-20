@@ -1240,8 +1240,8 @@ exports.list_Properties_societies_subareas = (req,res,next)=>{
     .exec()
     .then(data=>{
         if(data){
+            console.log("data",data);
             res.status(200).json(data);
-
         }else{
             res.status(404).json('Property Details not found');
         }
