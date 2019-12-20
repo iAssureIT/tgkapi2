@@ -1239,8 +1239,8 @@ exports.list_Properties_societies_subareas = (req,res,next)=>{
     .sort({"propertyCreatedAt":-1})
     .exec()
     .then(data=>{
+        console.log("data",data);
         if(data){
-            console.log("data",data);
             res.status(200).json(data);
         }else{
             res.status(404).json('Property Details not found');
