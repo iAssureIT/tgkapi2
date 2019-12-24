@@ -79,7 +79,7 @@ function updateOTP(user_ID,otp){
                     { _id: user_ID},  
                     {
                         $set:{
-                            "otp" : otp,
+                            "profile.otp" : otp,
                         }
                     })
                 .exec()
