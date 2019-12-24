@@ -128,7 +128,7 @@ exports.users_verify_mobile = (req,res,next)=>{
                             expiresIn: "365d"
                         }
                         );
-                    // console.log("otp ",OTP);
+                    console.log("token ",token);
                         User.updateOne(
                                     { 'mobileNumber':req.body.mobileNumber, 'countryCode' : req.body.countryCode},
                                     {
