@@ -132,7 +132,7 @@ exports.users_verify_mobile = (req,res,next)=>{
                         User.updateOne(
                                     { 'mobileNumber':req.body.mobileNumber, 'countryCode' : req.body.countryCode},
                                     {
-                                        // $set : { "otp" : OTP},
+                                        $set : { "otp" : OTP},
                                         $push : {
                                             "services.resume.loginTokens" : {
                                                     when: new Date(),
@@ -201,7 +201,7 @@ exports.verify_user = (req,res,next)=>{
                 console.log("fullName",user.profile.fullName);
                 console.log("emailId",user.profile.emailId);
                 console.log("mobileNumber",user.profile.mobileNumber);
-                    if(user.profile.otp===req.body.otp){
+                if(user.profile.otp===req.body.otp){
                         res.status(200).json({
                         "message"           : "USER-VERIFIED",
                         "user_id"           : user._id,
