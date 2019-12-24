@@ -132,7 +132,7 @@ exports.users_verify_mobile = (req,res,next)=>{
                         User.updateOne(
                                     { 'mobileNumber':req.body.mobileNumber, 'countryCode' : req.body.countryCode},
                                     {
-                                        $set : { "otp" : OTP},
+                                        // $set : { "otp" : OTP},
                                         $push : {
                                             "services.resume.loginTokens" : {
                                                     when: new Date(),
