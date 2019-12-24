@@ -230,7 +230,7 @@ exports.users_verify_mobile_new = (req,res,next)=>{
                         }
                         );
                     console.log("token ",token);
-                    
+
                     // console.log("otp ",OTP);
                         User.updateOne(
                                     { 'mobileNumber':req.body.mobileNumber, 'countryCode' : req.body.countryCode},
@@ -312,7 +312,7 @@ exports.verify_user_new = (req,res,next)=>{
                         "fullName"          : user.profile.fullName ? user.profile.fullName : "",
                         "emailId"           : user.profile.emailId ? user.profile.emailId : "",
                         "mobileNo"          : user.profile.mobileNumber ? user.profile.mobileNumber : "",
-                        "token"             : user.services.resume.loginTokens[0].hashedToken,
+                        "token"             : user.services.resume.loginTokens[user.services.resume.loginTokens.length-1].hashedToken,
                     }); 
                 }else{
                     res.status(200).json({
