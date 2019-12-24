@@ -95,11 +95,11 @@ function updateOTP(user_ID,otp){
 
 exports.users_verify_mobile = (req,res,next)=>{
     // console.log("body data ",req.body);
-	User.findOne({'mobileNumber':req.body.mobileNumber, 'countryCode' : req.body.countryCode},{'profile.fullName':1})
-		.exec()
-		.then(user =>{
+    User.findOne({'mobileNumber':req.body.mobileNumber, 'countryCode' : req.body.countryCode},{'profile.fullName':1})
+        .exec()
+        .then(user =>{
             var userData = user;
-			// console.log('1. USER = ',user);
+            // console.log('1. USER = ',user);
             getData();
             async function getData(){
                 var msg = "MOBILE-NUMBER-EXISTS";
@@ -123,9 +123,9 @@ exports.users_verify_mobile = (req,res,next)=>{
                             mobile   : req.body.mobileNumber,
                             // userId   : mongoose.Types.ObjectId(user._id) ,
                             userId  : user._id ,
-                        },globalVariable.JWT_KEY,
+                        },"secret",
                         {
-                            expiresIn: "365d"
+                            expiresIn: "24h"
                         }
                         );
                     // console.log("otp ",OTP);
@@ -148,25 +148,18 @@ exports.users_verify_mobile = (req,res,next)=>{
                                         async function setotp(){
                                             var uotp = await updateOTP(user._id,OTP);
                                             if(uotp){
-                                                console.log("token=>",token);
                                                 res.status(200).json({
                                                     "message"           : msg,
                                                     "user_id"           : user._id,
-                                                    "otp"               : OTP,
                                                     "count"             : 1,
                                                     "fullName"          : user.profile.fullName ? user.profile.fullName : "",
-                                                    "token"               : token,
-                                                    "userProfileImg"      : user.profile.userProfile,
                                                 }); 
                                             }else{
                                                 res.status(200).json({
                                                     "message"           : msg + 'OTP Not Updated',
                                                     "user_id"           : user._id,
-                                                    "otp"               : OTP,
                                                     "count"             : 1,
                                                     "fullName"          : user.profile.fullName ? user.profile.fullName : "",
-                                                    'token'             : token,
-                                                    "userProfileImg"    : user.profile.userProfile,
                                                 });
                                             }
                                         }
@@ -185,15 +178,57 @@ exports.users_verify_mobile = (req,res,next)=>{
                 // });
             }
 
-		})
-		.catch(err =>{
-			console.log(err);
-			res.status(200).json({
-				message:"MOBILE-NUMBER-NOT-FOUND", 
-				error: err,
-			});
-		});
+        })
+        .catch(err =>{
+            console.log(err);
+            res.status(200).json({
+                message:"MOBILE-NUMBER-NOT-FOUND", 
+                error: err,
+            });
+        });
 };
 
+
+exports.verify_user = (req,res,next)=>{
+    console.log("body data ",req.body);
+    User.findOne({_id:req.body.userId},{'profile.fullName':1,'profile.emailId':1,"profile.otp":1,"profile.mobileNumber":1,"services.resume.loginTokens":1})
+        .exec()
+        .then(user =>{
+            // console.log("user",user)
+            if(user){
+                console.log("user",user);
+                console.log("otp",user.profile.otp);
+                console.log("fullName",user.profile.fullName);
+                console.log("emailId",user.profile.emailId);
+                console.log("mobileNumber",user.profile.mobileNumber);
+                    if(user.profile.otp===req.body.otp){
+                        res.status(200).json({
+                        "message"           : "USER-VERIFIED",
+                        "user_id"           : user._id,
+                        "count"             : 1,
+                        "fullName"          : user.profile.fullName ? user.profile.fullName : "",
+                        "emailId"           : user.profile.emailId ? user.profile.emailId : "",
+                        "mobileNo"          : user.profile.mobileNumber ? user.profile.mobileNumber : "",
+                        "token"             : user.services.resume.loginTokens[0].hashedToken,
+                    }); 
+                }else{
+                    res.status(200).json({
+                        "message"           : "USER-NOT-VERIFIED",
+                    }); 
+                }
+            }else{
+                res.status(200).json({
+                    "message"           : "USER-NOT-FOUND",
+                }); 
+            }
+         })   
+        .catch(err =>{
+            console.log(err);
+            res.status(200).json({
+                message:"MOBILE-NUMBER-NOT-FOUND", 
+                error: err,
+            });
+        });
+};
 
 
