@@ -778,7 +778,7 @@ exports.deleteall_Properties = (req,res,next)=>{
 }
         
 
-/*exports.postList = (req,res,next)=>{
+exports.postList = (req,res,next)=>{
     Properties
         .find({
                 propertyType    : req.body.propertyType, 
@@ -841,96 +841,7 @@ exports.deleteall_Properties = (req,res,next)=>{
                 });
             });
     }
-*/
 
-    exports.postList = (req,res,next)=>{
-    Properties
-        .find({
-                propertyType    : req.body.propertyType, 
-                transactionType : req.body.transactionType,
-                listing         : req.body.listing, 
-            })
-        .sort({"propertyCreatedAt" : -1})
-        .skip(req.body.startRange)
-        .limit(req.body.limitRange)
-        .exec()
-        .then(properties=>{
-            if(properties){
-                for(var k=0; k<properties.length; k++){                    
-                    properties[k] = {...properties[k]._doc, isInterested:false};
-                }
-
-                if(req.body.uid){
-                    InterestedProps
-                        .find({
-                                        "buyer_id" : req.body.uid,
-                                        "status"   : {$ne : "Delete"}
-                            })
-                        .then(iprops => {
-                            if(iprops.length > 0){
-                                for(var i=0; i<iprops.length; i++){
-                                    for(let j=0; j<properties.length; j++){
-                                        if(String(iprops[i].property_id) === String(properties[j]._id) ){
-                                            properties[j] = {...properties[j], isInterested:true};
-                                            break;
-                                        }
-
-                                    }
-
-                                }
-                                for (var k = properties.length - 1; k >= 0; k--) {
-                                    Users.find({"_id":properties[k].owner_id})
-                                    .exec()
-                                    .then(user=>{
-                                        // console.log("user",user);
-                                        if(user){
-                                            var propertyObj ={
-                                                userName : user[0].profile.fullName,
-                                                mobNumber: user[0].mobileNumber,
-                                                emailId  : user[0].profile.emailId
-                                            }
-                                            if(propertyObj && propertyObj.mobileNumber){
-                                                properties[i].push(propertyObj);
-                                            }
-                                        }else{
-                                            res.status(404).json('user not found');
-                                        }
-                                    })
-                                    .catch(err =>{
-                                        console.log(err);
-                                        res.status(500).json({
-                                            error: err
-                                        });
-                                    }); 
-                                }
-                                if(k >= user.length){
-                                    res.status(200).json(properties);
-                                }       
-                                }else{
-                                    res.status(200).json(properties);
-                                }
-                            })
-                            .catch(err =>{
-                                console.log(err);
-                                res.status(500).json({
-                                    error: err
-                                });
-                            });                        
-                    }else{
-                        // properties.map(obj=>({...obj, isInterested: false}));
-                        res.status(200).json(properties);
-                    }
-                }else{
-                    res.status(404).json('Property Details not found');
-                }
-            })
-            .catch(err =>{
-                console.log(err);
-                res.status(500).json({
-                    error: err
-                });
-            });
-    }
 
     //Admin Post List
     exports.adminpostList = (req,res,next)=>{
