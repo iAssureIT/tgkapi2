@@ -17,6 +17,8 @@ router.post('/post/list',PropertiesController.postList);
 
 router.post('/admin/post/list',checkAuth,PropertiesController.adminpostList); 
 
+router.post('/post/transactionDetails',checkAuth,PropertiesController.list_InterestedProperties_FieldAgent_OuterStatus);
+
 router.post('/listofproperty/:propertyType/:transactionType',checkAuth,PropertiesController.property_list);
 
 router.get('/mypropertylist/:uid',checkAuth,PropertiesController.my_property_list);
@@ -72,5 +74,6 @@ router.post('/post/allocateTofieldAgent/:propertyID', checkAuth,PropertiesContro
 ///////////////////list_Properties_societies_subareas--------------------
 
 router.post('/post/locationProperties',PropertiesController.list_Properties_societies_subareas);
+
 
 module.exports = router;
