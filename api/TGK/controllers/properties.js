@@ -914,16 +914,12 @@ exports.list_InterestedProperties_FieldAgent_OuterStatus = (req,res,next)=>{
         query = {
                     "fieldAgent.status"  : "Active",
                     "status"             : req.body.status,
-                    "propertyType"       : req.body.propertyType, 
-                    "transactionType"    : req.body.transactionType,
                 };
     }else{
         query = {
                     "fieldAgent.agentID" : req.body.user_id,
                     "fieldAgent.status"  : "Active",
                     "status"             : req.body.status,
-                    "propertyType"       : req.body.propertyType, 
-                    "transactionType"    : req.body.transactionType,
                 };
     }
     if(query != "1"){
@@ -938,16 +934,19 @@ exports.list_InterestedProperties_FieldAgent_OuterStatus = (req,res,next)=>{
                             var returnData = [];
                             for(k = 0 ; k < data.length ; k++){
                                 // data[k].property_id.interestedProperties_id = data[k]._id;
-                                returnData.push({
-                                                    "interestedProperties_id" : data[k]._id,
-                                                    "buyer_id"                : data[k].buyer_id._id,
-                                                    "buyer_Name"              : data[k].buyer_id.profile.fullName,
-                                                    "buyer_email"             : data[k].buyer_id.profile.emailId,
-                                                    "buyer_Mobile"            : data[k].buyer_id.profile.mobileNumber,
-                                                    "createdAt"               : data[k].createdAt,
-                                                    "meeting_id"              : data[k].meeting && data[k].meeting.length > 0 ? data[k].meeting[data[k].meeting.length -1]._id : "",
-                                                    "property"                : data[k].property_id
-                                                })
+                                if(req.body.propertyType === data[k].property_id.propertyType && req.body.transactionType === data[k].property_id.transactionType){
+                                   returnData.push({
+                                        "interestedProperties_id" : data[k]._id,
+                                        "buyer_id"               : data[k].buyer_id._id,
+                                        "buyer_Name"              : data[k].buyer_id.profile.fullName,
+                                        "buyer_email"             : data[k].buyer_id.profile.emailId,
+                                        "buyer_Mobile"            : data[k].buyer_id.profile.mobileNumber,
+                                        "createdAt"               : data[k].createdAt,
+                                        "meeting_id"              : data[k].meeting && data[k].meeting.length > 0 ? data[k].meeting[data[k].meeting.length -1]._id : "",
+                                        "property"                : data[k].property_id
+                                    }) 
+                                }
+                                
                                 // if(data[k].property_id.interestedProperties_id){
                                 //     returnData.push(data[k].property_id);
                                 // }
