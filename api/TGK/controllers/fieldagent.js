@@ -126,6 +126,7 @@ exports.list_InterestedProperties_FieldAgent_OuterStatus = (req,res,next)=>{
                        .sort({updatedAt:1})
                        .exec()
                        .then(data=>{
+                        console.log("fieldAgent InterestedProps data===> ",data);
                             var k = 0 ;
                             var returnData = [];
                             for(k = 0 ; k < data.length ; k++){
