@@ -910,7 +910,7 @@ exports.postList = (req,res,next)=>{
 exports.list_InterestedProperties_FieldAgent_OuterStatus = (req,res,next)=>{
     console.log("list_InterestedProperties_FieldAgent_OuterStatus ",req.body);
     var query = "1";
-    if(req.params.user_id === 'all'){
+    if(req.body.user_id === 'all'){
         query = {
                     "fieldAgent.status"  : "Active",
                     "status"             : req.body.status,
@@ -919,7 +919,7 @@ exports.list_InterestedProperties_FieldAgent_OuterStatus = (req,res,next)=>{
                 };
     }else{
         query = {
-                    "fieldAgent.agentID" : req.params.user_id,
+                    "fieldAgent.agentID" : req.body.user_id,
                     "fieldAgent.status"  : "Active",
                     "status"             : req.body.status,
                     "propertyType"       : req.body.propertyType, 
