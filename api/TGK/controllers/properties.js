@@ -228,6 +228,8 @@ function getPropertyCode(){
              .limit(1)
              .exec()
              .then(property=>{
+                console.log("propertyCode==================>",property);
+
                 resolve(property);
              })
             .catch(err =>{
