@@ -221,15 +221,30 @@ function getOwnerData(owner_id){
             });
     });
 };
+// function getPropertyCode(){
+//     return new Promise(function(resolve,reject){
+//         Properties.find({})
+//              .sort({propertyCode : -1})
+//              .limit(1)
+//              .exec()
+//              .then(property=>{
+//                 console.log("propertyCode==================>",property);
+
+//                 resolve(property);
+//              })
+//             .catch(err =>{
+//                 res.status(500).json({
+//                     message : "property not found.",
+//                     error: err
+//                    });
+//             });
+//     });
+// };
 function getPropertyCode(){
     return new Promise(function(resolve,reject){
-        Properties.find({})
-             .sort({propertyCode : -1})
-             .limit(1)
+        Properties.find({}).count()
              .exec()
              .then(property=>{
-                console.log("propertyCode==================>",property);
-
                 resolve(property);
              })
             .catch(err =>{
