@@ -17,7 +17,7 @@ exports.create_Properties = (req,res,next)=>{
         var allocatedToUserId = await getAllocatedToUserID(); 
         var ownerData         = await getOwnerData(req.body.uid);
         var propertyCount     = await getPropertyCode();
-        var propertyCode      = propertyCount + 101;
+        var propertyCode      = propertyCount + 1;
         console.log("propertyCode=>",propertyCode);
         const properties = new Properties({
                 _id                     : new mongoose.Types.ObjectId(),
@@ -221,31 +221,18 @@ function getOwnerData(owner_id){
             });
     });
 };
-// function getPropertyCode(){
-//     return new Promise(function(resolve,reject){
-//         Properties.find({})
-//              .sort({propertyCode : -1})
-//              .limit(1)
-//              .exec()
-//              .then(property=>{
-//                 console.log("propertyCode==================>",property);
-
-//                 resolve(property);
-//              })
-//             .catch(err =>{
-//                 res.status(500).json({
-//                     message : "property not found.",
-//                     error: err
-//                    });
-//             });
-//     });
-// };
 function getPropertyCode(){
     return new Promise(function(resolve,reject){
-        Properties.find({}).count()
+        Properties.find({})
+             .sort({propertyCode : -1})
+             .limit(1)
              .exec()
              .then(property=>{
-                resolve(property);
+                if(property && property.length>0){
+                    resolve(property[0].propertyCode);
+                }else{
+                    resolve(1);
+                }
              })
             .catch(err =>{
                 res.status(500).json({
@@ -255,6 +242,7 @@ function getPropertyCode(){
             });
     });
 };
+
 exports.find_PropertyIndexPer = (req,res,next)=>{
     // var roleData = req.body.role;
     Sellometers.findOne({index : req.body.index})
