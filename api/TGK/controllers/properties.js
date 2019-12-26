@@ -222,7 +222,9 @@ function getOwnerData(owner_id){
 };
 function getPropertyCode(){
     return new Promise(function(resolve,reject){
-        Properties.find({}).count()
+        Properties.find({})
+             .sort({propertyCode : -1})
+             .limit(1)
              .exec()
              .then(property=>{
                 resolve(property);
