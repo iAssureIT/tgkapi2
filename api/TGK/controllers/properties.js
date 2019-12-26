@@ -18,6 +18,7 @@ exports.create_Properties = (req,res,next)=>{
         var ownerData         = await getOwnerData(req.body.uid);
         var propertyCount     = await getPropertyCode();
         var propertyCode      = propertyCount + 101;
+        console.log("propertyCode=>",propertyCode);
         const properties = new Properties({
                 _id                     : new mongoose.Types.ObjectId(),
                 owner_id                : req.body.uid,
