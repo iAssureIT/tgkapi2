@@ -22,7 +22,7 @@ router.post('/verify_user_new', OTPController.verify_user_new);
 
 router.patch('/signup', OTPController.user_signup); 
 
-router.get('/get_user_details', OTPController.get_user_details); 
+router.get('/get_user_details:userId', OTPController.get_user_details); 
 
 
 
