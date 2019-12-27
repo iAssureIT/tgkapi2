@@ -333,3 +333,18 @@ exports.verify_user_new = (req,res,next)=>{
 };
 
 
+exports.get_user_details = (req,res,next)=>{
+    User.findOne({_id:req.params.userId},{'profile.fullName':1,'profile.emailId':1,"profile.mobileNumber":1,"profile.city":1})
+        .exec()
+        .then(user =>{
+            res.status(200).json({user}); 
+        .catch(err =>{
+            console.log(err);
+            res.status(200).json({
+                message:"USER_NOT_FOUND", 
+                error: err,
+            });
+        });
+};
+
+
