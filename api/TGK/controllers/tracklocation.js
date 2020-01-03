@@ -1,7 +1,7 @@
 const mongoose	= require("mongoose");
 var ObjectID = require('mongodb').ObjectID;
 
-const tracklocation = require('../models/tracklocation');
+const Tracklocation = require('../models/tracklocation');
 
 exports.create_location = (req,res,next)=>{
 	console.log("req.body=>",req.body)
