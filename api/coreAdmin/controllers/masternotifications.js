@@ -5,7 +5,7 @@ const User          = require('../models/users');
 const nodeMailer                      = require('nodemailer');
 const Companysettings = require('../models/companysettings');
 const globalVariable = require('../../../nodemon.js');
-
+const plivo = require('plivo');
 exports.create_template = (req, res, next) => {
     var masternotificationData = req.body.templateName;
     var masternotificationtemptype = req.body.templateType
