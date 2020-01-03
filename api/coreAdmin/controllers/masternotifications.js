@@ -260,6 +260,7 @@ function getProfileByUserId(toUserId){
 
 //get TemplateDeatails - Rushikesh Salunkhe
 function getTemplateDetailsEmail(templateName,variables){
+    console.log("variables",variables);
     return new Promise(function(resolve,reject){
         Masternotifications
         .findOne({"templateName":templateName,"templateType":"Email"})
