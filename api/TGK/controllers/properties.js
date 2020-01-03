@@ -1026,7 +1026,31 @@ exports.locationWiseListCount = (req,res,next)=>{
         .exec()
         .then(areaProperties=>{
                 var properties = subareaProperties.concat(areaProperties)
-                res.status(200).json(properties);
+                var sortedProps = [];
+                for(var j=0; j<3; j++){
+                    for(var i=0;i<properties.length; i++){
+                        if(j==0 && properties[i]._id == "Hadapsar"){
+                            sortedProps.push(properties);
+                            break;
+                        }
+                        if(j==1 && properties[i]._id == "Amanora City"){
+                            sortedProps.push(properties);
+                            break;
+                        }
+                        if(j==2 && properties[i]._id == "Magarpatta City"){
+                            sortedProps.push(properties);
+                            break;
+                        }
+                        if(j==3 && properties[i]._id == "Kharadi"){
+                            sortedProps.push(properties);
+                            break;
+                        }
+                    }                    
+                }
+                if(j > 3){
+                    console.log("sortedProps = ",sortedProps);
+                    res.status(200).json(properties);
+                }
             })
             .catch(err =>{
                 console.log(err);
