@@ -1025,8 +1025,8 @@ exports.locationWiseListCount = (req,res,next)=>{
         ])
         .exec()
         .then(areaProperties=>{
-                subareaProperties.concatenate(areaProperties)
-                res.status(200).json(subareaProperties);
+                var properties = subareaProperties.concat(areaProperties)
+                res.status(200).json(properties);
             })
             .catch(err =>{
                 console.log(err);
