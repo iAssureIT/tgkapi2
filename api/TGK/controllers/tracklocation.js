@@ -5,7 +5,7 @@ const tracklocation = require('../models/tracklocation');
 
 exports.create_location = (req,res,next)=>{
 	console.log("req.body=>",req.body)
-	const tracklocation = new tracklocation({
+	const tracklocation = new Tracklocation({
         _id                 : new mongoose.Types.ObjectId(),                    
         latitude            : req.body.latitude,
         longitude           : req.body.longitude,
