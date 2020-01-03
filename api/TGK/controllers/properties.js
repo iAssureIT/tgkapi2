@@ -1011,15 +1011,40 @@ exports.locationWiseListCount = (req,res,next)=>{
         { $sort: { count: -1 } } 
     ])
     .exec()
-    .then(properties=>{
-            res.status(200).json(properties);
-        })
-        .catch(err =>{
-            console.log(err);
-            res.status(500).json({
-                error: err
+    .then(subareaProperties=>{
+
+        Properties
+        .aggregate([
+            {
+              '$match' : { 'listing' : true}
+            },
+            {
+                "$group" : {"_id":"$propertyLocation.area", "count":{$sum:1}}
+            },
+            { $sort: { count: -1 } } 
+        ])
+        .exec()
+        .then(areaProperties=>{
+                subareaProperties.concatenate(areaProperties)
+                res.status(200).json(subareaProperties);
+            })
+            .catch(err =>{
+                console.log(err);
+                res.status(500).json({
+                    error: err
+                });
             });
+
+
+
+    })
+    .catch(err =>{
+        console.log(err);
+        res.status(500).json({
+            error: err
         });
+    });
+
 }
 
 exports.allocateTofieldAgent = (req,res,next)=>{
