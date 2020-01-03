@@ -1030,19 +1030,19 @@ exports.locationWiseListCount = (req,res,next)=>{
                 for(var j=0; j<3; j++){
                     for(var i=0;i<properties.length; i++){
                         if(j==0 && properties[i]._id == "Hadapsar"){
-                            sortedProps.push(properties);
+                            sortedProps.push(properties[i]);
                             break;
                         }
                         if(j==1 && properties[i]._id == "Amanora City"){
-                            sortedProps.push(properties);
+                            sortedProps.push(properties[i]);
                             break;
                         }
                         if(j==2 && properties[i]._id == "Magarpatta City"){
-                            sortedProps.push(properties);
+                            sortedProps.push(properties[i]);
                             break;
                         }
                         if(j==3 && properties[i]._id == "Kharadi"){
-                            sortedProps.push(properties);
+                            sortedProps.push(properties[i]);
                             break;
                         }
                     }
@@ -1050,7 +1050,7 @@ exports.locationWiseListCount = (req,res,next)=>{
                 }
                 if(j >= 3){
                     console.log("sortedProps = ",sortedProps);
-                    res.status(200).json(properties);
+                    res.status(200).json(sortedProps);
                 }
             })
             .catch(err =>{
