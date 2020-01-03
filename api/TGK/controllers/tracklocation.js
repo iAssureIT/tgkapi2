@@ -1,4 +1,5 @@
 const mongoose	= require("mongoose");
+var ObjectID = require('mongodb').ObjectID;
 
 const tracklocation = require('../models/tracklocation');
 
@@ -18,9 +19,9 @@ exports.create_location = (req,res,next)=>{
             res.status(200).json("Coordinates Added");
         })
         .catch(err =>{
-            console.log(err);
+            console.log(err.message);
             res.status(500).json({
-                error: err
+                error: err.message
             });
         });
 };
