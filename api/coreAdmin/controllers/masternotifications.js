@@ -188,7 +188,7 @@ exports.send_notifications = (req,res,next)=>{
         console.log("plivo_secret=========+>",globalVariable.AUTH_TOKEN);
 
         var text = templateDetailsSMS.content.replace(/<[^>]+>/g, '');
-        // console.log("text=========+>",text);
+        console.log("text=========+>",text);
         // htmlString.replace(/<[^>]+>/g, '');
 
 
