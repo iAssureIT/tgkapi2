@@ -1045,9 +1045,10 @@ exports.locationWiseListCount = (req,res,next)=>{
                             sortedProps.push(properties);
                             break;
                         }
-                    }                    
+                    }
+                    console.log(j," sortedProps = ",sortedProps);
                 }
-                if(j > 3){
+                if(j >= 3){
                     console.log("sortedProps = ",sortedProps);
                     res.status(200).json(properties);
                 }
