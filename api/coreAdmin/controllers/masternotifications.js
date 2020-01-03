@@ -194,7 +194,7 @@ exports.send_notifications = (req,res,next)=>{
 
         client.messages.create(
             src = sourceMobile,
-            dst = toMobile,
+            dst = "+91"+toMobile,
             text = text
         ).then((result) => {
         // return res.status(200).json("OTP "+OTP+" Sent Successfully ");
