@@ -106,6 +106,7 @@
     const searchPropertiesurl       = require("./api/TGK/routes/searchProperties");
     const salesAgenturl             = require("./api/TGK/routes/salesagent");
     const fieldAgenturl             = require("./api/TGK/routes/fieldagent");
+    const tracklocationurl          = require("./api/TGK/routes/tracklocation");
 	
 	app.use("/api/properties",propertiesurl);
 	app.use("/api/sellometers",sellometeorurl);
@@ -115,6 +116,7 @@
 	app.use("/api/search",searchPropertiesurl);
 	app.use("/api/salesagent",salesAgenturl);
 	app.use("/api/fieldagent",fieldAgenturl);
+	app.use("/api/tracklocation",tracklocationurl);
 
 
 	app.use((req, res, next) => {
