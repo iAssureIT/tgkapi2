@@ -28,35 +28,35 @@ exports.searchProperties = (req,res,next)=>{
       if(loc.length == 4){
         //e.g.   Jasmenium,Magarpatta City,Hadapsar,Pune
         locArray.push({$and : [
-                                {"propertyLocation.society" : loc[0].trim()}, 
-                                {"propertyLocation.subArea" : loc[1].trim()}, 
-                                {"propertyLocation.area"    : loc[2].trim()},
-                                {"propertyLocation.city"    : loc[3].trim()}
+                                {"propertyLocation.society" : {"$regex": loc[0].trim(), $options: "i"}}, 
+                                {"propertyLocation.subArea" : {"$regex": loc[1].trim(), $options: "i"}}, 
+                                {"propertyLocation.area"    : {"$regex": loc[2].trim(), $options: "i"}},
+                                {"propertyLocation.city"    : {"$regex": loc[3].trim(), $options: "i"}}
                               ] 
                        });
 
       }else if(loc.length == 3){
         //e.g.   Magarpatta City,Hadapsar,Pune
         locArray.push({$and : [
-                                {"propertyLocation.subArea" : loc[0].trim()},
-                                {"propertyLocation.area"    : loc[1].trim()},
-                                {"propertyLocation.city"    : loc[2].trim()}
+                                {"propertyLocation.subArea" : {"$regex": loc[0].trim(), $options: "i"}},
+                                {"propertyLocation.area"    : {"$regex": loc[1].trim(), $options: "i"}},
+                                {"propertyLocation.city"    : {"$regex": loc[2].trim(), $options: "i"}}
                                ] 
                        });
 
       }else if(loc.length == 2){
         //e.g.   Hadapsar,Pune
         locArray.push({$and : [
-                                {"propertyLocation.area" : loc[0].trim()},
-                                {"propertyLocation.city" : loc[1].trim()}
+                                {"propertyLocation.area" : {"$regex": loc[0].trim(), $options: "i"}},
+                                {"propertyLocation.city" : {"$regex": loc[1].trim(), $options: "i"}}
                               ] 
                       });
       }
     }else{
-      locArray.push({"propertyLocation.society" : loc.trim()});      
-      locArray.push({"propertyLocation.subArea" : loc.trim()});      
-      locArray.push({"propertyLocation.area"    : loc.trim()});
-      locArray.push({"propertyLocation.city"    : loc.trim()});
+      locArray.push({"propertyLocation.society" : {"$regex": loc.trim(), $options: "i"}});      
+      locArray.push({"propertyLocation.subArea" : {"$regex": loc.trim(), $options: "i"}});      
+      locArray.push({"propertyLocation.area"    : {"$regex": loc.trim(), $options: "i"}});
+      locArray.push({"propertyLocation.city"    : {"$regex": loc.trim(), $options: "i"}});
     }
 
     selector.push({$or : locArray });

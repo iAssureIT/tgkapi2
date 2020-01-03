@@ -16,6 +16,7 @@ exports.create_location = (req,res,next)=>{
     console.log('tracklocation ',tracklocation);
     tracklocation.save()
         .then(data=>{
+        	console.log("data=>",data)
             res.status(200).json("Coordinates Added");
         })
         .catch(err =>{
@@ -25,4 +26,6 @@ exports.create_location = (req,res,next)=>{
             });
         });
 };
+
+
 
