@@ -4,7 +4,7 @@ const Masternotifications = require("../models/masternotifications");
 const User          = require('../models/users');
 const nodeMailer                      = require('nodemailer');
 const Companysettings = require('../models/companysettings');
-
+const globalVariable = require('../../../nodemon.js');
 
 exports.create_template = (req, res, next) => {
     var masternotificationData = req.body.templateName;
@@ -179,7 +179,41 @@ exports.send_notifications = (req,res,next)=>{
                 });
             }
         }
+        // ==============  SEND SMS ================
+        const templateDetailsSMS = await getTemplateDetailsSMS(req.body.templateName, req.body.variables);
+
+        const client = new plivo.Client(globalVariable.AUTH_ID,globalVariable.AUTH_TOKEN); // Vowels LLP
+        const sourceMobile = globalVariable.SOURCE_MOBILE;
+        console.log("plivo_auth=========+>",globalVariable.AUTH_ID);
+        console.log("plivo_secret=========+>",globalVariable.AUTH_TOKEN);
+
+        var text = templateDetailsSMS.content.replace(/<[^>]+>/g, '');
+        // console.log("text=========+>",text);
+        // htmlString.replace(/<[^>]+>/g, '');
+
+
+        client.messages.create(
+            src = sourceMobile,
+            dst = toMobile,
+            text = text
+        ).then((result) => {
+        // return res.status(200).json("OTP "+OTP+" Sent Successfully ");
+            console.log("result=========+>",result);
+
+            res.header("Access-Control-Allow-Origin","*");
+            res.status(200).json({
+            "message": 'SMS-SEND-SUCCESSFULLY',
+            });
+        })
+        .catch(otpError => {
+            console.log("otpError=========+>",otpError);
+            res.status(501).json({
+            message: "Some Error Occurred in SMS Send Function",
+            // error: otpError
+            });
+        });
     }
+
 }
 
 //get getEmailByUserId - Rushikesh Salunkhe
@@ -280,56 +314,51 @@ function getTemplateDetailsEmail(templateName,variables){
         }); 
     }
 
-// function getTemplateDetailsSMS(templateName,variables){
-//     console.log("Inside getTemplateDetails SMS templateName = ",templateName);
-//     console.log("Inside getTemplateDetails  SMS variables = ",variables);
-//     return new Promise(function(resolve,reject){
-//         console.log("2. Inside promise = ",templateName);
+function getTemplateDetailsSMS(templateName, variables) {
+return new Promise(function (resolve, reject) {
+    Masternotifications
+    .findOne({ "templateName": templateName, "templateType": 'SMS' })
+    .exec()
+    .then(NotificationData => {
+        if (NotificationData) {
+            var content = NotificationData.content;
+            var wordsplit = [];
+            if (content.indexOf('[') > -1) {
+                wordsplit = content.split('[');
+            }
+            var tokens = [];
+            var n = 0;
+            for (i = 0; i < wordsplit.length; i++) {
+                if (wordsplit[i].indexOf(']') > -1) {
+                    tokensArr = wordsplit[i].split(']');
+                    tokens[n] = tokensArr[0];
+                    n++;
+                }
+            }
+            var numOfVar = Object.keys(variables).length;
 
-//         Masternotifications
-//         .findOne({"templateName":templateName, "templateType":'SMS'})
-//         .exec()
-//         .then(NotificationData=>{
-//             console.log('serverside NotificationData: ', NotificationData);
-//             if(NotificationData){
-//                 var content = NotificationData.content;
-//                 var wordsplit = [];
-//             if(content.indexOf('[') > -1 ){
-//                 wordsplit = content.split('[');
-//         }
+            for (i = 0; i < numOfVar; i++) {
+            // var tokVar = tokens[i].substr(1,tokens[i].length-2);
+                content = content.replace(tokens[i], variables[tokens[i]]);
+            }
+            content = content.split("[").join(" ");
+            content = content.split("]").join(" ");
+            var tData = {
+                content: content,
+                subject: NotificationData.subject
+            }
+                resolve(tData);
+            }//NotificationData
 
-//         var tokens = [];
-//         var n = 0;
-//         for(i=0;i<wordsplit.length;i++){
-//             if(wordsplit[i].indexOf(']') > -1 ){
-//                 tokensArr = wordsplit[i].split(']');
-//                 tokens[n] = tokensArr[0];
-//                 n++;
-//             }
-//         }
-//         var numOfVar = Object.keys(variables).length;
+        })
+        .catch(err => {
+            console.log(err);
+            err.status(500).json({
+            error: err
+            });
+        });
+    });
+}
 
-//         for(i=0; i<numOfVar; i++){
-//             // var tokVar = tokens[i].substr(1,tokens[i].length-2);
-//             content = content.replace(tokens[i],variables[tokens[i]]);
-//         }
-//         content = content.split("[").join("'");
-//         content = content.split("]").join("'");
-//         console.log("content = ",content);
-//         var tData={
-//             content:content,
-//             subject:NotificationData.subject
-//         }
-//         resolve(tData);
-//         }//NotificationData
 
-//         })
-//         .catch(err =>{
-//             console.log(err);
-//             err.status(500).json({
-//              error: err
-//            });
-//         });
-//     });
-// }
 
