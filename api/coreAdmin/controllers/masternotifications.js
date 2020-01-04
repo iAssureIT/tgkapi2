@@ -259,61 +259,116 @@ function getProfileByUserId(toUserId){
 // }
 
 //get TemplateDeatails - Rushikesh Salunkhe
-function getTemplateDetailsEmail(templateName,variables){
-    console.log("variables",variables);
-    return new Promise(function(resolve,reject){
-        Masternotifications
-        .findOne({"templateName":templateName,"templateType":"Email"})
-        .exec()
-        .then(NotificationData=>{
-                    if(NotificationData){
-                        var content = NotificationData.content;
-                        var wordsplit = [];
-                        if(content.indexOf('[') > -1 ){
-                            wordsplit = content.split('[');
-                        }
-                        var tokens = [];
-                        var n = 0;
-                        var  i = 0;
-                        for(i=0;i<wordsplit.length;i++){
-                            if(wordsplit[i].indexOf(']') > -1 ){
-                                tokensArr = wordsplit[i].split(']');
-                                tokens[n] = tokensArr[0];
-                                n++;
-                            }
-                        }
-                        if(i >= wordsplit.length){
-                            var numOfVar = Object.keys(variables).length;
-                            var j = 0;
-                            for(j=0; j<numOfVar && tokens.length > 0; j++){
-                                var tokVar = tokens[j].substr(1,tokens[j].length-2);
-                                content = content.replace(tokens[j],variables[tokens[j]]);
-                            }
-                            if(j >= numOfVar || tokens.length == 0){
-                                content = content.split("[").join("");
-                                content = content.split("]").join("");
-                                var tData={
-                                    content:content,
-                                    subject:NotificationData.subject
-                                };
-                                if(tData){
-                                    resolve(tData);          
-                                }
-                            }
-                        }
-                    }//NotificationData  
-                    else{
-                        resolve("");
-                    }                  
-            })
-            .catch(err =>{
-                console.log(err);
-                err.status(500).json({
-                    error: err
+function getTemplateDetailsEmail(templateName, variables) {
+return new Promise(function (resolve, reject) {
+    Masternotifications
+    .findOne({ "templateName": templateName, "templateType": 'Email' })
+    .exec()
+    .then(NotificationData => {
+        if (NotificationData) {
+            var content = NotificationData.content;
+            var wordsplit = [];
+            if (content.indexOf('[') > -1) {
+                wordsplit = content.split('[');
+            }
+            var tokens = [];
+            var n = 0;
+            for (i = 0; i < wordsplit.length; i++) {
+                if (wordsplit[i].indexOf(']') > -1) {
+                    tokensArr = wordsplit[i].split(']');
+                    tokens[n] = tokensArr[0];
+                    n++;
+                }
+            }
+        //
+            var numOfVar = Object.keys(variables).length;
+
+            for (i = 0; i < numOfVar; i++) {
+            // var tokVar = tokens[i].substr(1,tokens[i].length-2);
+                content = content.replace(tokens[i], variables[tokens[i]]);
+            }
+            if(i >= numOfVar){
+                content = content.split("[").join(" ");
+                content = content.split("]").join(" ");
+            var tData = {
+                content: content,
+                subject: NotificationData.subject
+            }
+            resolve({
+                content: content,
+                subject: NotificationData.subject
                 });
-            });
-        }); 
-    }
+            }
+
+        }else{
+            resolve(true);
+        }//NotificationData
+
+
+        })
+        .catch(err => {
+            console.log(err);
+            reject(err);
+        });
+    });
+}
+// function getTemplateDetailsEmail(templateName,variables){
+//     console.log("variables",variables);
+//     return new Promise(function(resolve,reject){
+//         Masternotifications
+//         .findOne({"templateName":templateName,"templateType":"Email"})
+//         .exec()
+//         .then(NotificationData=>{
+//                     if(NotificationData){
+//                         var content = NotificationData.content;
+//                         var wordsplit = [];
+//                         if(content.indexOf('[') > -1 ){
+//                             wordsplit = content.split('[');
+//                         }
+//                         var tokens = [];
+//                         var n = 0;
+//                         var  i = 0;
+//                         for(i=0;i<wordsplit.length;i++){
+//                             if(wordsplit[i].indexOf(']') > -1 ){
+//                                 tokensArr = wordsplit[i].split(']');
+//                                 tokens[n] = tokensArr[0];
+//                                 n++;
+//                             }
+//                         }
+//                         if(i >= wordsplit.length){
+//                             var numOfVar = Object.keys(variables).length;
+//                             var j = 0;
+//                             for(j=0; j<numOfVar && tokens.length > 0; j++){
+//                                 var tokVar = tokens[j].substr(1,tokens[j].length-2);
+//                                 content = content.replace(tokens[j],variables[tokens[j]]);
+//                             }
+//                             if(j >= numOfVar || tokens.length == 0){
+//                                 content = content.split("[").join("");
+//                                 content = content.split("]").join("");
+//                                 var tData={
+//                                     content:content,
+//                                     subject:NotificationData.subject
+//                                 };
+//                                 if(tData){
+//                                     resolve(tData);          
+//                                 }
+//                             }
+//                         }
+//                     }//NotificationData  
+//                     else{
+//                         resolve("");
+//                     }                  
+//             })
+//             .catch(err =>{
+//                 console.log(err);
+//                 err.status(500).json({
+//                     error: err
+//                 });
+//             });
+//         }); 
+//     }
+
+
 
 function getTemplateDetailsSMS(templateName, variables) {
 return new Promise(function (resolve, reject) {
