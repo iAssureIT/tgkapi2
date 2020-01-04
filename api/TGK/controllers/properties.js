@@ -231,7 +231,7 @@ function getPropertyCode(){
                 if(property && property.length>0){
                     resolve(property[0].propertyCode);
                 }else{
-                    resolve(1);
+                    resolve(0);
                 }
              })
             .catch(err =>{
