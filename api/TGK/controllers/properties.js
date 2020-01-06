@@ -942,22 +942,20 @@ exports.list_InterestedProperties_FieldAgent_OuterStatus = (req,res,next)=>{
                             var returnData = [];
                             for(k = 0 ; k < data.length ; k++){
                                 // data[k].property_id.interestedProperties_id = data[k]._id;
-                                if(req.body.propertyType === data[k].property_id.propertyType && req.body.transactionType === data[k].property_id.transactionType){
-                                   returnData.push({
-                                        "interestedProperties_id" : data[k]._id,
-                                        "buyer_id"               : data[k].buyer_id._id,
-                                        "buyer_Name"              : data[k].buyer_id.profile.fullName,
-                                        "buyer_email"             : data[k].buyer_id.profile.emailId,
-                                        "buyer_Mobile"            : data[k].buyer_id.profile.mobileNumber,
-                                        "createdAt"               : data[k].createdAt,
-                                        "meeting_id"              : data[k].meeting && data[k].meeting.length > 0 ? data[k].meeting[data[k].meeting.length -1]._id : "",
-                                        "property"                : data[k].property_id
-                                    }) 
+                                if(data[k].property_id && data[k].buyer_id){
+                                    if(req.body.propertyType === data[k].property_id.propertyType && req.body.transactionType === data[k].property_id.transactionType){
+                                       returnData.push({
+                                            "interestedProperties_id" : data[k]._id,
+                                            "buyer_id"                : data[k].buyer_id._id,
+                                            "buyer_Name"              : data[k].buyer_id.profile.fullName,
+                                            "buyer_email"             : data[k].buyer_id.profile.emailId,
+                                            "buyer_Mobile"            : data[k].buyer_id.profile.mobileNumber,
+                                            "createdAt"               : data[k].createdAt,
+                                            "meeting_id"              : data[k].meeting && data[k].meeting.length > 0 ? data[k].meeting[data[k].meeting.length -1]._id : "",
+                                            "property"                : data[k].property_id
+                                        }) 
+                                    }                                    
                                 }
-                                
-                                // if(data[k].property_id.interestedProperties_id){
-                                //     returnData.push(data[k].property_id);
-                                // }
                             }
                             if(k >= data.length){
                                 res.status(200).json(returnData);
