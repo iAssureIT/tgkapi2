@@ -748,3 +748,39 @@ exports.user_details_withLocName = (req,res,next)=>{
 			});
 		});
 };
+
+//Get Managers list and allocated agents Data
+
+exports.managers_list = (req,res,next)=>{
+	User.find({roles : req.params.managerRole})
+		.exec()
+		.then(managerList =>{
+			var agentManagerList = [];
+			for (var i = managerList.length - 1; i >= 0; i--) {
+				User.find({"profile.manager_id" : managerList[i]._id})
+				.exec()
+				.then(agentsList =>{
+					agentManagerList.push({
+						managerId 	: managerList[i]._id,
+						managerName : managerList[i].profile.fullName,
+						fieldAgents : agentsList,
+					})
+				})
+				.catch(err =>{
+					console.log(err);
+					res.status(500).json({
+						error: err
+					});
+				});
+			}
+			if(i >= managerList.length){
+                res.status(200).json(agentManagerList);
+            }
+		})
+		.catch(err =>{
+			console.log(err);
+			res.status(500).json({
+				error: err
+			});
+		});
+};

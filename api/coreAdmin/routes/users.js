@@ -47,6 +47,8 @@ router.delete('/delete/one/:userID',checkAuth,UserController.delete_user);
 
 router.delete('/',UserController.deleteall_user);  
 
+//Get managers data
+router.get('/get/managerslist/:managerRole',UserController.managers_list); 
 
 
 module.exports = router;
