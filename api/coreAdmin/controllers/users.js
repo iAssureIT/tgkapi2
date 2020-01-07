@@ -762,12 +762,13 @@ exports.managers_list = (req,res,next)=>{
 				.exec()
 				.then(agentsList =>{
 					console.log("agentsList=>",agentsList)
-
-					agentManagerList.push({
-						managerId 	: managerList[i]._id,
-						managerName : managerList[i].profile.fullName,
-						fieldAgents : agentsList,
-					})
+					if(agentsList && agentsList.length>0){
+						agentManagerList.push({
+							managerId 	: managerList[i]._id,
+							managerName : managerList[i].profile.fullName,
+							fieldAgents : agentsList,
+						})
+					}	
 				})
 				.catch(err =>{
 					console.log(err);
