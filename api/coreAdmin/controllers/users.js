@@ -40,7 +40,8 @@ exports.user_signupadmin = (req,res,next)=>{
 										emailId       : req.body.email,
 										mobileNumber  : req.body.mobileNumber,
 										countryCode   : req.body.countryCode,
-										status		  : req.body.status
+										status		  : req.body.status,
+										manager_id    : req.body.manager_id
 							},
 							roles 		   : (req.body.roles),
 							officeLocation : req.body.officeLocation,
