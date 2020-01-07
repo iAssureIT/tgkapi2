@@ -755,11 +755,14 @@ exports.managers_list = (req,res,next)=>{
 	User.find({roles : req.params.managerRole})
 		.exec()
 		.then(managerList =>{
+			console.log("managerList=>",managerList)
 			var agentManagerList = [];
 			for (var i = managerList.length - 1; i >= 0; i--) {
 				User.find({"profile.manager_id" : managerList[i]._id})
 				.exec()
 				.then(agentsList =>{
+					console.log("agentsList=>",agentsList)
+
 					agentManagerList.push({
 						managerId 	: managerList[i]._id,
 						managerName : managerList[i].profile.fullName,
