@@ -773,7 +773,7 @@ exports.user_details_withLocName = (req,res,next)=>{
 //Get Managers list and allocated agents Data
 exports.managers_list = (req,res,next)=>{
 	User.find({roles : req.params.managerRole})
-	.populate('manager_id')
+	.populate('profile.manager_id')
 	.exec()
 	.then(managerList =>{
 		console.log("managerList=>",managerList)
