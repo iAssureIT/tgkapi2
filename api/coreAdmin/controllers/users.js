@@ -782,7 +782,7 @@ exports.managers_list = (req,res,next)=>{
 				User.find({"profile.manager_id" : managerList[i]._id})
 				.exec()
 				.then(agentsList =>{
-					console.log("managerList=>",managerList[i])
+					console.log("managerList=>",managerList)
 					if(agentsList && agentsList.length>0){
 						agentManagerList.push({
 							managerId 	: managerList[i]._id,
