@@ -71,6 +71,9 @@ exports.user_signupadmin = (req,res,next)=>{
 			});
 		});
 };
+
+
+//Reset password functionality
 exports.update_user_resetpassword = (req,res,next)=>{
 	// var roleData = req.body.role;
 	bcrypt.hash(req.body.pwd,10,(err,hash)=>{
@@ -108,6 +111,8 @@ exports.update_user_resetpassword = (req,res,next)=>{
 		});
 	});
 }
+
+//user login
 exports.user_login = (req,res,next)=>{
     // console.log('login');
     User.findOne({emails:{$elemMatch:{address:req.body.email}}})
@@ -182,6 +187,8 @@ exports.user_login = (req,res,next)=>{
             });
         });
 };
+
+//show user list
 exports.users_list = (req,res,next)=>{
 	User.find({roles : {$ne : "admin"} })
 		.exec()
@@ -196,6 +203,8 @@ exports.users_list = (req,res,next)=>{
 			});
 		});
 }
+
+//user list
 exports.users_directlist = (req,res,next)=>{
 	User.find({roles : {$ne : "admin"} })
 	.select("_id username roles createdAt profile.firstName profile.lastName profile.mobNumber profile.fullname profile.emailId profile.status")
@@ -236,6 +245,8 @@ exports.users_directlist = (req,res,next)=>{
 	   });
    
 }
+
+//user fetch
 exports.users_fetch = (req,res,next)=>{
 	User.find({roles : {$ne : "admin"} })
 		.sort( { createdAt: -1 } ).skip(req.body.startRange).limit(req.body.limitRange)
@@ -271,6 +282,8 @@ exports.users_fetch = (req,res,next)=>{
 	
 }
 
+
+//user details
 exports.user_details = (req, res, next)=>{
 	var id = req.params.userID;
 	User.findOne({_id:id})
@@ -287,6 +300,7 @@ exports.user_details = (req, res, next)=>{
 			});
 		});
 }
+
 // Handle delete contact
 exports.delete_user = function (req, res,next) {
     User.deleteOne({
@@ -303,6 +317,8 @@ exports.delete_user = function (req, res,next) {
         });
     });
 };
+
+//delete  all user functionality
 exports.deleteall_user = function (req, res,next) {
     User.deleteMany({
        
@@ -318,11 +334,9 @@ exports.deleteall_user = function (req, res,next) {
         });
     });
 };
-exports.update_user = (req,res,next)=>{
-	// var roleData = req.body.role;
-	// console.log("req.params.userID",req.params.userID);
-	// console.log("req.BODY+++=======+>",req.body);
 
+//update user
+exports.update_user = (req,res,next)=>{
     User.updateOne(
             { _id:req.params.userID},  
             {
@@ -357,6 +371,8 @@ exports.update_user = (req,res,next)=>{
             });
         });
 }
+
+//Change user role
 exports.user_change_role = (req,res,next)=>{
 	User.findOne({_id:req.params.userID})
 		.exec()
@@ -413,6 +429,8 @@ exports.user_change_role = (req,res,next)=>{
 			});
 		});
 }
+
+
 //=============================
 exports.account_status= (req,res,next)=>{
 
@@ -438,6 +456,7 @@ exports.account_status= (req,res,next)=>{
 		});
 	});
 }
+
 
 exports.account_role_add= (req,res,next)=>{
 	
@@ -480,6 +499,7 @@ exports.account_role_add= (req,res,next)=>{
 		});
 	});
 }
+
 exports.account_role_remove= (req,res,next)=>{
 	User.updateOne(
 		{'_id': req.body.userID },
@@ -510,6 +530,7 @@ exports.account_role_remove= (req,res,next)=>{
 		});
 	});
 }
+
 exports.user_search = (req,res,next)=>{
 	// console.log("req.body.searchText",req.body.searchText);
 
@@ -750,36 +771,36 @@ exports.user_details_withLocName = (req,res,next)=>{
 };
 
 //Get Managers list and allocated agents Data
-
 exports.managers_list = (req,res,next)=>{
 	User.find({roles : req.params.managerRole})
+	.populate('manager_id')
 	.exec()
 	.then(managerList =>{
 		console.log("managerList=>",managerList)
-		var agentManagerList = [];
-			for (var i = managerList.length - 1; i >= 0; i--) {
-				User.find({"profile.manager_id" : managerList[i]._id})
-				.exec()
-				.then(agentsList =>{
-					console.log("managerList=>",managerList[i]._id)
-					if(agentsList && agentsList.length>0){
-						agentManagerList.push({
-							managerId 	: managerList[i]._id,
-							managerName : managerList[i].profile.fullName,
-							fieldAgents : agentsList,
-						})
-					}	
-				})
-				.catch(err =>{
-					console.log(err);
-					res.status(500).json({
-						error: err
-					});
-				});
-			}
-			if(i >= managerList.length){
-                res.status(200).json(agentManagerList);
-            }
+		// var agentManagerList = [];
+		// 	for (var i = managerList.length - 1; i >= 0; i--) {
+		// 		User.find({"profile.manager_id" : managerList[i]._id})
+		// 		.exec()
+		// 		.then(agentsList =>{
+		// 			console.log("managerList=>",managerList[i]._id)
+		// 			if(agentsList && agentsList.length>0){
+		// 				agentManagerList.push({
+		// 					managerId 	: managerList[i]._id,
+		// 					managerName : managerList[i].profile.fullName,
+		// 					fieldAgents : agentsList,
+		// 				})
+		// 			}	
+		// 		})
+		// 		.catch(err =>{
+		// 			console.log(err);
+		// 			res.status(500).json({
+		// 				error: err
+		// 			});
+		// 		});
+		// 	}
+		// 	if(i >= managerList.length){
+  //               res.status(200).json(agentManagerList);
+  //           }
 	})
 	.catch(err =>{
 		console.log(err);
