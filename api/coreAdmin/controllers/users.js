@@ -772,74 +772,37 @@ exports.user_details_withLocName = (req,res,next)=>{
 
 //Get Managers list and allocated agents Data
 exports.managers_list = (req,res,next)=>{
-
 	User.aggregate([
-				{
-					$match:{
-						roles : req.params.managerRole
-					}
-				},
-				{
-					$lookup:{
-						from 			: "users",
-						localField 		: "_id",
-						foreignField 	: "profile.manager_id",
-						as 				: "agents"
-					}
-				},
-				{
-					$unwind : "$agents"
-				},
-				{
-					$project:{
-						"_id"			: "$_id",
-						"managerName"   : "$profile.fullName",
-						"agent_id"		: "$agents._id",
-						"agentName"		: "$agents.profile.fullName"
-					}
-				}
-		])
-		.exec()
-		.then(data=>{
-			res.status(200).json(data);
-		})
-		.catch(err=>{
-			res.status(200).json("error ",err)
-		})
-	// User.find({roles : req.params.managerRole})
-	// .populate('profile.manager_id')
-	// .exec()
-	// .then(managerList =>{
-	// 	console.log("managerList",managerList);
-	// 	// var agentManagerList = [];
-	// 	// 	for (var i = managerList.length - 1; i >= 0; i--) {
-	// 	// 		console.log("managerList=>",managerList[i]._id)
-	// 	// 		User.find({"profile.manager_id" : managerList[i]._id})
-	// 	// 		.exec()
-	// 	// 		.then(agentsList =>{
-	// 	// 			if(agentsList && agentsList.length>0){
-	// 	// 				agentManagerList.push({
-	// 	// 					managerId 	: managerList[i]._id,
-	// 	// 					managerName : managerList[i].profile.fullName,
-	// 	// 					fieldAgents : agentsList,
-	// 	// 				})
-	// 	// 			}	
-	// 	// 		})
-	// 	// 		.catch(err =>{
-	// 	// 			console.log(err);
-	// 	// 			res.status(500).json({
-	// 	// 				error: err
-	// 	// 			});
-	// 	// 		});
-	// 	// 	}
-	// 	// 	if(i >= managerList.length){
- //  //               res.status(200).json(agentManagerList);
- //  //           }
-	// })
-	// .catch(err =>{
-	// 	console.log(err);
-	// 	res.status(500).json({
-	// 		error: err
-	// 	});
-	// });
+		{
+			$match:{
+				roles : req.params.managerRole
+			}
+		},
+		{
+			$lookup:{
+				from 			: "users",
+				localField 		: "_id",
+				foreignField 	: "profile.manager_id",
+				as 				: "agents"
+			}
+		},
+		{
+			$unwind : "$agents"
+		},
+		{
+			$project:{
+				"_id"			: "$_id",
+				"managerName"   : "$profile.fullName",
+				"agent_id"		: "$agents._id",
+				"agentName"		: "$agents.profile.fullName"
+			}
+		}
+	])
+	.exec()
+	.then(data=>{
+		res.status(200).json(data);
+	})
+	.catch(err=>{
+		res.status(200).json("error ",err)
+	})
 };
