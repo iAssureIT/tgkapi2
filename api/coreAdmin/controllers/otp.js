@@ -211,7 +211,7 @@ exports.users_verify_mobile_new = (req,res,next)=>{
                 }
 
                 var OTP = 0;
-                if(req.body.mobileNumber === "9923393733"){
+                if(req.body.mobileNumber === "7709308851"){
                      OTP = 1234;
                 }else{
                      OTP = getRandomInt(1000,9999);
