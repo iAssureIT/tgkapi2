@@ -776,13 +776,12 @@ exports.managers_list = (req,res,next)=>{
 	.populate('manager_id')
 	.exec()
 	.then(managerList =>{
-		console.log("managerList=>",managerList)
 		var agentManagerList = [];
 			for (var i = managerList.length - 1; i >= 0; i--) {
+				console.log("managerList=>",managerList[i]._id)
 				User.find({"profile.manager_id" : managerList[i]._id})
 				.exec()
 				.then(agentsList =>{
-					console.log("managerList=>",managerList)
 					if(agentsList && agentsList.length>0){
 						agentManagerList.push({
 							managerId 	: managerList[i]._id,
