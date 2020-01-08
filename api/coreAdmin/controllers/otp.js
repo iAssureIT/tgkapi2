@@ -195,7 +195,7 @@ exports.users_verify_mobile = (req,res,next)=>{
 };
 
 exports.users_verify_mobile_new = (req,res,next)=>{
-    console.log("body data ",req.body);
+    // console.log("body data ",req.body);
     User.findOne({'mobileNumber':req.body.mobileNumber, 'countryCode' : req.body.countryCode},{'profile.fullName':1})
         .exec()
         .then(user =>{
@@ -211,7 +211,7 @@ exports.users_verify_mobile_new = (req,res,next)=>{
                 }
 
                 var OTP = 0;
-                if(req.body.mobileNumber === "7709308851"){
+                if(req.body.mobileNumber === "9923393733"){
                      OTP = 1234;
                 }else{
                      OTP = getRandomInt(1000,9999);
