@@ -39,7 +39,7 @@ const userSchema = mongoose.Schema({
 		otp 			: Number,
 		city 			: String,
 		propertyCount	: Number,
-		manager_id      : { type: mongoose.Schema.Types.ObjectId, ref: 'users._id' },
+		manager_id      : { type: mongoose.Schema.Types.ObjectId, ref: 'users' },
 	},
 	roles 				: [String],
 	officeLocation 		: { type: mongoose.Schema.Types.ObjectId, ref: 'tgkspecificcompanysettings.companyLocationsInfo._id' },
