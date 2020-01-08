@@ -792,10 +792,10 @@ exports.managers_list = (req,res,next)=>{
 				},
 				{
 					$project:{
-						"_id"			: "_id",
-						"managerName"   : "profile.fullName",
-						"agent_id"		: "agents._id",
-						"agentName"		: "agents.profile.fullName"
+						"_id"			: "$_id",
+						"managerName"   : "$profile.fullName",
+						"agent_id"		: "$agents._id",
+						"agentName"		: "$agents.profile.fullName"
 					}
 				}
 		])
