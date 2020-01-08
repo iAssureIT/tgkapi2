@@ -786,6 +786,17 @@ exports.managers_list = (req,res,next)=>{
 						foreignField 	: "profile.manager_id",
 						as 				: "agents"
 					}
+				},
+				{
+					$unwind : "$agents"
+				},
+				{
+					$project:{
+						"_id"			: "_id",
+						"managerName"   : "profile.fullName",
+						"agent_id"		: "agents._id",
+						"agentName"		: "agents.profile.fullName"
+					}
 				}
 		])
 		.exec()
