@@ -195,7 +195,7 @@ exports.users_verify_mobile = (req,res,next)=>{
 };
 
 exports.users_verify_mobile_new = (req,res,next)=>{
-    // console.log("body data ",req.body);
+    console.log("body data ",req.body);
     User.findOne({'mobileNumber':req.body.mobileNumber, 'countryCode' : req.body.countryCode},{'profile.fullName':1})
         .exec()
         .then(user =>{
@@ -209,10 +209,12 @@ exports.users_verify_mobile_new = (req,res,next)=>{
                     user = newUser;
                     msg = "NEW-USER-CREATED";
                 }
+
+                var OTP = 0;
                 if(req.body.mobileNumber === "9923393733"){
-                    const OTP = 1234;
+                     OTP = 1234;
                 }else{
-                    const OTP = getRandomInt(1000,9999);
+                     OTP = getRandomInt(1000,9999);
                 }
                 
                 const client = new plivo.Client(globalVariable.AUTH_ID, globalVariable.AUTH_TOKEN);
