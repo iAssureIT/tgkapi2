@@ -776,6 +776,7 @@ exports.managers_list = (req,res,next)=>{
 	.populate('manager_id')
 	.exec()
 	.then(managerList =>{
+		console.log("managerList=>",managerList)
 		var agentManagerList = [];
 			for (var i = managerList.length - 1; i >= 0; i--) {
 				User.find({"profile.manager_id" : managerList[i]._id})
