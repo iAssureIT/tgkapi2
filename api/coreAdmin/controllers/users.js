@@ -752,48 +752,39 @@ exports.user_details_withLocName = (req,res,next)=>{
 //Get Managers list and allocated agents Data
 
 exports.managers_list = (req,res,next)=>{
-	User.aggregate([
-	    { "$unwind": "$profile" },
-	    { "$lookup": {
-	        "from": "users",
-	        "as": "managerID",
-	        "localField": "profile.manager_id",
-	        "foreignField": "_id"
-	    }}
-    ])
-	// User.find({roles : req.params.managerRole})
-		.exec()
-		.then(managerList =>{
-			console.log("managerList=>",managerList)
-			// var agentManagerList = [];
-			// for (var i = managerList.length - 1; i >= 0; i--) {
-			// 	User.find({"profile.manager_id" : ObjectID(managerList[i]._id)})
-			// 	.exec()
-			// 	.then(agentsList =>{
-			// 		console.log("managerList=>",managerList[i]._id)
-			// 		if(agentsList && agentsList.length>0){
-			// 			agentManagerList.push({
-			// 				managerId 	: managerList[i]._id,
-			// 				managerName : managerList[i].profile.fullName,
-			// 				fieldAgents : agentsList,
-			// 			})
-			// 		}	
-			// 	})
-			// 	.catch(err =>{
-			// 		console.log(err);
-			// 		res.status(500).json({
-			// 			error: err
-			// 		});
-			// 	});
-			// }
-			// if(i >= managerList.length){
-   //              res.status(200).json(agentManagerList);
-   //          }
-		})
-		.catch(err =>{
-			console.log(err);
-			res.status(500).json({
-				error: err
-			});
+	User.find({roles : req.params.managerRole})
+	.exec()
+	.then(managerList =>{
+		console.log("managerList=>",managerList)
+		var agentManagerList = [];
+			for (var i = managerList.length - 1; i >= 0; i--) {
+				User.find({"profile.manager_id" : managerList[i]._id})
+				.exec()
+				.then(agentsList =>{
+					console.log("managerList=>",managerList[i]._id)
+					if(agentsList && agentsList.length>0){
+						agentManagerList.push({
+							managerId 	: managerList[i]._id,
+							managerName : managerList[i].profile.fullName,
+							fieldAgents : agentsList,
+						})
+					}	
+				})
+				.catch(err =>{
+					console.log(err);
+					res.status(500).json({
+						error: err
+					});
+				});
+			}
+			if(i >= managerList.length){
+                res.status(200).json(agentManagerList);
+            }
+	})
+	.catch(err =>{
+		console.log(err);
+		res.status(500).json({
+			error: err
 		});
+	});
 };
