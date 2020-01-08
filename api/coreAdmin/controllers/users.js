@@ -775,7 +775,9 @@ exports.managers_list = (req,res,next)=>{
 
 	User.aggregate([
 				{
-					roles : req.params.managerRole
+					$match:{
+						roles : req.params.managerRole
+					}
 				},
 				{
 					from 			: "users",
