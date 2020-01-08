@@ -780,10 +780,12 @@ exports.managers_list = (req,res,next)=>{
 					}
 				},
 				{
-					from 			: "users",
-					localField 		: "_id",
-					foreignField 	: "profile.manager_id",
-					as 				: "agents"
+					$lookup:{
+						from 			: "users",
+						localField 		: "_id",
+						foreignField 	: "profile.manager_id",
+						as 				: "agents"
+					}
 				}
 		])
 		.exec()
