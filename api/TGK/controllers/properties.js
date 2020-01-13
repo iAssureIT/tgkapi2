@@ -1025,36 +1025,28 @@ exports.locationWiseListCount = (req,res,next)=>{
         .then(areaProperties=>{
                 var properties = subareaProperties.concat(areaProperties)
                 var sortedProps = [];
-                var hadapsar = false;
-                var amanora = false;
-                var magarpatta = false;
-                var kharadi = false;
+                var hadapsar    = {_id:"Hadapsar", count:0};
+                var amanora     = {_id:"Amanora City", count:0};
+                var magarpatta  = {_id:"Magarpatta City", count:0};
+                var kharadi     = {_id:"Kharadi", count:0};
 
                 for(var j=0; j<=3; j++){
                     console.log(j, "properties = ", properties[j]);
                     for(var i=0;i<properties.length; i++){
                         if(properties[i]._id === "Hadapsar"){
-                            if(!hadapsar){var hadapsar = properties[i];}
-                        }else{
-                            hadapsar = {_id:"Hadapsar", count:0};
+                            hadapsar = properties[i];
                         }
 
                         if(properties[i]._id === "Amanora City"){
-                            if(!amanora){amanora = properties[i];}
-                        }else{
-                            amanora = {_id:"Amanora City", count:0};
+                            amanora = properties[i];
                         }
 
                         if(properties[i]._id === "Magarpatta City"){
-                            if(!magarpatta){magarpatta = properties[i];}
-                        }else{
-                            magarpatta = {_id:"Magarpatta City", count:0};
+                            magarpatta = properties[i];
                         }
 
                         if(properties[i]._id === "Kharadi"){
-                            if(!kharadi){kharadi = properties[i];}
-                        }else{
-                            var kharadi = {_id:"Kharadi", count:0};
+                            kharadi = properties[i];
                         }
                     }
                 }
