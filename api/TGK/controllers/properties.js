@@ -1027,6 +1027,7 @@ exports.locationWiseListCount = (req,res,next)=>{
                 var sortedProps = [];
                 for(var j=0; j<=3; j++){
                     for(var i=0;i<properties.length; i++){
+                        console.log(i, "properties = ", properties);
                         if(j==0){
                             if(properties[i]._id === "Hadapsar"){
                                 sortedProps.push(properties[i]);
@@ -1078,7 +1079,6 @@ exports.locationWiseListCount = (req,res,next)=>{
                     //         break;
                     //     }
                     // }
-                    console.log(j," sortedProps = ",sortedProps);
                 }
                 if(j >= 3){
                     console.log("sortedProps = ",sortedProps);
