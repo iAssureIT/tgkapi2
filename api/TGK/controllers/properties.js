@@ -1025,29 +1025,34 @@ exports.locationWiseListCount = (req,res,next)=>{
         .then(areaProperties=>{
                 var properties = subareaProperties.concat(areaProperties)
                 var sortedProps = [];
+                var hadapsar = false;
+                var amanora = false;
+                var magarpatta = false;
+                var kharadi = false;
+
                 for(var j=0; j<=3; j++){
+                    console.log(j, "properties = ", properties[j]);
                     for(var i=0;i<properties.length; i++){
-                        console.log(i, "properties = ", properties);
                         if(properties[i]._id === "Hadapsar"){
-                            var hadapsar = properties[i];
+                            if(!hadapsar){var hadapsar = properties[i];}
                         }else{
-                            var hadapsar = {_id:"Hadapsar", count:0};
+                            hadapsar = {_id:"Hadapsar", count:0};
                         }
 
                         if(properties[i]._id === "Amanora City"){
-                            var amanora = properties[i];
+                            if(!amanora){amanora = properties[i];}
                         }else{
-                            var amanora = {_id:"Amanora City", count:0};
+                            amanora = {_id:"Amanora City", count:0};
                         }
 
                         if(properties[i]._id === "Magarpatta City"){
-                            var magarpatta = properties[i];
+                            if(!magarpatta){magarpatta = properties[i];}
                         }else{
-                            var magarpatta = {_id:"Magarpatta City", count:0};
+                            magarpatta = {_id:"Magarpatta City", count:0};
                         }
 
                         if(properties[i]._id === "Kharadi"){
-                            var kharadi = properties[i];
+                            if(!kharadi){kharadi = properties[i];}
                         }else{
                             var kharadi = {_id:"Kharadi", count:0};
                         }
@@ -1059,7 +1064,7 @@ exports.locationWiseListCount = (req,res,next)=>{
                     sortedProps.push(amanora);
                     sortedProps.push(magarpatta);
                     sortedProps.push(kharadi);
-                    
+
                     console.log("sortedProps = ",sortedProps);
                     res.status(200).json(sortedProps);
                 }
