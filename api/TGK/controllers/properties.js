@@ -1027,23 +1027,57 @@ exports.locationWiseListCount = (req,res,next)=>{
                 var sortedProps = [];
                 for(var j=0; j<=3; j++){
                     for(var i=0;i<properties.length; i++){
-                        if(j==0 && properties[i]._id === "Hadapsar"){
-                            sortedProps.push(properties[i]);
+                        if(j==0){
+                            if(properties[i]._id === "Hadapsar"){
+                                sortedProps.push(properties[i]);
+                            }else{
+                                sortedProps.push({_id:"Hadapsar", count:0});
+                            }
                             break;
                         }
-                        if(j==1 && properties[i]._id === "Amanora City"){
-                            sortedProps.push(properties[i]);
+                        if(j==1){
+                            if(properties[i]._id === "Amanora City"){
+                                sortedProps.push(properties[i]);
+                            }else{
+                                sortedProps.push({_id:"Amanora City", count:0});
+                            }
                             break;
                         }
-                        if(j==2 && properties[i]._id === "Magarpatta City"){
-                            sortedProps.push(properties[i]);
+                        if(j==2){
+                            if(properties[i]._id === "Magarpatta City"){
+                                sortedProps.push(properties[i]);
+                            }else{
+                                sortedProps.push({_id:"Magarpatta City", count:0});
+                            }
                             break;
                         }
-                        if(j==3 && properties[i]._id === "Kharadi"){
-                            sortedProps.push(properties[i]);
+                        if(j==3){
+                            if(properties[i]._id === "Kharadi"){
+                                sortedProps.push(properties[i]);
+                            }else{
+                                sortedProps.push({_id:"Kharadi", count:0});
+                            }
                             break;
                         }
                     }
+                    // for(var i=0;i<properties.length; i++){
+                    //     if(j==0 && properties[i]._id === "Hadapsar"){
+                    //         sortedProps.push(properties[i]);
+                    //         break;
+                    //     }
+                    //     if(j==1 && properties[i]._id === "Amanora City"){
+                    //         sortedProps.push(properties[i]);
+                    //         break;
+                    //     }
+                    //     if(j==2 && properties[i]._id === "Magarpatta City"){
+                    //         sortedProps.push(properties[i]);
+                    //         break;
+                    //     }
+                    //     if(j==3 && properties[i]._id === "Kharadi"){
+                    //         sortedProps.push(properties[i]);
+                    //         break;
+                    //     }
+                    // }
                     console.log(j," sortedProps = ",sortedProps);
                 }
                 if(j >= 3){
