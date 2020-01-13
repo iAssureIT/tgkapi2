@@ -1028,39 +1028,49 @@ exports.locationWiseListCount = (req,res,next)=>{
                 for(var j=0; j<=3; j++){
                     for(var i=0;i<properties.length; i++){
                         console.log(i, "properties = ", properties);
-                        if(j==0){
-                            if(properties[i]._id === "Hadapsar"){
-                                sortedProps.push(properties[i]);
-                            }else{
-                                sortedProps.push({_id:"Hadapsar", count:0});
-                            }
-                            break;
+                        if(properties[i]._id === "Hadapsar"){
+                            var hadapsar = properties[i];
+                        }else{
+                            var hadapsar = {_id:"Hadapsar", count:0};
                         }
-                        if(j==1){
-                            if(properties[i]._id === "Amanora City"){
-                                sortedProps.push(properties[i]);
-                            }else{
-                                sortedProps.push({_id:"Amanora City", count:0});
-                            }
-                            break;
+
+                        if(properties[i]._id === "Amanora City"){
+                            var amanora = properties[i];
+                        }else{
+                            var amanora = {_id:"Amanora City", count:0};
                         }
-                        if(j==2){
-                            if(properties[i]._id === "Magarpatta City"){
-                                sortedProps.push(properties[i]);
-                            }else{
-                                sortedProps.push({_id:"Magarpatta City", count:0});
-                            }
-                            break;
+
+                        if(properties[i]._id === "Magarpatta City"){
+                            var magarpatta = properties[i];
+                        }else{
+                            var magarpatta = {_id:"Magarpatta City", count:0};
                         }
-                        if(j==3){
-                            if(properties[i]._id === "Kharadi"){
-                                sortedProps.push(properties[i]);
-                            }else{
-                                sortedProps.push({_id:"Kharadi", count:0});
-                            }
-                            break;
+
+                        if(properties[i]._id === "Kharadi"){
+                            var kharadi = properties[i];
+                        }else{
+                            var kharadi = {_id:"Kharadi", count:0};
                         }
                     }
+                }
+
+                if(j >= 3){
+                    sortedProps.push(hadapsar);
+                    sortedProps.push(amanora);
+                    sortedProps.push(magarpatta);
+                    sortedProps.push(kharadi);
+                    
+                    console.log("sortedProps = ",sortedProps);
+                    res.status(200).json(sortedProps);
+                }
+            })
+            .catch(err =>{
+                console.log(err);
+                res.status(500).json({
+                    error: err
+                });
+            });
+
                     // for(var i=0;i<properties.length; i++){
                     //     if(j==0 && properties[i]._id === "Hadapsar"){
                     //         sortedProps.push(properties[i]);
@@ -1079,19 +1089,6 @@ exports.locationWiseListCount = (req,res,next)=>{
                     //         break;
                     //     }
                     // }
-                }
-                if(j >= 3){
-                    console.log("sortedProps = ",sortedProps);
-                    res.status(200).json(sortedProps);
-                }
-            })
-            .catch(err =>{
-                console.log(err);
-                res.status(500).json({
-                    error: err
-                });
-            });
-
 
 
     })
