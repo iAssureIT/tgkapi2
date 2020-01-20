@@ -15,6 +15,7 @@ exports.create_Properties = (req,res,next)=>{
     main();
     async function main(){
         var allocatedToUserId = await getAllocatedToUserID(); 
+        console.log("allocatedToUserId=>",allocatedToUserId);
         var ownerData         = await getOwnerData(req.body.uid);
         var propertyCount     = await getPropertyCode();
         var propertyCode      = propertyCount + 1;
@@ -61,13 +62,11 @@ exports.create_Properties = (req,res,next)=>{
                                             },
                 },
                 index                  : req.body.index,    
-                $push : {
-                      "statusArray"     : {
-                                            "statusVal"         : req.body.status, 
-                                            "createdAt"         : new Date(),
-                                            "allocatedToUserId" : allocatedToUserId,
-                                          }                
-                },
+              "statusArray"     : [{
+                                    "statusVal"         : req.body.status, 
+                                    "createdAt"         : new Date(),
+                                    "allocatedTo"       : allocatedToUserId,
+                                  }],                
                 createdAt               : new Date(),
                 createdAtStr               : moment(new Date()).format("YYYY-MM-DD"),
                 "Fcount1"                 : req.body.Fcount1?parseInt(req.body.Fcount1):0,                 
@@ -152,7 +151,7 @@ exports.create_Properties = (req,res,next)=>{
                  .sort({updateAt:1})
                  .exec()
                  .then(salesAgents=>{
-                    console.log("salesAgents ",salesAgents);
+                    console.log("salesAgents ",salesAgents[0]._id);
                     if(salesAgents.length > 0){
                         //Sales agents found. Then find, to which SA, the last property was assigned
                         Users.updateOne(
@@ -178,7 +177,7 @@ exports.create_Properties = (req,res,next)=>{
                         Users.findOne({"roles" : "Technical Admin"})
                         .exec()
                         .then(admin=>{
-                            console.log("Technical Admin ",admin);
+                            console.log("Technical Admin ",admin._id);
                             resolve(admin._id);
                         })
                        .catch(err =>{
@@ -1151,7 +1150,12 @@ exports.allocateTofieldAgent = (req,res,next)=>{
                                                                                                             "agentID"    : fieldAgents[0]._id,
                                                                                                             "createdAt"  : new Date(),
                                                                                                             "status"     : "Active"
-                                                                                                        }
+                                                                                                        },
+                                                                                        "statusArray" : {
+                                                                                                "statusVal"         : "VerifyPending", 
+                                                                                                "createdAt"         : new Date(),
+                                                                                                "allocatedTo"       : fieldAgents[0]._id,
+                                                                                              }                
                                                                                     },
                                                                                     $set : {
                                                                                         "status"    : "VerifyPending"
@@ -1191,7 +1195,12 @@ exports.allocateTofieldAgent = (req,res,next)=>{
                                                                                                             "agentID"    : fieldManager._id,
                                                                                                             "createdAt"  : new Date(),
                                                                                                             "status"     : "Active"
-                                                                                                        }
+                                                                                                        },
+                                                                                        "statusArray" : {
+                                                                                            "statusVal"         : "VerifyPending", 
+                                                                                            "createdAt"         : new Date(),
+                                                                                            "allocatedTo"       : fieldManager._id,
+                                                                                          }                
                                                                                     },
                                                                                     $set : {
                                                                                         "status"    : "VerifyPending"
@@ -1235,7 +1244,12 @@ exports.allocateTofieldAgent = (req,res,next)=>{
                                                                                                     "agentID"    : proMgrUpdate._id,
                                                                                                     "createdAt"  : new Date(),
                                                                                                     "status"     : "Active"
-                                                                                                }
+                                                                                                },
+                                                                               "statusArray" : {
+                                                                                        "statusVal"         : "VerifyPending", 
+                                                                                        "createdAt"         : new Date(),
+                                                                                        "allocatedTo"       : proMgrUpdate._id,
+                                                                                      }
                                                                             },
                                                                             $set : {
                                                                                 "status"    : "VerifyPending"
@@ -1278,7 +1292,12 @@ exports.allocateTofieldAgent = (req,res,next)=>{
                                                                                                 "agentID"    : fieldManager._id,
                                                                                                 "createdAt"  : new Date(),
                                                                                                 "status"     : "Active"
-                                                                                            }
+                                                                                            },
+                                                                            "statusArray" : {
+                                                                                "statusVal"         : "VerifyPending", 
+                                                                                "createdAt"         : new Date(),
+                                                                                "allocatedTo"       : fieldManager._id,
+                                                                              }                
                                                                         },
                                                                         $set : {
                                                                             "status"    : "VerifyPending"

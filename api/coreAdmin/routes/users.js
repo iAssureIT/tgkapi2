@@ -51,4 +51,5 @@ router.delete('/',UserController.deleteall_user);
 router.get('/get/managerslist/:managerRole',UserController.managers_list); 
 
 
+
 module.exports = router;

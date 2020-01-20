@@ -343,4 +343,317 @@ exports.patch_transaction_status_Update = (req,res,next)=>{
                         });
             break;
     }
-}
+};
+
+exports.fa_manager_dashboard_query_sa = (req,res,next)=>{
+    Users.aggregate([
+            { 
+                $match :  
+                { 
+                    "$or":[
+                        {"profile.manager_id": ObjectID(req.params.fieldAgentID)},
+                        {"_id": ObjectID(req.params.fieldAgentID)}
+                    ]
+                } 
+            },
+            { 
+                $lookup : {
+                            "from"          : "properties",
+                            "localField"    : "_id",
+                            "foreignField"  : "fieldAgent.agentID",
+                            "as"            : "userData"
+                        }
+            },
+            {
+                $unwind : "$userData" 
+            },
+            {
+                $project: 
+                    {
+                        createdAtArray: {
+                            $slice: [ "$userData.statusArray", -1 ] 
+                          },
+                        status:"$userData.status"   
+                    } 
+            },
+            {"$unwind":"$createdAtArray"},
+            { "$addFields": { createdAt     : '$createdAtArray.createdAt'} },
+            {
+                $project: 
+                    {
+                        
+                        dateDifference: 
+                            {
+                                "$divide": [{ $subtract: [ new Date(), "$createdAt" ] }, 60 * 60 * 1000 ]
+                            }, 
+                        status:"$status"   
+                    } 
+            },
+
+        ])
+        .exec()
+        .then(count=>{
+            var propertiesCount = [
+                    {
+                        status      : "VerifyPending",
+                        countObj    : {
+                                            ls2    : 0,
+                                            gr2ls4 : 0,
+                                            gt4    : 0,
+
+                                        }
+                    }
+             ];
+             for(i=0;i<count.length;i++){
+                for(j=0;j<propertiesCount.length;j++){
+                    if(count[i].dateDifference <= 2 && count[i].status === propertiesCount[j].status ){
+                       propertiesCount[j].countObj.ls2+=1;
+                    }else if(count[i].dateDifference > 2 && count[i].dateDifference <=4 && count[i].status === propertiesCount[j].status){
+                       propertiesCount[j].countObj.gr2ls4+=1;
+                    }else if(count[i].dateDifference > 4 && count[i].status === propertiesCount[j].status){
+                       propertiesCount[j].countObj.gt4+=1;
+                    }
+                }
+             }
+             
+            res.status(200).json(propertiesCount);
+        })
+        .catch(err =>{
+            console.log(err);
+            res.status(500).json({
+                error: err
+            });
+        });
+};
+
+exports.fa_manager_dashboard_query_client = (req,res,next)=>{
+    Users.aggregate([
+            { 
+                $match :  
+                { 
+                    "$or":[
+                        {"profile.manager_id": ObjectID(req.params.fieldAgentID)},
+                        {"_id": ObjectID(req.params.fieldAgentID)}
+                    ]
+                } 
+            },
+            { 
+                $lookup : {
+                            "from"          : "interestedprops",
+                            "localField"    : "_id",
+                            "foreignField"  : "fieldAgent.agentID",
+                            "as"            : "userData"
+                        }
+            },
+            {
+                $unwind : "$userData" 
+            },
+            {
+                $project: 
+                    {
+                        createdAtArray: {
+                            $slice: [ "$userData.fieldAgent", -1 ] 
+                          },
+                        status:"$userData.status"   
+                    } 
+            },
+            {"$unwind":"$createdAtArray"},
+            { "$addFields": { createdAt     : '$createdAtArray.createdAt'} },
+            {
+                $project: 
+                    {
+                        
+                        dateDifference: 
+                            {
+                                "$divide": [{ $subtract: [ new Date(), "$createdAt" ] }, 60 * 60 * 1000 ]
+                            }, 
+                        status:"$status"   
+                    } 
+            },
+
+        ])
+        .exec()
+        .then(count=>{
+            var propertiesCount = [
+                    {
+                        status      : "New",
+                        countObj    : {
+                                            ls2    : 0,
+                                            gr2ls4 : 0,
+                                            gt4    : 0,
+
+                                        }
+                    },
+                    {
+                        status      : "meetingSet",
+                        countObj    : {
+                                            ls2    : 0,
+                                            gr2ls4 : 0,
+                                            gt4    : 0,
+
+                                        }
+                    },
+                    {
+                        status      : "Shown",
+                        countObj    : {
+                                            ls2    : 0,
+                                            gr2ls4 : 0,
+                                            gt4    : 0,
+
+                                        }
+                    },
+                    {
+                        status      : "Shortlisted",
+                        countObj    : {
+                                            ls2    : 0,
+                                            gr2ls4 : 0,
+                                            gt4    : 0,
+
+                                        }
+                    },
+                    {
+                        status      : "TokenReceived",
+                        countObj    : {
+                                            ls2    : 0,
+                                            gr2ls4 : 0,
+                                            gt4    : 0,
+
+                                        }
+                    },
+                    {
+                        status      : "ContractDue",
+                        countObj    : {
+                                            ls2    : 0,
+                                            gr2ls4 : 0,
+                                            gt4    : 0,
+
+                                        }
+                    },
+                    {
+                        status      : "Discarded",
+                        countObj    : {
+                                            ls2    : 0,
+                                            gr2ls4 : 0,
+                                            gt4    : 0,
+
+                                        }
+                    }
+             ];
+             for(i=0;i<count.length;i++){
+                for(j=0;j<propertiesCount.length;j++){
+                    if(count[i].dateDifference <= 2 && count[i].status === propertiesCount[j].status ){
+                       propertiesCount[j].countObj.ls2+=1;
+                    }else if(count[i].dateDifference > 2 && count[i].dateDifference <=4 && count[i].status === propertiesCount[j].status){
+                       propertiesCount[j].countObj.gr2ls4+=1;
+                    }else if(count[i].dateDifference > 4 && count[i].status === propertiesCount[j].status){
+                       propertiesCount[j].countObj.gt4+=1;
+                    }
+                }
+             }
+             
+            res.status(200).json(propertiesCount);
+        })
+        .catch(err =>{
+            console.log(err);
+            res.status(500).json({
+                error: err
+            });
+        });
+};
+
+
+exports.fa_manager_tracking_dashboard= (req,res,next)=>{
+    Users.aggregate([
+            { 
+                $match :  
+                { 
+                    "$or":[
+                        {"profile.manager_id": ObjectID(req.params.fieldAgentID)},
+                        {"_id": ObjectID(req.params.fieldAgentID)}
+                    ]
+                } 
+            },
+            { 
+                $lookup : {
+                            "from"          : "interestedprops",
+                            "localField"    : "_id",
+                            "foreignField"  : "fieldAgent.agentID",
+                            "as"            : "userData1"
+                        }
+            },
+            { 
+                $lookup : {
+                            "from"          : "properties",
+                            "localField"    : "_id",
+                            "foreignField"  : "fieldAgent.agentID",
+                            "as"            : "userData2"
+                        }
+            },
+            {
+                $project: 
+                    {
+                        salesAgnetName: "$profile.fullName",
+                        status        : "$userData1.status",   
+                        status1       : "$userData2.status"   
+                    } 
+            },
+        ])
+        .exec()
+        .then(count=>{
+            console.log("count1123",count);
+
+            var fieldAgents = [];
+            var i =0;
+             for(i=0;i<count.length;i++){
+                var j=0;
+                var k=0;
+                var fieldAgent = {
+                        _id                : count[i]._id,
+                        fieldAgnetName     : count[i].salesAgnetName,
+                        verifyPendingCount : 0,
+                        assignedCount      : 0,
+                        meetingSetCount    : 0,
+                        shownCount         : 0,
+                        shortlistedCount   : 0,
+                        tokenReceivedCount : 0,
+                        contractDueCount   : 0,
+                        discardedCount     : 0,
+                    }
+                for (j=0;j<count[i].status.length;j++) {
+                    if(count[i].status[j]=== "New"){
+                        fieldAgent.assignedCount+=1;
+                    }else if(count[i].status[j]=== "meetingSet"){
+                        fieldAgent.meetingSetCount+=1;
+                    }else if(count[i].status[j]=== "Shown"){
+                        fieldAgent.shownCount+=1;
+                    }else if(count[i].status[j]=== "Shortlisted"){
+                        fieldAgent.shortlistedCount+=1;
+                    }else if(count[i].status[j]=== "TokenReceived"){
+                        fieldAgent.tokenReceivedCount+=1;
+                    }else if(count[i].status[j]=== "ContractDue"){
+                        fieldAgent.contractDueCount+=1;
+                    }else if(count[i].status[j]=== "Discarded"){
+                        fieldAgent.discardedCount+=1;
+                    }
+                }
+                for (K=0;K<count[i].status1.length;K++) {
+                    if(count[i].status1[K]=== "VerifyPending"){
+                        fieldAgent.verifyPendingCount+=1;
+                    }
+                }
+                    fieldAgents.push(fieldAgent);
+             }
+             console.log("fieldAgents",fieldAgents);
+             if(i === count.length){
+                res.status(200).json(fieldAgents);
+             }
+        })
+        .catch(err =>{
+            console.log(err);
+            res.status(500).json({
+                error: err
+            });
+        });
+};
+
+

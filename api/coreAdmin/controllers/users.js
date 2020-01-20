@@ -114,14 +114,18 @@ exports.update_user_resetpassword = (req,res,next)=>{
 
 //user login
 exports.user_login = (req,res,next)=>{
-    // console.log('login');
+    
     User.findOne({emails:{$elemMatch:{address:req.body.email}}})
         .exec()
         .then(user => {
+        	main();
+    		async function main(){
             if(user){
+            	var officeLocation = await getOfficeLocation(user._id);
+            	console.log("officeLocation",officeLocation)
                 var pwd = user.services.password.bcrypt;
                 if(pwd){
-					// console.log('PWD',pwd);
+					
                     bcrypt.compare(req.body.password,pwd,(err,result)=>{
                         if(err){
                             console.log('password err ',err);
@@ -130,6 +134,7 @@ exports.user_login = (req,res,next)=>{
                             });     
                         }
                         if(result){
+                        	console.log('body',req.body);
                             // console.log('result ',result);
                             const token = jwt.sign({
                                 email   : req.body.email,
@@ -154,7 +159,7 @@ exports.user_login = (req,res,next)=>{
 									.exec()
 									.then(updateUser=>{
 										if(updateUser.nModified == 1){
-											// console.log("token = ",token);
+											console.log("token = ",token);
 											res.status(200).json({
 												message             : 'Auth successful',
 				                                token               : token,
@@ -162,6 +167,7 @@ exports.user_login = (req,res,next)=>{
 												userFullName       	: user.profile.fullName,
 												useremailId			: user.profile.emailId,						
 												roles 				: user.roles,
+												officeLocation      : officeLocation ? officeLocation : "",
 				                                // userProfileImg      : user.profile.userProfile,
 											});	
 										}
@@ -179,6 +185,7 @@ exports.user_login = (req,res,next)=>{
             }else{
                 res.status(200).status({message:"User Not found"});
             }
+           } 
         })
         .catch(err =>{
             console.log(err);
@@ -186,6 +193,60 @@ exports.user_login = (req,res,next)=>{
                 error: err
             });
         });
+};
+
+
+function getOfficeLocation(userID){
+	return new Promise(function(resolve,reject){
+	    User.aggregate([
+		    	{
+		    		$match : 	{
+		    				 		"_id": ObjectID(userID)
+		    					}
+		    	},
+		    	{
+		    		$lookup : {
+		    					"from" 			: "tgkspecificcompanysettings",
+		    					"localField"    : "officeLocation",
+		    					"foreignField"  : "companyLocationsInfo._id",
+		    					"as" 			: "companyLocation"
+		    				}
+		    	},
+		    	{
+		    		$unwind: "$companyLocation"
+		    	},
+		    	{
+		    		$project:{
+		    			officeID        	: 	"$officeLocation",
+		    			officeLocation 		: 	"$companyLocation.companyLocationsInfo"
+		    		}
+		    	},
+	    	])
+	        .exec()
+	        .then(user => {
+	        	if(user && user.length>0 && user[0].officeLocation){
+	        		var officeLocation = user[0].officeLocation ;
+		        	var office = "";
+		        	for (var i = 0;i<officeLocation.length;i++) {
+		        		if( (user[0].officeID).toString() === (officeLocation[i]._id).toString()){
+		        			 office = officeLocation[i].officeLocationid;
+			        	}
+		        	}
+		        	if(i === officeLocation.length){
+		            	resolve(office);
+		        	}
+	        	}else{
+	        		resolve("");
+	        	}
+	        	
+	        })
+	        .catch(err =>{
+	            console.log(err);
+	            res.status(500).json({
+	                error: err
+	            });
+	        });
+	    });    
 };
 
 //show user list
@@ -703,6 +764,11 @@ exports.user_login_role = (req,res,next)=>{
             });
         });
 };
+
+
+
+
+
 exports.user_details_withLocName = (req,res,next)=>{
 	var id = req.params.userID;
 	User.aggregate([
