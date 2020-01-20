@@ -168,7 +168,7 @@ exports.property_sa_totaldisplaylist = (req,res,next)=>{
         Properties.find({
                         "salesAgent.agentID" : req.params.salesAgentID,
                         "salesAgent.status"  : "Active",
-                        "createdAtStr"       : {$ne : todayDate}
+                        // "createdAtStr"       : {$ne : todayDate}
                     })        
         .exec()
         .then(property=>{
