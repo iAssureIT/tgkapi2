@@ -1061,6 +1061,7 @@ exports.locationWiseListCount = (req,res,next)=>{
     ])
     .exec()
     .then(subareaProperties=>{
+        console.log("Inside subareaProperties",subareaProperties)
 
         Properties
         .aggregate([
@@ -1074,6 +1075,7 @@ exports.locationWiseListCount = (req,res,next)=>{
         ])
         .exec()
         .then(areaProperties=>{
+            console.log("Inside areaProperties",areaProperties)
                 var properties = subareaProperties.concat(areaProperties)
                 var sortedProps = [];
                 var hadapsar    = {_id:"Hadapsar", count:0};
