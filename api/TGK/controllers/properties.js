@@ -1045,10 +1045,11 @@ exports.update_listing = (req,res,next)=>{
                     error: err
                 });
             });
-}
+};
 
 
 exports.locationWiseListCount = (req,res,next)=>{
+    console.log("inside")
     Properties
     .aggregate([
         {
