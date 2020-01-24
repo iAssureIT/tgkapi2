@@ -131,7 +131,7 @@ exports.update_notifications = (req,res,next)=>{
 
 //send Mail Notification -Rushikesh Salunkhe
 exports.send_notifications = (req,res,next)=>{
-    console.log('req',req.body);
+    // console.log('req',req.body);
     const senderEmail = 'lyvoapp1@gmail.com';
     const senderEmailPwd = 'Lyvo@123';
     let transporter = nodeMailer.createTransport({                
@@ -184,11 +184,11 @@ exports.send_notifications = (req,res,next)=>{
 
         const client = new plivo.Client(globalVariable.AUTH_ID,globalVariable.AUTH_TOKEN); // Vowels LLP
         const sourceMobile = globalVariable.SOURCE_MOBILE;
-        console.log("plivo_auth=========+>",globalVariable.AUTH_ID);
-        console.log("plivo_secret=========+>",globalVariable.AUTH_TOKEN);
+        // console.log("plivo_auth=========+>",globalVariable.AUTH_ID);
+        // console.log("plivo_secret=========+>",globalVariable.AUTH_TOKEN);
 
         var text = templateDetailsSMS.content.replace(/<[^>]+>/g, '');
-        console.log("text=========+>",text);
+        // console.log("text=========+>",text);
         // htmlString.replace(/<[^>]+>/g, '');
 
 
@@ -198,7 +198,7 @@ exports.send_notifications = (req,res,next)=>{
             text = text
         ).then((result) => {
         // return res.status(200).json("OTP "+OTP+" Sent Successfully ");
-            console.log("result=========+>",result);
+            // console.log("result=========+>",result);
 
             res.header("Access-Control-Allow-Origin","*");
             res.status(200).json({
