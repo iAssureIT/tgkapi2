@@ -511,42 +511,53 @@ exports.detail_Properties = (req, res, next)=>{
         // .select("profile")
         .exec()
         .then(properties =>{
-            if(properties){
-                for(var k=0; k<properties.length; k++){                    
-                    properties[k] = {...properties[k]._doc, isInterested:false};
-                }
+            res.status(200).json(properties);
+        })
+        .catch(err =>{
+            console.log(err);
+            res.status(500).json({
+                error: err
+            });
+        });
+}
 
-                if(req.body.buyer_id){
+
+exports.properties_details_for_web = (req, res, next)=>{
+    var id = req.params.propertyID;
+    Properties.findOne({_id:id})
+        .exec()
+        .then(properties =>{
+            if(properties){
+                properties = {...properties._doc, isInterested:false};
+                if(req.params.buyer_id){
                     InterestedProps
-                        .find({"buyer_id" : req.body.buyer_id})
+                        .find({"buyer_id" : req.params.buyer_id})
                         .then(iprops => {
+                            var breakStatus = false;
                             if(iprops.length > 0){
-                                for(var i=0; i<iprops.length; i++){
-                                    for(let j=0; j<properties.length; j++){
-                                        if(iprops[i].property_id === String(properties[j]._id) ){
-                                            properties[j] = {...properties[j], isInterested:true};
+                                var j = 0;
+                                for(var j=0; j<iprops.length; j++){
+                                        if(iprops[j].property_id == String(properties._id)){
+                                            properties= {...properties, isInterested:true};
+                                            breakStatus = true;
                                             break;
                                         }
-
-                                    }
-
                                 }
-                                if(i >= iprops.length){
+                                if(j >= iprops.length || breakStatus){
                                     res.status(200).json(properties);
                                 }       
-                                }else{
-                                    res.status(200).json(properties);
-                                }
-                            })
-                            .catch(err =>{
-                                console.log(err);
-                                res.status(500).json({
-                                    error: err
-                                });
-                            });                        
+                            }else{
+                                res.status(200).json(properties);
+                            }
+                        })
+                        .catch(err =>{
+                            console.log(err);
+                            res.status(500).json({
+                                error: err
+                            });
+                        });                        
                     }else{
                         // properties.map(obj=>({...obj, isInterested: false}));
-                        res.status(200).json(properties);
                     }
                 }else{
                     res.status(404).json('Property Details not found');
@@ -559,7 +570,6 @@ exports.detail_Properties = (req, res, next)=>{
             });
         });
 }
-
 
 exports.single_property = (req, res, next)=>{
     Properties.findOne({_id:req.body.property_id})

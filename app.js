@@ -7,7 +7,7 @@
 	const globalVariable 				= require('./nodemon.js');
 
 	mongoose.connect('mongodb://localhost/'+globalVariable.dbname,{
-		useNewUrlParser: true
+		useNewUrlParser: true,
 	})
 	mongoose.promise = global.Promise;
 
