@@ -530,7 +530,7 @@ exports.properties_details_for_web = (req, res, next)=>{
             if(properties){
                 properties = {...properties._doc, isInterested:false};
                 if(req.params.buyer_id){
-                    console.log("properties=>",properties);
+                    // console.log("properties=>",properties);
                     InterestedProps
                         .find({"buyer_id" : req.params.buyer_id, "status"   : {$ne : "Delete"}})
                         .then(iprops => {
@@ -539,7 +539,7 @@ exports.properties_details_for_web = (req, res, next)=>{
                                 var j = 0;
                                 for(var j=0; j<iprops.length; j++){
                                         if(String(iprops[j].property_id) === String(properties._id)){
-                                            console.log("Inside")
+                                            // console.log("Inside")
                                             properties= {...properties, isInterested:true};
                                             breakStatus = true;
                                             break;
