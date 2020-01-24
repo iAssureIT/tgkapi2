@@ -532,7 +532,7 @@ exports.properties_details_for_web = (req, res, next)=>{
                 if(req.params.buyer_id){
                     console.log("properties=>",properties);
                     InterestedProps
-                        .find({"buyer_id" : req.params.buyer_id})
+                        .find({"buyer_id" : req.params.buyer_id, "status"   : {$ne : "Delete"}})
                         .then(iprops => {
                             var breakStatus = false;
                             if(iprops.length > 0){
