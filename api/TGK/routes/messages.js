@@ -5,6 +5,8 @@ const MessagesController = require('../controllers/messages');
 
 router.post('/post/coversation',MessagesController.coversation);
 
-router.get('/get/coversation/:prop_id',MessagesController.get_coversation);
+router.get('/get/getConversationforSA/:prop_id',MessagesController.get_coversation_for_sa_query);
+
+router.get('/get/getCoversationforClient/:trans_id',MessagesController.get_coversation_for_client_query);
 
 module.exports = router;

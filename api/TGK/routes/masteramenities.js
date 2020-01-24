@@ -1,4 +1,4 @@
-const express 	= require("express");
+	const express 	= require("express");
 const router 	= express.Router();
 const checkAuth = require('../../coreAdmin/middlerware/check-auth');
 const MasteramenitiesController = require('../controllers/masteramenities');
