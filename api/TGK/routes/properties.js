@@ -25,7 +25,7 @@ router.get('/mypropertylist/:uid',checkAuth,PropertiesController.my_property_lis
 
 router.get('/:propertyID', checkAuth,PropertiesController.detail_Properties);
 
-router.get('propertydetails/:propertyID/:buyer_id', checkAuth,PropertiesController.properties_details_for_web);
+router.get('/propertydetails/:propertyID/:buyer_id', checkAuth,PropertiesController.properties_details_for_web);
 
 router.post('/one/property', checkAuth,PropertiesController.single_property);
 
