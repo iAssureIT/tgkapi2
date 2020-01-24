@@ -537,7 +537,7 @@ exports.properties_details_for_web = (req, res, next)=>{
                             if(iprops.length > 0){
                                 var j = 0;
                                 for(var j=0; j<iprops.length; j++){
-                                        if(iprops[j].property_id == String(properties._id)){
+                                        if(String(iprops[j].property_id) === String(properties._id)){
                                             properties= {...properties, isInterested:true};
                                             breakStatus = true;
                                             break;
@@ -557,6 +557,7 @@ exports.properties_details_for_web = (req, res, next)=>{
                             });
                         });                        
                     }else{
+                        res.status(200).json(properties);
                         // properties.map(obj=>({...obj, isInterested: false}));
                     }
                 }else{
