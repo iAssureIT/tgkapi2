@@ -600,7 +600,7 @@ exports.fa_manager_tracking_dashboard= (req,res,next)=>{
         ])
         .exec()
         .then(count=>{
-            console.log("count1123",count);
+            // console.log("count1123",count);
 
             var fieldAgents = [];
             var i =0;
@@ -643,7 +643,7 @@ exports.fa_manager_tracking_dashboard= (req,res,next)=>{
                 }
                     fieldAgents.push(fieldAgent);
              }
-             console.log("fieldAgents",fieldAgents);
+             // console.log("fieldAgents",fieldAgents);
              if(i === count.length){
                 res.status(200).json(fieldAgents);
              }

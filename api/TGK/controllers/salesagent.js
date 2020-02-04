@@ -127,7 +127,7 @@ exports.update_approvedlist = (req,res,next)=>{
 
 
 exports.property_sa_totaldisplaylist = (req,res,next)=>{
-    console.log("in count------------------",req.params);
+    // console.log("in count------------------",req.params);
     var todayDate = moment(new Date()).format("YYYY-MM-DD");
     if(req.params.userRole=="admin" || req.params.userRole=="Sales Manager"){
         console.log("admin");
@@ -403,7 +403,7 @@ exports.sa_manager_tracking_dashboard= (req,res,next)=>{
                 }
                 salesAgentCount.push(salesAgent);
              }
-             console.log("salesAgentCount",salesAgentCount);
+             // console.log("salesAgentCount",salesAgentCount);
              if(i === count.length){
                 res.status(200).json(salesAgentCount);
              }

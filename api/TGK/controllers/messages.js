@@ -9,10 +9,11 @@ var ObjectId      = require('mongodb').ObjectID;
 
 //If coversation between SA and FA already exist push messages in array else create new conversation.
 exports.coversation = (req,res,next)=>{
+  console.log("body=>",req.body)
   main();
   async function main(){
   var userName         = await getUserName(req.body.user_id);
-  console.log("user",userName);
+  // console.log("user",userName);
   Messages.findOne({prop_id:req.body.prop_id})
   .exec()
   .then(messages=>{
@@ -48,9 +49,10 @@ exports.coversation = (req,res,next)=>{
       const messages =new Messages({
         _id       : new mongoose.Types.ObjectId(),
         prop_id   : req.body.prop_id,
-        trans_id  : req.body.trans_id,
+        // trans_id  : req.body.trans_id,
         messages  : [{
                          user_id      : req.body.user_id,
+                         userName     : userName,
                          text         : req.body.text,
                          image        : req.body.image,
                          createdAt    : new Date()
@@ -163,11 +165,11 @@ exports.get_coversation_for_sa_query = (req,res,next)=>{
 
 //get data of coversation
 exports.get_coversation_for_client_query = (req,res,next)=>{
-  console.log("inside get conversation")
+  // console.log("inside get conversation")
   InterestedProps.findOne({_id:req.params.trans_id})
   .exec()
   .then(interestedProperties=>{
-    console.log("interestedProperties=>",interestedProperties);
+    // console.log("interestedProperties=>",interestedProperties);
     if(interestedProperties){
        Properties.findOne({_id:interestedProperties.property_id})
       .exec()
@@ -184,7 +186,7 @@ exports.get_coversation_for_client_query = (req,res,next)=>{
                   Messages.findOne({prop_id:interestedProperties.property_id})
                   .exec()
                   .then(conversation=>{
-                    console.log("conversation",conversation)
+                    // console.log("conversation",conversation)
                       res.status(200).json({
                         propertyId        : property._id,
                         propertyCode      : property.propertyCode,
@@ -240,4 +242,41 @@ exports.get_coversation_for_client_query = (req,res,next)=>{
   })
 };
 
+
+//get data of coversation
+exports.get_coversation= (req,res,next)=>{
+  Messages.findOne({prop_id:req.params.prop_id})
+      .exec()
+      .then(conversation=>{
+        console.log("conversation",req.params.prop_id)
+            Properties.findOne({_id:req.params.prop_id})
+            .exec()
+            .then(property=>{
+              console.log("property=>",property)
+               res.status(200).json({
+                    propertyId        : property._id,
+                    propertyCode      : property.propertyCode,
+                    propertyType      : property.propertyType,
+                    transactionType   : property.transactionType,
+                    propertyImages    : property.gallery.Images,
+                    propertyLocation  : property.propertyLocation,
+                    messagesId        : conversation ? conversation._id : "",
+                    messages          : conversation ? conversation.messages : ""
+                }); 
+                
+             })
+            .catch(err=>{
+              console.log(err);
+              res.status(500).json({
+                  error: err
+              });  
+            });
+       })
+      .catch(err=>{
+        console.log(err);
+        res.status(500).json({
+            error: err
+        });  
+      }); 
+};
 
