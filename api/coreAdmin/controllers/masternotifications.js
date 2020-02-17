@@ -163,16 +163,14 @@ exports.send_notifications = (req,res,next)=>{
                     subject     : templateDetailsEmail.subject, // Subject line
                     html        : templateDetailsEmail.content, // html body
                 };
-                console.log("mailOptions",mailOptions)
+                // console.log("mailOptions",mailOptions)
                 transporter.sendMail(mailOptions, (error, info) => {
                     if (error) {
-                        console.log(" transporter error",error)                    
                         res.status(500).json({              
                             message: "Send Email Failed",
                         });
                     }
                     if(info){
-                        console.log(" transporter info",info)
                         res.status(200).json({              
                             message: "Mail Sent Successfully",
                         });
