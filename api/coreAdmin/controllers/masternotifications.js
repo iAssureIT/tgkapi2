@@ -142,6 +142,7 @@ exports.send_notifications = (req,res,next)=>{
             pass: senderEmailPwd
         }
     });
+    console.log("transporter==",transporter)
     main();
     async function main(){
         var userProfile = {};
