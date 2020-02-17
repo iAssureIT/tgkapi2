@@ -131,7 +131,7 @@ exports.update_notifications = (req,res,next)=>{
 
 //send Mail Notification -Rushikesh Salunkhe
 exports.send_notifications = (req,res,next)=>{
-    // console.log('req',req.body);
+    console.log('send_notifications');
     const senderEmail = 'lyvoapp1@gmail.com';
     const senderEmailPwd = 'Lyvo@123';
     let transporter = nodeMailer.createTransport({                
