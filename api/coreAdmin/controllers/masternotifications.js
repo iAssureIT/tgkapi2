@@ -157,7 +157,9 @@ exports.send_notifications = (req,res,next)=>{
             }
         }
         if(toEmail != "1"){
+            console.log("toEmail",toEmail)
             const templateDetailsEmail = await getTemplateDetailsEmail(req.body.templateName, req.body.variables);
+            console.log("templateDetailsEmail",templateDetailsEmail)
             if(templateDetailsEmail){
                 var mailOptions = {                
                     from        : '"LYVO Admin" <'+senderEmail+'>', // sender address
@@ -165,6 +167,7 @@ exports.send_notifications = (req,res,next)=>{
                     subject     : templateDetailsEmail.subject, // Subject line
                     html        : templateDetailsEmail.content, // html body
                 };
+                console.log("mailOptions",mailOptions)
                 transporter.sendMail(mailOptions, (error, info) => {
                     if (error) {                    
                         res.status(500).json({              
