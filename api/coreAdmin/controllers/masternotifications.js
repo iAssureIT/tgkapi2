@@ -131,7 +131,6 @@ exports.update_notifications = (req,res,next)=>{
 
 //send Mail Notification -Rushikesh Salunkhe
 exports.send_notifications = (req,res,next)=>{
-    console.log('send_notifications');
     const senderEmail = 'lyvoapp1@gmail.com';
     const senderEmailPwd = 'Lyvo@123';
     let transporter = nodeMailer.createTransport({                
@@ -142,7 +141,6 @@ exports.send_notifications = (req,res,next)=>{
             pass: senderEmailPwd
         }
     });
-    console.log("transporter==",transporter)
     main();
     async function main(){
         var userProfile = {};
@@ -157,9 +155,7 @@ exports.send_notifications = (req,res,next)=>{
             }
         }
         if(toEmail != "1"){
-            console.log("toEmail",toEmail)
             const templateDetailsEmail = await getTemplateDetailsEmail(req.body.templateName, req.body.variables);
-            console.log("templateDetailsEmail",templateDetailsEmail)
             if(templateDetailsEmail){
                 var mailOptions = {                
                     from        : '"LYVO Admin" <'+senderEmail+'>', // sender address
@@ -169,12 +165,14 @@ exports.send_notifications = (req,res,next)=>{
                 };
                 console.log("mailOptions",mailOptions)
                 transporter.sendMail(mailOptions, (error, info) => {
-                    if (error) {                    
+                    if (error) {
+                        console.log(" transporter error",error)                    
                         res.status(500).json({              
                             message: "Send Email Failed",
                         });
                     }
                     if(info){
+                        console.log(" transporter info",info)
                         res.status(200).json({              
                             message: "Mail Sent Successfully",
                         });
