@@ -205,7 +205,7 @@ exports.searchProperties = (req,res,next)=>{
                             "status"   : {$ne : "Delete"}
                           })
                     .then(iprops => {
-                      // console.log("iprops",iprops);
+                      console.log("iprops",iprops);
                         if(iprops.length > 0){
                             for(var i=0; i<iprops.length; i++){
                                 for(let j=0; j<searchResults.length; j++){                                      

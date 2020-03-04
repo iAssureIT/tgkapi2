@@ -131,8 +131,10 @@ exports.update_notifications = (req,res,next)=>{
 
 //send Mail Notification -Rushikesh Salunkhe
 exports.send_notifications = (req,res,next)=>{
-    const senderEmail = 'lyvoapp1@gmail.com';
-    const senderEmailPwd = 'Lyvo@123';
+    // const senderEmail = 'lyvoapp1@gmail.com';
+    const senderEmail = globalVariable.senderEmail;
+    const senderEmailPwd = globalVariable.senderEmailPwd;
+    // const senderEmailPwd = 'Lyvo@123';
     let transporter = nodeMailer.createTransport({                
         host: 'smtp.gmail.com',
         port: 587,

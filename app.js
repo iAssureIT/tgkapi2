@@ -51,14 +51,17 @@
 	
 	app.use("/api/tgkSpecificcompanysettings",TgkSpecificCompanysettingsurl);
 
+ 	const senderEmail = globalVariable.senderEmail;
+    const senderEmailPwd = globalVariable.senderEmailPwd;
+
 	app.post('/send-email', (req, res)=> {
 		console.log('send mail');
 		let transporter = nodeMailer.createTransport({
 			host: 'smtp.gmail.com',
 			port: 587,
 			auth: {
-				user: 'lyvoapp1@gmail.com',
-				pass: 'Lyvo@123'
+				user: senderEmail,
+				pass: senderEmailPwd,
 			}
 		});
 
