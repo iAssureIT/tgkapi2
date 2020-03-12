@@ -204,6 +204,7 @@ exports.patch_updateMeeting = (req,res,next)=>{
                             },
                             {
                                 $set : {
+                                    "meeting.$.remark"      : req.body.remark,
                                     "meeting.$.meetingStatus"      : req.body.meetingStatus,
                                     "updatedAt"   : new Date() 
                                 }
@@ -297,6 +298,7 @@ exports.patch_transaction_status_Update = (req,res,next)=>{
                                         "contractDue.contactTime"       : req.body.contactTime,
                                         "contractDue.contractRemark"    : req.body.contractRemark,
                                         "contractDue.contractEndDate"   : req.body.contractEndDate,
+                                        "contractDue.contractExecutionDate"   : req.body.contractExecutionDate,
                                     }
                                 }
                     )
