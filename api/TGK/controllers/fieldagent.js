@@ -198,15 +198,15 @@ exports.patch_setUpMeeting = (req,res,next)=>{
 exports.patch_updateMeeting = (req,res,next)=>{
     console.log("patch_updateMeeting ",req.body);
     InterestedProps.update(
-                            { 
-                                "_id"                     : req.body.interestedProperties_id,
-                                "meeting._id"             : req.body.meeting_id,
-                            },
+                            { _id : req.body.interestedProperties_id},
                             {
-                                $set : {
-                                    "meeting.$.remark"      : req.body.remark,
-                                    "meeting.$.meetingStatus"      : req.body.meetingStatus,
-                                    "updatedAt"   : new Date() 
+                                $push : {
+                                    meeting : {
+                                        meetingDate        : req.body.meetingDate, //YYYY-MM-DD
+                                        meetingTime        : req.body.meetingStartTime, //HH:MM AM 
+                                        remark             : req.body.remark,
+                                        meetingStatus      : req.body.meetingStatus, 
+                                    }
                                 }
                             }
                 )
