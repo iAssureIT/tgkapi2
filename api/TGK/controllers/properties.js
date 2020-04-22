@@ -557,6 +557,58 @@ exports.update_gallaryImages = (req,res,next)=>{
         });
 }
 
+exports.update_gallaryVideo = (req,res,next)=>{
+    // var roleData = req.body.role;
+    console.log("update_availabilityPlan=>",req.body);
+     Properties.findOne({"_id":req.body.property_id})
+    .exec()
+    .then(toUser_id => { 
+        console.log('toUser_id=>',toUser_id)
+
+            Properties.updateOne(
+                { "_id" : req.body.property_id },                        
+                {   $set :{
+                        "status"         : req.body.status, 
+                        "propertyCreatedAt" : new Date(),
+                        "updateAt"       : new Date(),
+                },
+                    $push:{
+                       
+                        "gallery.video"  : req.body.video,
+                        "statusArray" :  {
+                                        "statusVal"   : req.body.status, 
+                                        "createdAt"   : new Date(),
+                                        "allocatedTo" : toUser_id.statusArray.length > 0 ? toUser_id.statusArray[0].allocatedTo : "" ,
+                                    },
+                        
+                    },
+                    
+                }
+                )
+                .exec()
+                .then(data=>{
+                    if(data.nModified == 1){                        
+                        res.status(200).json("Video updated successfully");
+                    }else{
+                        res.status(404).json("Video not updated");
+                    }
+                })
+                .catch(err =>{
+                    console.log(err);
+                    res.status(500).json({
+                        error: err
+                    });
+                });
+         })
+         .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                message : "SalesAgent Role Users Not Found. You must have one Sales Agent Role User",
+                error   : err
+            });
+        });
+}
+
 exports.detail_Properties = (req, res, next)=>{
     var id = req.params.propertyID;
     Properties.findOne({_id:id})

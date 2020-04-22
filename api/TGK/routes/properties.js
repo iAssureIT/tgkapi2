@@ -48,6 +48,8 @@ router.patch('/patch/availabilityPlan', checkAuth,PropertiesController.update_av
 
 router.patch('/patch/gallaryImages', checkAuth,PropertiesController.update_gallaryImages);
 
+router.patch('/patch/gallaryVideo', checkAuth,PropertiesController.update_gallaryVideo);
+
 router.delete('/:propertyID',checkAuth,PropertiesController.delete_Properties);
 
 router.delete('/',PropertiesController.deleteall_Properties);
