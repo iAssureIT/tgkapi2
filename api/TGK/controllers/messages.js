@@ -24,6 +24,7 @@ exports.coversation = (req,res,next)=>{
         {
           $push : {
               messages:{
+                messageId    : new mongoose.Types.ObjectId(),
                 user_id      : req.body.user_id,
                 userName     : userName,
                 text         : req.body.text,
@@ -51,6 +52,7 @@ exports.coversation = (req,res,next)=>{
         prop_id   : req.body.prop_id,
         // trans_id  : req.body.trans_id,
         messages  : [{
+                         messageId    : new mongoose.Types.ObjectId(),
                          user_id      : req.body.user_id,
                          userName     : userName,
                          text         : req.body.text,
