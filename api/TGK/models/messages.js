@@ -5,6 +5,7 @@ const messagesSchema = mongoose.Schema({
     prop_id   : { type: mongoose.Schema.Types.ObjectId, ref: 'properties' },
     trans_id  : { type: mongoose.Schema.Types.ObjectId, ref: 'interestedprops' }, 
     messages  : [{
+                     messageId    : mongoose.Schema.Types.ObjectId,
                      user_id      : { type: mongoose.Schema.Types.ObjectId, ref: 'users' },
                      userName     : String,
                      text         : String,

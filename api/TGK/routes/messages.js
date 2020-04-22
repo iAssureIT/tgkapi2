@@ -11,4 +11,6 @@ router.get('/get/getConversation/:prop_id',MessagesController.get_coversation);
 
 router.get('/get/getCoversationforClient/:trans_id',MessagesController.get_coversation_for_client_query);
 
+router.delete('/delete/message/:messageId',MessagesController.delete_messages);
+
 module.exports = router;

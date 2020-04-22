@@ -46,6 +46,8 @@ router.patch('/patch/amenities', checkAuth,PropertiesController.update_amenities
 
 router.patch('/patch/availabilityPlan', checkAuth,PropertiesController.update_availabilityPlan);
 
+router.patch('/patch/gallaryImages', checkAuth,PropertiesController.update_gallaryImages);
+
 router.delete('/:propertyID',checkAuth,PropertiesController.delete_Properties);
 
 router.delete('/',PropertiesController.deleteall_Properties);

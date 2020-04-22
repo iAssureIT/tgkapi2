@@ -241,7 +241,20 @@ exports.get_coversation_for_client_query = (req,res,next)=>{
     });
   })
 };
-
+//delete messages
+exports.delete_messages = (req,res,next)=>{
+    Messages.deleteOne({"messages.messageId":req.params.messageId})
+    .exec()
+    .then(data=>{
+        res.status(200).json("Message deleted");
+    })
+    .catch(err =>{
+        console.log(err);
+        res.status(500).json({
+            error: err
+        });
+    });
+}
 
 //get data of coversation
 exports.get_coversation= (req,res,next)=>{
