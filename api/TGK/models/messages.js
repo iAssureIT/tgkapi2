@@ -10,6 +10,7 @@ const messagesSchema = mongoose.Schema({
                      userName     : String,
                      text         : String,
                      image        : String,
+                     file         : String,
                      createdAt    : Date,
                 }]
 });

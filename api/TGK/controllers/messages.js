@@ -29,6 +29,7 @@ exports.coversation = (req,res,next)=>{
                 userName     : userName,
                 text         : req.body.text,
                 image        : req.body.image,
+                file         : req.body.file,
                 createdAt    : new Date()
               }
           }
@@ -57,6 +58,7 @@ exports.coversation = (req,res,next)=>{
                          userName     : userName,
                          text         : req.body.text,
                          image        : req.body.image,
+                         file         : req.body.file,
                          createdAt    : new Date()
                     }]
         })

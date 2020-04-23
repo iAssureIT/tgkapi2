@@ -568,13 +568,14 @@ exports.update_gallaryVideo = (req,res,next)=>{
             Properties.updateOne(
                 { "_id" : req.body.property_id },                        
                 {   $set :{
+                        "gallery.video"  : req.body.video,
                         "status"         : req.body.status, 
                         "propertyCreatedAt" : new Date(),
                         "updateAt"       : new Date(),
                 },
                     $push:{
                        
-                        "gallery.video"  : req.body.video,
+                       
                         "statusArray" :  {
                                         "statusVal"   : req.body.status, 
                                         "createdAt"   : new Date(),
