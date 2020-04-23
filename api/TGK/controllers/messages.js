@@ -247,8 +247,8 @@ exports.get_coversation_for_client_query = (req,res,next)=>{
 };
 //delete messages
 exports.delete_messages = (req, res, next)=>{
-  console.log('res msg',res)
-    Message.deleteOne({_id: req.params._id},{"message.messageId":req.parems.messageId})
+  console.log('res msg',res.parems.messageId)
+    Message.deleteOne({"message.messageId":req.parems.messageId})
         .exec()
         .then(data=>{
           console.log('data msg',data)
