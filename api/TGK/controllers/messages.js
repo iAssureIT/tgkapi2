@@ -246,22 +246,22 @@ exports.get_coversation_for_client_query = (req,res,next)=>{
   })
 };
 //delete messages
-exports.delete_messages = (req, res, next)=>{
-  console.log('res msg',res.parems.messageId)
-    Message.deleteOne({"message.messageId":req.parems.messageId})
-        .exec()
-        .then(data=>{
-          console.log('data msg',data)
-            if(data.deletedCount === 1){
-                res.status(200).json({ deleted : true });
-            }else{
-                res.status(200).json({ deleted : false });
-            }
-        })
-        .catch(err =>{
-            res.status(500).json({ error: err });
-        });            
-};
+exports.delete_messages = (req,res,next)=>{
+  console.log('res msg',res.params.messageId)
+
+    Messages.deleteOne({"messages.messageId":req.params.messageId})
+    .exec()
+    .then(data=>{
+      console.log('data message',data)
+        res.status(200).json("Message deleted");
+    })
+    .catch(err =>{
+        console.log(err);
+        res.status(500).json({
+            error: err
+        });
+    });
+}
 
 //get data of coversation
 exports.get_coversation= (req,res,next)=>{
