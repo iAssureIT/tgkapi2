@@ -246,53 +246,22 @@ exports.get_coversation_for_client_query = (req,res,next)=>{
   })
 };
 //delete messages
-exports.delete_messages = (req, res, next) => {
-    console.log("req.params==>",req.params)
-
-    Message.find({ _id: req.params._id })
+exports.delete_messages = (req, res, next)=>{
+  console.log('res msg',res)
+    Message.deleteOne({_id: req.params._id},{"message.messageId":req.parems.messageId})
         .exec()
-        .then(responsedata => {
-            console.log("responsedata==>",responsedata)
-            console.log("responsedata.messageId==>",responsedata.messageId)
-            Message.deleteOne({ "messages.messageId":req.parems.messageId })
-                .exec()
-                .then(data => {
-                    console.log("data in delete==>",data)
-                    if (data.deletedCount === 1) {
-                        res.status(200).json({ deleted: true });
-                    } else {
-                        res.status(200).json({ deleted: false });
-                    }
-                })
-                .catch(err =>{
-                    console.log(err);
-                    res.status(500).json({
-                        error: err
-                    });
-                });
-                })
-                .catch(err =>{
-                    console.log(err);
-                    res.status(500).json({
-                        error: err
-                    });
-                });
+        .then(data=>{
+          console.log('data msg',data)
+            if(data.deletedCount === 1){
+                res.status(200).json({ deleted : true });
+            }else{
+                res.status(200).json({ deleted : false });
+            }
+        })
+        .catch(err =>{
+            res.status(500).json({ error: err });
+        });            
 };
-// exports.delete_messages = (req, res, next)=>{
-//     Message.deleteOne({_id: req.params._id},{"message.messageId":req.parems.messageId})
-//         .exec()
-//         .then(data=>{
-//             if(data.deletedCount === 1){
-//                 res.status(200).json({ deleted : true });
-//             }else{
-//                 res.status(200).json({ deleted : false });
-//             }
-//         })
-//         .catch(err =>{
-//             res.status(500).json({ error: err });
-//         });            
-// };
-
 
 //get data of coversation
 exports.get_coversation= (req,res,next)=>{
