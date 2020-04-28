@@ -37,6 +37,8 @@ router.patch('/patch/propertyDetails', checkAuth,PropertiesController.update_Pro
 
 router.patch('/patch/updateListing', checkAuth,PropertiesController.update_listing);
 
+router.patch('/patch/updateStatus', checkAuth,PropertiesController.update_status);
+
 
 router.patch('/patch/financials', checkAuth,PropertiesController.update_financials);
 

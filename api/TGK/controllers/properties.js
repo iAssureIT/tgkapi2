@@ -1152,6 +1152,30 @@ exports.update_listing = (req,res,next)=>{
             });
 };
 
+//amit
+exports.update_status = (req,res,next)=>{
+    Properties.updateOne(
+        { "_id" : req.body.property_id},                        
+        {
+            $set:{
+                    "status"   : req.body.status,
+                    "updatedAt": new Date(),
+            }
+        }
+        )
+        .exec()
+        .then(properties=>{
+                console.log(properties);
+                res.status(200).json(properties);
+            })
+            .catch(err =>{
+                console.log(err);
+                res.status(500).json({
+                    error: err
+                });
+            });
+};
+
 
 exports.locationWiseListCount = (req,res,next)=>{
     console.log("inside")
