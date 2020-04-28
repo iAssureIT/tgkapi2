@@ -11,6 +11,8 @@ router.get('/:interestedPropsId', checkAuth,InterestedPropsController.detail_int
 
 router.delete('/:buyer_id/:property_id',checkAuth,InterestedPropsController.delete_interestedProps);
 
+router.get('/meeting_list/:interestedId',checkAuth,InterestedPropsController.get_meeting_list);
+
 // router.delete('/',InterestedPropsController.deleteall_interestedProps);
 
 //Code By Anagha

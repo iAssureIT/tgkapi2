@@ -309,5 +309,19 @@ exports.delete_interestedProps = (req,res,next)=>{
 };
 
 
+exports.get_meeting_list= (req,res,next)=>{
+    InterestedProps.find({_id:req.params.interestedId},{meeting:1})
+        .exec()
+        .then(meetings=>{
+            res.status(200).json(meetings)
+        })
+        .catch(err =>{
+            res.status(500).json({
+                error: err
+            });
+        });
+};
+
+
 
 
