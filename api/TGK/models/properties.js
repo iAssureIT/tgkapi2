@@ -106,6 +106,7 @@ const propertiesSchema = mongoose.Schema({
                                }],
     fieldAgent              : [{
                                    agentID    :  { type: mongoose.Schema.Types.ObjectId, ref: 'users' },
+                                   agentName  : String,
                                    createdAt  : Date,
                                    status     : String, //"Active" or "Inactive"
                                }],

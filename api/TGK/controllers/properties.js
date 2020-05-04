@@ -1332,6 +1332,7 @@ exports.allocateTofieldAgent = (req,res,next)=>{
                                                                                     $push:{
                                                                                         "fieldAgent" : {
                                                                                                             "agentID"    : fieldAgents[0]._id,
+                                                                                                            "agentName"  : fieldAgents[0].profile.fullName,
                                                                                                             "createdAt"  : new Date(),
                                                                                                             "status"     : "Active"
                                                                                                         },
