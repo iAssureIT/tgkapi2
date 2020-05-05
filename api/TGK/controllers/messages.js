@@ -53,7 +53,6 @@ exports.coversation = (req,res,next)=>{
         prop_id   : req.body.prop_id,
         // trans_id  : req.body.trans_id,
         messages  : [{
-                         messageId    : new mongoose.Types.ObjectId(),
                          user_id      : req.body.user_id,
                          userName     : userName,
                          text         : req.body.text,
@@ -247,20 +246,48 @@ exports.get_coversation_for_client_query = (req,res,next)=>{
 };
 //delete messages
 exports.delete_messages = (req,res,next)=>{
-  console.log('res msg',res.params.messageId)
+    console.log('req.body = ',res.body);
 
-    Messages.deleteOne({"messages.messageId":req.params.messageId})
-    .exec()
-    .then(data=>{
-      console.log('data message',data)
-        res.status(200).json("Message deleted");
-    })
-    .catch(err =>{
-        console.log(err);
-        res.status(500).json({
-            error: err
+    Messages
+        .findOne({ _id : req.body.doc_id })
+        .then(conversation =>{
+            if(conversation){
+                var allMessages = conversation.messages; 
+
+                // Find the index of element where _id of element matches 
+                // with message_id coming from req body
+                var index = allMessages.findIndex(x => x._id === req.body.message_id);
+
+                // Using this index, splice array to remove that element
+                var newMessageArray = allMessages.splice(index,1);
+
+                Messages
+                    .update( 
+                            {_id : req.body.doc_id },
+                            {$set : {messages : newMessageArray} }
+                    )
+                    .then(data =>{
+                        if(data.nModified === 1){
+                            res.status(200).json({
+                                message : "Image Deleted Successfully"
+                            })
+                        }
+                    })
+                    .catch(err =>{
+                        console.log(err);
+                        res.status(500).json({
+                            error: err
+                        });
+                    });
+            }
+        })
+        .catch(err =>{
+            console.log(err);
+            res.status(500).json({
+                error: err
+            });
         });
-    });
+
 }
 
 //get data of coversation
