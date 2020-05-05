@@ -246,7 +246,7 @@ exports.get_coversation_for_client_query = (req,res,next)=>{
 };
 //delete messages
 exports.delete_messages = (req,res,next)=>{
-    console.log('req.body = ',res.body);
+    console.log('req.body = ',req.body);
 
     Messages
         .findOne({ _id : req.body.doc_id })
@@ -270,6 +270,10 @@ exports.delete_messages = (req,res,next)=>{
                         if(data.nModified === 1){
                             res.status(200).json({
                                 message : "Image Deleted Successfully"
+                            })
+                        }else{
+                             res.status(200).json({
+                                message : "Image not Deleted"
                             })
                         }
                     })
