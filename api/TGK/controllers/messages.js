@@ -257,12 +257,12 @@ exports.delete_messages = (req,res,next)=>{
                 // Find the index of element where _id of element matches 
                 // with message_id coming from req body
                 var index = allMessages.findIndex(x => x._id === req.body.message_id);
-
+                console.log('index+',index)
                 // Using this index, splice array to remove that element
                 var newMessageArray = allMessages.splice(index,1);
-
+                console.log('newMessageArray+',newMessageArray)
                 Messages
-                    .update( 
+                    .updateOne( 
                             {_id : req.body.doc_id },
                             {$set : {messages : newMessageArray} }
                     )
