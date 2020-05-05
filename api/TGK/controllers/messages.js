@@ -253,14 +253,14 @@ exports.delete_messages = (req,res,next)=>{
         .then(conversation =>{
             if(conversation){
                 var allMessages = conversation.messages; 
-
+                console.log('allMessages=',allMessages)
                 // Find the index of element where _id of element matches 
                 // with message_id coming from req body
-                var index = allMessages.findIndex(x => x._id === req.body.message_id);
-                console.log('index+',index)
+                var index = allMessages.findIndex(x => x._id.equals(req.body.message_id));
+                console.log('index=',index)
                 // Using this index, splice array to remove that element
                 var newMessageArray = allMessages.splice(index,1);
-                console.log('newMessageArray+',newMessageArray)
+                console.log('newMessageArray=',newMessageArray)
                 Messages
                     .updateOne( 
                             {_id : req.body.doc_id },
